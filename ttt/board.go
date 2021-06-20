@@ -1,24 +1,38 @@
 package ttt
 
-const (
-	N = ' '
-	X = 'X'
-	O = 'O'
+import (
+	"fmt"
+	"strings"
 )
 
-type Board [9]rune
+const (
+	Tie = "Tie"
+	X   = "X"
+	O   = "O"
+)
 
-func (this Board) Winner() rune {
+type Board [9]string
+
+func (this Board) Winner() string {
 	if this.isWinner(O) {
 		return O
 	}
 	if this.isWinner(X) {
 		return X
 	}
-	return N
+	return Tie
 }
 
-func (this Board) Place(player rune, squares ...int) Board {
+func (this Board) ScanAvailable() (result []int) {
+	for x, spot := range this {
+		if spot == "" {
+			result = append(result, x)
+		}
+	}
+	return result
+}
+
+func (this Board) Place(player string, squares ...int) Board {
 	result := this
 	for _, square := range squares {
 		result[square] = player
@@ -26,7 +40,7 @@ func (this Board) Place(player rune, squares ...int) Board {
 	return result
 }
 
-func (this Board) isWinner(player rune) bool {
+func (this Board) isWinner(player string) bool {
 	for _, combo := range winners {
 		if this.checkWinner(player, combo) {
 			return true
@@ -35,7 +49,7 @@ func (this Board) isWinner(player rune) bool {
 	return false
 }
 
-func (this Board) checkWinner(player rune, combo []int) bool {
+func (this Board) checkWinner(player string, combo []int) bool {
 	for _, square := range combo {
 		if this[square] != player {
 			return false
@@ -62,3 +76,20 @@ var (
 	diag1 = []int{0, 4, 8}
 	diag2 = []int{2, 4, 6}
 )
+
+func render(board Board) string {
+	var result strings.Builder
+	_, _ = fmt.Fprintf(&result, "%s|%s|%s\n", orSpace(board[0]), orSpace(board[1]), orSpace(board[2]))
+	_, _ = fmt.Fprintf(&result, "-+-+-\n")
+	_, _ = fmt.Fprintf(&result, "%s|%s|%s\n", orSpace(board[3]), orSpace(board[4]), orSpace(board[5]))
+	_, _ = fmt.Fprintf(&result, "-+-+-\n")
+	_, _ = fmt.Fprintf(&result, "%s|%s|%s\n", orSpace(board[6]), orSpace(board[7]), orSpace(board[8]))
+	return result.String()
+}
+
+func orSpace(r string) string {
+	if r == "" {
+		return " "
+	}
+	return r
+}

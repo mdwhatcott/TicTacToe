@@ -5,19 +5,19 @@ type Agent interface {
 }
 
 type Game struct {
-	agents map[rune]Agent
-	player rune
+	agents map[string]Agent
+	player string
 	board  Board
 }
 
 func NewGame(x, o Agent) *Game {
 	return &Game{
-		agents: map[rune]Agent{X: x, O: o},
+		agents: map[string]Agent{X: x, O: o},
 		player: O,
 	}
 }
 
-func (this *Game) Play() (winner rune) {
+func (this *Game) Play() (winner string) {
 	for x := 0; x < len(this.board); x++ {
 		this.player = opposite[this.player]
 		nextMove := this.agents[this.player].Move(this.board)
@@ -27,10 +27,10 @@ func (this *Game) Play() (winner rune) {
 		}
 	}
 
-	return N
+	return Tie
 }
 
-var opposite = map[rune]rune{
+var opposite = map[string]string{
 	X: O,
 	O: X,
 }

@@ -17,14 +17,14 @@ type BoardSuite struct {
 }
 
 func (this *BoardSuite) TestInitialBoard_NoWinner() {
-	this.So(Board{}.Winner(), should.Equal, N)
+	this.So(Board{}.Winner(), should.Equal, Tie)
 }
 func (this *BoardSuite) TestCatNoWinner() {
 	this.So(Board{
 		X, O, O,
 		O, X, X,
 		O, X, O,
-	}.Winner(), should.Equal, N)
+	}.Winner(), should.Equal, Tie)
 }
 
 func (this *BoardSuite) TestWinnerIs0() {
@@ -50,4 +50,24 @@ func (this *BoardSuite) TestWinnerIsX() {
 
 	this.So(this.board.Place(X, diag1...).Winner(), should.Equal, X)
 	this.So(this.board.Place(X, diag2...).Winner(), should.Equal, X)
+}
+
+func (this *BoardSuite) TestRender() {
+	this.So(render(Board{}), should.Equal, ""+
+		" | | \n"+
+		"-+-+-\n"+
+		" | | \n"+
+		"-+-+-\n"+
+		" | | \n")
+
+	this.So(render(Board{
+		X, X, O,
+		O, O, X,
+		X, O, X,
+	}), should.Equal, ""+
+		"X|X|O\n"+
+		"-+-+-\n"+
+		"O|O|X\n"+
+		"-+-+-\n"+
+		"X|O|X\n")
 }

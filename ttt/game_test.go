@@ -38,24 +38,24 @@ func (this *GameSuite) TestCat() {
 	this.agent.PrepareMoves(X, 0, 2, 4, 5, 7)
 	this.agent.PrepareMoves(O, 1, 3, 6, 8)
 	winner := this.game.Play()
-	this.So(winner, should.Equal, N)
+	this.So(winner, should.Equal, Tie)
 }
 
 /***************************************************************************/
 
 type FakeAgent struct {
-	move  rune
-	moves map[rune][]int
+	move  string
+	moves map[string][]int
 }
 
 func NewFakeAgent() *FakeAgent {
 	return &FakeAgent{
 		move:  X,
-		moves: make(map[rune][]int),
+		moves: make(map[string][]int),
 	}
 }
 
-func (this *FakeAgent) PrepareMoves(player rune, squares ...int) {
+func (this *FakeAgent) PrepareMoves(player string, squares ...int) {
 	this.moves[player] = append(this.moves[player], squares...)
 }
 
