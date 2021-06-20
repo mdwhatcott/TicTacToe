@@ -1,16 +1,14 @@
 package ttt
 
 const (
-	N Player = iota // 0
-	X               // 1
-	O               // 2
+	N = ' '
+	X = 'X'
+	O = 'O'
 )
 
-type Player int
+type Board [9]rune
 
-type Board [9]Player
-
-func (this Board) Winner() Player {
+func (this Board) Winner() rune {
 	if this.isWinner(O) {
 		return O
 	}
@@ -20,7 +18,7 @@ func (this Board) Winner() Player {
 	return N
 }
 
-func (this Board) Place(player Player, squares ...int) Board {
+func (this Board) Place(player rune, squares ...int) Board {
 	result := this
 	for _, square := range squares {
 		result[square] = player
@@ -28,7 +26,7 @@ func (this Board) Place(player Player, squares ...int) Board {
 	return result
 }
 
-func (this Board) isWinner(player Player) bool {
+func (this Board) isWinner(player rune) bool {
 	for _, combo := range winners {
 		if this.checkWinner(player, combo) {
 			return true
@@ -37,7 +35,7 @@ func (this Board) isWinner(player Player) bool {
 	return false
 }
 
-func (this Board) checkWinner(player Player, combo []int) bool {
+func (this Board) checkWinner(player rune, combo []int) bool {
 	for _, square := range combo {
 		if this[square] != player {
 			return false

@@ -44,18 +44,18 @@ func (this *GameSuite) TestCat() {
 /***************************************************************************/
 
 type FakeAgent struct {
-	move  Player
-	moves map[Player][]int
+	move  rune
+	moves map[rune][]int
 }
 
 func NewFakeAgent() *FakeAgent {
 	return &FakeAgent{
 		move:  X,
-		moves: make(map[Player][]int),
+		moves: make(map[rune][]int),
 	}
 }
 
-func (this *FakeAgent) PrepareMoves(player Player, squares ...int) {
+func (this *FakeAgent) PrepareMoves(player rune, squares ...int) {
 	this.moves[player] = append(this.moves[player], squares...)
 }
 
