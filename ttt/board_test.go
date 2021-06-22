@@ -54,20 +54,22 @@ func (this *BoardSuite) TestWinnerIsX() {
 
 func (this *BoardSuite) TestRender() {
 	this.So(render(Board{}), should.Equal, "\n"+
-		" | | \n"+
-		"-+-+-\n"+
-		" | | \n"+
-		"-+-+-\n"+
-		" | | \n")
+		" | |   0|1|2\n"+
+		"-+-+-  -+-+-\n"+
+		" | |   3|4|5\n"+
+		"-+-+-  -+-+-\n"+
+		" | |   6|7|8\n",
+	)
 
 	this.So(render(Board{
 		X, X, O,
 		O, O, X,
 		X, O, X,
 	}), should.Equal, "\n"+
-		"X|X|O\n"+
-		"-+-+-\n"+
-		"O|O|X\n"+
-		"-+-+-\n"+
-		"X|O|X\n")
+		"X|X|O   | | \n"+
+		"-+-+-  -+-+-\n"+
+		"O|O|X   | | \n"+
+		"-+-+-  -+-+-\n"+
+		"X|O|X   | | \n",
+	)
 }
