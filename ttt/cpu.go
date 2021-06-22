@@ -37,7 +37,7 @@ func minimax(board Board, nextPlayer string, isMaxPlayer bool) int {
 	bestScore := -0xFFFFFFFF
 	minOrMax := max
 	if isMaxPlayer {
-		bestScore = 0xFFFFFFFF
+		bestScore *= -1
 		minOrMax = min
 	}
 

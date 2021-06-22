@@ -85,27 +85,30 @@ var (
 func render(board Board) string {
 	b := new(strings.Builder)
 	b.WriteString("\n")
-	_, _ = fmt.Fprintf(b, "%s|%s|%s  %s|%s|%s\n",
-		orSpace(board[0]), orSpace(board[1]), orSpace(board[2]),
-		spot(board[0], 0), spot(board[1], 1), spot(board[2], 2))
-	_, _ = fmt.Fprintf(b, "-+-+-  -+-+-\n")
-	_, _ = fmt.Fprintf(b, "%s|%s|%s  %s|%s|%s\n",
-		orSpace(board[3]), orSpace(board[4]), orSpace(board[5]),
-		spot(board[3], 3), spot(board[4], 4), spot(board[5], 5))
-	_, _ = fmt.Fprintf(b, "-+-+-  -+-+-\n")
-	_, _ = fmt.Fprintf(b, "%s|%s|%s  %s|%s|%s\n",
-		orSpace(board[6]), orSpace(board[7]), orSpace(board[8]),
-		spot(board[6], 6), spot(board[7], 7), spot(board[8], 8))
+	_, _ = fmt.Fprintln(b, renderFullRow(board, 0))
+	_, _ = fmt.Fprintln(b, "-+-+-  -+-+-")
+	_, _ = fmt.Fprintln(b, renderFullRow(board, 3))
+	_, _ = fmt.Fprintln(b, "-+-+-  -+-+-")
+	_, _ = fmt.Fprintln(b, renderFullRow(board, 6))
 	return b.String()
 }
-
-func spot(r string, s int) string {
+func renderFullRow(board Board, start int) string {
+	return fmt.Sprintf("%s|%s|%s  %s|%s|%s",
+		taken(board[start]),
+		taken(board[start+1]),
+		taken(board[start+2]),
+		open(board[start], start),
+		open(board[start+1], start+1),
+		open(board[start+2], start+2),
+	)
+}
+func open(r string, s int) string {
 	if r == "" {
 		return strconv.Itoa(s)
 	}
 	return " "
 }
-func orSpace(r string) string {
+func taken(r string) string {
 	if r == "" {
 		return " "
 	}
