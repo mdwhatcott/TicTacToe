@@ -1,5 +1,10 @@
 # github.com/mdwhatcott/tictactoe
 
-`make test`: runs tests and formats code.
+```
+$ ./tictactoe -help
+Usage of tictactoe:
+  -o	when set, o is played by a human
+  -x	when set, x is played by a human
 
-`make play`: compiles executable (requires go) and displays usage.
+$ ./tictactoe -o    # will assign x to cpu, o to human
+```
