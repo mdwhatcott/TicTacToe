@@ -83,6 +83,7 @@ var (
 
 func render(board Board) string {
 	var result strings.Builder
+	result.WriteString("\n")
 	_, _ = fmt.Fprintf(&result, "%s|%s|%s\n", orSpace(board[0]), orSpace(board[1]), orSpace(board[2]))
 	_, _ = fmt.Fprintf(&result, "-+-+-\n")
 	_, _ = fmt.Fprintf(&result, "%s|%s|%s\n", orSpace(board[3]), orSpace(board[4]), orSpace(board[5]))
