@@ -17,7 +17,7 @@ type BoardSuite struct {
 }
 
 func (this *BoardSuite) TestInitialBoard_NoWinner() {
-	this.So(Board{}.Winner(), should.Equal, Tie)
+	this.So(Board{}.Winner(), should.Equal, N)
 }
 func (this *BoardSuite) TestCatNoWinner() {
 	this.So(Board{

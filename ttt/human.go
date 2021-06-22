@@ -27,7 +27,7 @@ func (this HumanAgent) Move(board Board) int {
 		if attempt > 0 {
 			_, _ = fmt.Fprintln(this.screen, "invalid choice, try again!")
 		}
-		this.prompt(board, available)
+		this.prompt(available)
 
 		choice, err := strconv.Atoi(this.readline())
 		if err != nil {
@@ -40,8 +40,7 @@ func (this HumanAgent) Move(board Board) int {
 	}
 }
 
-func (this HumanAgent) prompt(board Board, available []int) {
-	_, _ = fmt.Fprintln(this.screen, render(board))
+func (this HumanAgent) prompt(available []int) {
 	_, _ = fmt.Fprintf(
 		this.screen,
 		"Player %s: Where would you like to place an '%s'? %v > ",

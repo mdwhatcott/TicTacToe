@@ -9,6 +9,8 @@ import (
 
 func main() {
 	game := ttt.NewGame(
+		os.Stdout,
+		ttt.Board{},
 		ttt.NewHumanAgent(ttt.X, os.Stdout, os.Stdin),
 		ttt.NewHumanAgent(ttt.O, os.Stdout, os.Stdin),
 	)

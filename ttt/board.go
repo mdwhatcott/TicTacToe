@@ -9,6 +9,7 @@ const (
 	Tie = "Tie"
 	X   = "X"
 	O   = "O"
+	N   = ""
 )
 
 type Board [9]string
@@ -20,12 +21,15 @@ func (this Board) Winner() string {
 	if this.isWinner(X) {
 		return X
 	}
-	return Tie
+	if len(this.ScanAvailable()) == 0 {
+		return Tie
+	}
+	return N
 }
 
 func (this Board) ScanAvailable() (result []int) {
 	for x, spot := range this {
-		if spot == "" {
+		if spot == N {
 			result = append(result, x)
 		}
 	}
