@@ -51,25 +51,3 @@ func (this *BoardSuite) TestWinnerIsX() {
 	this.So(this.board.Place(X, diag1...).Winner(), should.Equal, X)
 	this.So(this.board.Place(X, diag2...).Winner(), should.Equal, X)
 }
-
-func (this *BoardSuite) TestRender() {
-	this.So(render(Board{}), should.Equal, "\n"+
-		" | |   0|1|2\n"+
-		"-+-+-  -+-+-\n"+
-		" | |   3|4|5\n"+
-		"-+-+-  -+-+-\n"+
-		" | |   6|7|8\n",
-	)
-
-	this.So(render(Board{
-		X, X, O,
-		O, O, X,
-		X, O, X,
-	}), should.Equal, "\n"+
-		"X|X|O   | | \n"+
-		"-+-+-  -+-+-\n"+
-		"O|O|X   | | \n"+
-		"-+-+-  -+-+-\n"+
-		"X|O|X   | | \n",
-	)
-}
