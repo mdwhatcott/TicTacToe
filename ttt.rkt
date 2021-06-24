@@ -25,9 +25,20 @@
 (define (winner? board)
   (set-member? WINS board))
 
+(define ALL (set-union ROW1 ROW2 ROW3))
+
+(define (slots x o)
+  (set-subtract ALL (set-union x o)))
+
+;; TODO: implement minimax algorithm
+
 ;;;;
 
 (require rackunit)
 
 (for ([win WINS])
-  (test-true "winners" (winner? win)))
+  (test-true "winning conditions" (winner? win)))
+
+(test-false "non-winning conditions" (winner? (set 0 1 8)))
+
+(test-equal? "available slots" ROW3 (slots ROW1 ROW2))
