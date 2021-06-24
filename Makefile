@@ -1,9 +1,9 @@
-#!/usr/bin/make -f
+#!/usr/bin/make
+
+tcr:
+	tcr -command 'make test' -working .
 
 test:
-	go fmt ./...
-	go mod tidy
-	go test -cover ./...
+	raco test ttt.rkt
 
-build:
-	go build && ./tictactoe -help
+.PHONY: test
