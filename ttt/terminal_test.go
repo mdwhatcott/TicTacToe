@@ -9,15 +9,15 @@ import (
 	"github.com/mdwhatcott/testing/suite"
 )
 
-func TestHumanAgentSuite(t *testing.T) {
-	suite.Run(&HumanAgentSuite{T: suite.New(t)}, suite.Options.UnitTests())
+func TestTerminalUIAgentSuite(t *testing.T) {
+	suite.Run(&TerminalUIAgentSuite{T: suite.New(t)}, suite.Options.UnitTests())
 }
 
-type HumanAgentSuite struct {
+type TerminalUIAgentSuite struct {
 	*suite.T
 }
 
-func (this *HumanAgentSuite) TestMoveSelection() {
+func (this *TerminalUIAgentSuite) TestMoveSelection() {
 	board := Board{
 		X, X, O, // 0, 1, 2
 		O, O, X, // 3, 4, 5
@@ -43,4 +43,26 @@ func (this *HumanAgentSuite) TestMoveSelection() {
 	this.So(agent.Move(board), should.Equal, 6)
 	this.So(agent.Move(board), should.Equal, 7)
 	this.So(agent.Move(board), should.Equal, 8)
+}
+
+func (this *TerminalUIAgentSuite) TestRender() {
+	this.So(render(Board{}), should.Equal, "\n"+
+		" | |   0|1|2\n"+
+		"-+-+-  -+-+-\n"+
+		" | |   3|4|5\n"+
+		"-+-+-  -+-+-\n"+
+		" | |   6|7|8\n",
+	)
+
+	this.So(render(Board{
+		X, X, O,
+		O, O, X,
+		X, O, X,
+	}), should.Equal, "\n"+
+		"X|X|O   | | \n"+
+		"-+-+-  -+-+-\n"+
+		"O|O|X   | | \n"+
+		"-+-+-  -+-+-\n"+
+		"X|O|X   | | \n",
+	)
 }
