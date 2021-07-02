@@ -83,7 +83,7 @@ func (this *CPUAgentSuite) TestVsEndsInTie_TryAllStartingMoves() {
 		)
 		game.player = opposite[game.player] // since X has already taken the first move
 
-		winner := game.Play()
+		winner := game.Play().Winner()
 
 		this.So(winner, should.Equal, Tie)
 	}

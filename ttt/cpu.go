@@ -37,9 +37,6 @@ func minimax(depth int, board Board, player string, isMaxPlayer bool) int {
 	if winner != N {
 		return -depth
 	}
-	if depth == 0 {
-		return 0
-	}
 
 	bestScore := -0xFFFFFFFF
 	minOrMax := max

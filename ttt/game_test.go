@@ -25,19 +25,19 @@ func (this *GameSuite) Setup() {
 func (this *GameSuite) TestXWinsOnRow1() {
 	this.agent.PrepareMoves(X, row1...)
 	this.agent.PrepareMoves(O, row2...)
-	winner := this.game.Play()
+	winner := this.game.Play().Winner()
 	this.So(winner, should.Equal, X)
 }
 func (this *GameSuite) TestOWinsOnRow2() {
 	this.agent.PrepareMoves(X, 0, 2, 7)
 	this.agent.PrepareMoves(O, row2...)
-	winner := this.game.Play()
+	winner := this.game.Play().Winner()
 	this.So(winner, should.Equal, O)
 }
 func (this *GameSuite) TestCat() {
 	this.agent.PrepareMoves(X, 0, 2, 4, 5, 7)
 	this.agent.PrepareMoves(O, 1, 3, 6, 8)
-	winner := this.game.Play()
+	winner := this.game.Play().Winner()
 	this.So(winner, should.Equal, Tie)
 }
 

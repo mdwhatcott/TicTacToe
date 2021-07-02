@@ -21,7 +21,8 @@ func main() {
 		agent(xHuman, ttt.X),
 		agent(oHuman, ttt.O),
 	)
-	fmt.Println("The winner is:", game.Play())
+	final := game.Play()
+	fmt.Println("The winner is:", final.Winner())
 }
 
 func agent(isHuman bool, player string) ttt.Agent {
