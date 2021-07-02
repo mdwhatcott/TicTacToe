@@ -37,6 +37,10 @@ func (this *Game) makeMove() {
 	this.board = this.board.Place(this.player, nextMove)
 }
 
+func (this Game) Board() Board {
+	return this.board
+}
+
 var opposite = map[string]string{
 	X: O,
 	O: X,

@@ -23,6 +23,7 @@ func main() {
 	)
 	final := game.Play()
 	fmt.Println("The winner is:", final.Winner())
+	fmt.Println(ttt.Render(game.Board()))
 }
 
 func agent(isHuman bool, player string) ttt.Agent {

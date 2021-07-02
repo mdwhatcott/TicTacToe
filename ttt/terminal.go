@@ -45,7 +45,7 @@ func (this TerminalUIAgent) prompt(attempt int, board Board) (choice int, err er
 		"\n"+
 		"Player %s: Where would you like to place your next '%s'? > ",
 
-		render(board),
+		Render(board),
 		this.player,
 		this.player,
 	)
@@ -63,7 +63,7 @@ func in(needle int, haystack []int) bool {
 	return false
 }
 
-func render(board Board) string {
+func Render(board Board) string {
 	b := new(strings.Builder)
 	b.WriteString("\n")
 	_, _ = fmt.Fprintln(b, renderFullRow(board, 0))

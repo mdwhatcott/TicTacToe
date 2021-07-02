@@ -46,7 +46,7 @@ func (this *TerminalUIAgentSuite) TestMoveSelection() {
 }
 
 func (this *TerminalUIAgentSuite) TestRender() {
-	this.So(render(Board{}), should.Equal, "\n"+
+	this.So(Render(Board{}), should.Equal, "\n"+
 		" | |   0|1|2\n"+
 		"-+-+-  -+-+-\n"+
 		" | |   3|4|5\n"+
@@ -54,7 +54,7 @@ func (this *TerminalUIAgentSuite) TestRender() {
 		" | |   6|7|8\n",
 	)
 
-	this.So(render(Board{
+	this.So(Render(Board{
 		X, X, O,
 		O, O, X,
 		X, O, X,
