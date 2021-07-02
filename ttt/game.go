@@ -19,16 +19,28 @@ func NewGame(board Board, x, o Agent) *Game {
 }
 
 func (this *Game) Play() (winner string) {
-	for x := 0; x < len(this.board); x++ {
-		this.player = opposite[this.player]
-		nextMove := this.agents[this.player].Move(this.board)
-		this.board = this.board.Place(this.player, nextMove)
-		if this.board.Winner() == this.player {
+	totalMoves := len(this.board.ScanAvailable())
+
+	for i := 0; i < totalMoves; i++ {
+		this.switchPlayer()
+		this.makeMove()
+		if this.gameHasBeenWon() {
 			return this.player
 		}
 	}
 
 	return Tie
+}
+
+func (this *Game) switchPlayer() {
+	this.player = opposite[this.player]
+}
+func (this *Game) makeMove() {
+	nextMove := this.agents[this.player].Move(this.board)
+	this.board = this.board.Place(this.player, nextMove)
+}
+func (this *Game) gameHasBeenWon() bool {
+	return this.board.Winner() == this.player
 }
 
 var opposite = map[string]string{

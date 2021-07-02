@@ -40,6 +40,18 @@ func (this *CPUAgentSuite) TestOneOfTheRemainingSpotsWins() {
 	this.So(spot, should.Equal, 8)
 }
 
+func (this *CPUAgentSuite) TestWinAtEarliestOpportunity() {
+	this.agent.player = X
+
+	spot := this.agent.Move(Board{
+		X, O, O, // 0, 1, 2
+		X, N, N, // 3, 4, 5
+		N, N, N, // 6, 7, 8  (6 wins immediately)
+	})
+
+	this.So(spot, should.Equal, 6)
+}
+
 func (this *CPUAgentSuite) TestTwoMovesOut() {
 	spot := this.agent.Move(Board{
 		X, X, O, // 0, 1, 2
@@ -61,14 +73,18 @@ func (this *CPUAgentSuite) TestBestCounter() {
 	this.So(spot, should.Equal, 4) // best counter == center
 }
 
-func (this *CPUAgentSuite) TestVsEndsInTie() {
-	game := NewGame(
-		Board{},
-		NewCPUAgent(X),
-		NewCPUAgent(O),
-	)
+func (this *CPUAgentSuite) TestVsEndsInTie_TryAllStartingMoves() {
+	board := Board{}
+	for startingX := 0; startingX < len(board); startingX++ {
+		game := NewGame(
+			board.Place(X, startingX),
+			NewCPUAgent(X),
+			NewCPUAgent(O),
+		)
+		game.player = opposite[game.player] // since X has already taken the first move
 
-	winner := game.Play()
+		winner := game.Play()
 
-	this.So(winner, should.Equal, Tie)
+		this.So(winner, should.Equal, Tie)
+	}
 }

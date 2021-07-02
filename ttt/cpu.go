@@ -9,29 +9,36 @@ func NewCPUAgent(player string) *CPUAgent {
 }
 
 func (this CPUAgent) Move(board Board) int {
-	best := -1
-	bestSpot := -1
-	for _, spot := range board.ScanAvailable() {
-		score := minimax(board.Place(this.player, spot), opposite[this.player], true)
-		if score > best {
-			best = score
+	var (
+		bestScore, bestSpot = -1, -1
+		availableSpots      = board.ScanAvailable()
+		depth               = len(availableSpots)
+	)
+	for _, spot := range availableSpots {
+		option := board.Place(this.player, spot)
+		score := minimax(depth, option, this.player, true)
+		if score > bestScore {
+			bestScore = score
 			bestSpot = spot
 		}
 	}
 	return bestSpot
 }
 
-func minimax(board Board, nextPlayer string, isMaxPlayer bool) int {
+func minimax(depth int, board Board, player string, isMaxPlayer bool) int {
 	winner := board.Winner()
 
 	if winner == Tie {
 		return 0
-	} else if winner != N {
-		if isMaxPlayer {
-			return 10
-		} else {
-			return -10
-		}
+	}
+	if winner != N && isMaxPlayer {
+		return depth
+	}
+	if winner != N {
+		return -depth
+	}
+	if depth == 0 {
+		return 0
 	}
 
 	bestScore := -0xFFFFFFFF
@@ -41,13 +48,14 @@ func minimax(board Board, nextPlayer string, isMaxPlayer bool) int {
 		minOrMax = min
 	}
 
-	for _, available := range board.ScanAvailable() {
-		next := board.Place(nextPlayer, available)
-		bestScore = minOrMax(bestScore, minimax(next, opposite[nextPlayer], !isMaxPlayer))
+	for _, spot := range board.ScanAvailable() {
+		otherPlayer := opposite[player]
+		nextBoard := board.Place(otherPlayer, spot)
+		score := minimax(depth-1, nextBoard, otherPlayer, !isMaxPlayer)
+		bestScore = minOrMax(bestScore, score)
 	}
 
 	return bestScore
-
 }
 
 func max(a, b int) int {
