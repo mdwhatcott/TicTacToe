@@ -69,8 +69,14 @@ Usage of ./tictactoe:
 To run an automated game (cpu vs. cpu):
 
 ```
-$ ./tictactoe
+$ ./tictactoe 
 The winner is: Tie
+
+X|X|O   | | 
+-+-+-  -+-+-
+O|O|X   | | 
+-+-+-  -+-+-
+X|O|X   | | 
 ```
 
 The CPU agent is implemented using a variation of the [minimax algorithm](https://en.wikipedia.org/wiki/Minimax) and will never lose. The minimax algorithm is a good choice for situations involving combinatorics. It brute forces the situation with the maximum gain and minimum loss. It's also the first thing that comes up when you google `tic tac toe ai`...
