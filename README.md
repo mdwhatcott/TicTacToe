@@ -70,14 +70,6 @@ To run an automated game (cpu vs. cpu):
 
 ```
 $ ./tictactoe
-...
-
-X|X|O   | | 
--+-+-  -+-+-
-O|O|X   | | 
--+-+-  -+-+-
-X|O|X   | | 
-
 The winner is: Tie
 ```
 
