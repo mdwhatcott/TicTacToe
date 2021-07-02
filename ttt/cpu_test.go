@@ -63,7 +63,6 @@ func (this *CPUAgentSuite) TestBestCounter() {
 
 func (this *CPUAgentSuite) TestVsEndsInTie() {
 	game := NewGame(
-		this,
 		Board{},
 		NewCPUAgent(X),
 		NewCPUAgent(O),

@@ -7,51 +7,50 @@ import (
 	"strconv"
 )
 
-type HumanAgent struct {
+type TerminalUIAgent struct {
 	player string
 	screen io.Writer
 	input  *bufio.Scanner
 }
 
-func NewHumanAgent(player string, screen io.Writer, input io.Reader) Agent {
-	return &HumanAgent{
+func NewTerminalUIAgent(player string, screen io.Writer, input io.Reader) Agent {
+	return &TerminalUIAgent{
 		player: player,
 		screen: screen,
 		input:  bufio.NewScanner(input),
 	}
 }
 
-func (this HumanAgent) Move(board Board) int {
+func (this TerminalUIAgent) Move(board Board) int {
 	available := board.ScanAvailable()
 	for attempt := 0; ; attempt++ {
-		if attempt > 0 {
-			_, _ = fmt.Fprintln(this.screen, "invalid choice, try again!")
-		}
-		this.prompt()
-
-		choice, err := strconv.Atoi(this.readline())
+		choice, err := this.prompt(attempt, board)
 		if err != nil {
 			continue
 		}
-		if !in(choice, available) {
-			continue
+		if in(choice, available) {
+			return choice
 		}
-		return choice
 	}
 }
 
-func (this HumanAgent) prompt() {
-	_, _ = fmt.Fprintf(
-		this.screen,
-		"Player %s: Where would you like to place an '%s'? > ",
+func (this TerminalUIAgent) prompt(attempt int, board Board) (choice int, err error) {
+	if attempt > 0 {
+		_, _ = fmt.Fprintln(this.screen, "invalid choice, try again!")
+	}
+	_, _ = fmt.Fprintf(this.screen, ""+
+		"\n"+
+		"%s"+"\n"+
+		"\n"+
+		"Player %s: Where would you like to place your next '%s'? > ",
+
+		render(board),
 		this.player,
 		this.player,
 	)
-}
 
-func (this HumanAgent) readline() string {
-	this.input.Scan()
-	return this.input.Text()
+	_ = this.input.Scan()
+	return strconv.Atoi(this.input.Text())
 }
 
 func in(needle int, haystack []int) bool {

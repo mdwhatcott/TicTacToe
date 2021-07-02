@@ -38,7 +38,7 @@ func (this *HumanAgentSuite) TestMoveSelection() {
 		"8",  // available!
 	}, "\n")
 
-	agent := NewHumanAgent(X, ioutil.Discard, strings.NewReader(inputs))
+	agent := NewTerminalUIAgent(X, ioutil.Discard, strings.NewReader(inputs))
 
 	this.So(agent.Move(board), should.Equal, 6)
 	this.So(agent.Move(board), should.Equal, 7)

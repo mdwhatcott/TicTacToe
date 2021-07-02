@@ -1,7 +1,6 @@
 package ttt
 
 import (
-	"io/ioutil"
 	"testing"
 
 	"github.com/mdwhatcott/testing/should"
@@ -20,7 +19,7 @@ type GameSuite struct {
 
 func (this *GameSuite) Setup() {
 	this.agent = NewFakeAgent()
-	this.game = NewGame(ioutil.Discard, Board{}, this.agent, this.agent)
+	this.game = NewGame(Board{}, this.agent, this.agent)
 }
 
 func (this *GameSuite) TestXWinsOnRow1() {
