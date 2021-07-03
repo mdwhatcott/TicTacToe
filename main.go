@@ -9,21 +9,35 @@ import (
 )
 
 func main() {
-	var xHuman bool
-	var oHuman bool
-
-	flag.BoolVar(&xHuman, "x", false, "when set, x is played by a human")
-	flag.BoolVar(&oHuman, "o", false, "when set, o is played by a human")
-	flag.Parse()
+	config := parseCLIFlags(os.Args)
 
 	game := ttt.NewGame(
 		ttt.Board{},
-		agent(xHuman, ttt.X),
-		agent(oHuman, ttt.O),
+		agent(config.xHuman, ttt.X),
+		agent(config.oHuman, ttt.O),
 	)
+
 	final := game.Play()
-	fmt.Println("The winner is:", final.Winner())
-	fmt.Println(ttt.Render(game.Board()))
+
+	fmt.Printf("\n"+
+		"The winner is: %s\n"+
+		"%s\n",
+		final.Winner(),
+		ttt.Render(final),
+	)
+}
+
+type Config struct {
+	xHuman bool
+	oHuman bool
+}
+
+func parseCLIFlags(args []string) (config Config) {
+	flags := flag.NewFlagSet(args[0], flag.ExitOnError)
+	flags.BoolVar(&config.xHuman, "x", false, "when set, x is played by a human")
+	flags.BoolVar(&config.oHuman, "o", false, "when set, o is played by a human")
+	_ = flags.Parse(args[1:])
+	return config
 }
 
 func agent(isHuman bool, player string) ttt.Agent {
