@@ -6,4 +6,4 @@ tcr:
 test:
 	raco test ttt.rkt
 
-.PHONY: test
+.PHONY: tcr, test
