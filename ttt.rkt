@@ -4,7 +4,8 @@
 
 (require racket/list
          racket/string
-         racket/set)
+         racket/set
+         racket/stream)
 
 (define X #\x)
 (define O #\o)
@@ -44,6 +45,20 @@
         [(= 9 (hash-count board)) TIE]
         [else N]))
 
+(define (scan-available board)
+  (for/list ([i (in-range 9)]
+             #:when (not (hash-has-key? board i))) i))
+
+(define (smart-move player board)
+  
+  (define (minimax depth board player is-max-player?)
+    (let ([w (winner board)])
+      (cond [(equal? w TIE) 0]
+            [(and (not (equal? w N)) is-max-player?) depth]
+            [(not (equal? w N)) (- depth)]
+            [else 0]))) ; TODO: scan available and recurse to find best spot/score
+  8) ; TODO: scan available and minimax each to find the best move
+
 ;;;;
 
 (require rackunit)
@@ -81,3 +96,29 @@
     (0 . #\x) (1 . #\o) (2 . #\o)
     (3 . #\o) (4 . #\x) (5 . #\x)
     (6 . #\x) (7 . #\o) (8 . #\o))))
+
+(test-equal? "scan-available - empty board - full list"
+  (stream->list (in-range 9))
+  (scan-available (new-board)))
+
+(test-equal? "scan-available - full board - null list"
+  (list)
+  (scan-available #hash(
+    (0 . #\x) (1 . #\o) (2 . #\o)
+    (3 . #\o) (4 . #\x) (5 . #\x)
+    (6 . #\x) (7 . #\o) (8 . #\o))))
+
+(test-equal? "scan-available - partial board - null list"
+  (list 2 5 8)
+  (scan-available #hash(
+    (0 . #\x) (1 . #\o) ; (2 . #\o)
+    (3 . #\o) (4 . #\x) ; (5 . #\x)
+    (6 . #\x) (7 . #\o) ; (8 . #\o)
+    )))
+
+
+(test-equal? "mate in 1, x to play" 8
+  (smart-move X #hash(
+    (0 . #\x) (1 . #\o) (2 . #\o)
+    (3 . #\o) (4 . #\x) (5 . #\x)
+    (6 . #\x) (7 . #\o))))
