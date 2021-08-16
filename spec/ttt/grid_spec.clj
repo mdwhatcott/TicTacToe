@@ -176,3 +176,16 @@
 
   (map #(it (str "identifies winning conditions for O " (render %))
           (should= O (winner %))) winners-o))
+
+(describe "Grid Utilities"
+  (it "converts rows to columns"
+    (->> [O X O
+          O X O
+          O X O]
+         (partition 3)
+         rows->columns
+         flatten
+         (should= [O O O
+                   X X X
+                   O O O])))
+  )

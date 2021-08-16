@@ -15,13 +15,13 @@
 
 (defn threesome [mark row] (= row (repeat 3 mark)))
 
-(defn columns-from-rows [rows]
+(defn rows->columns [rows]
   (for [column (range (count rows))]
     (map #(nth % column) rows)))
 
 (defn winner [grid]
   (let [rows   (partition 3 grid)
-        cols   (columns-from-rows rows)
+        cols   (rows->columns rows)
         all    (concat rows cols)
         x-wins (some (partial threesome X) all)
         o-wins (some (partial threesome O) all)]
