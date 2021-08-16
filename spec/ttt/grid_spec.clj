@@ -94,6 +94,10 @@
     _ X _
     X _ _],
 
+   [X O O
+    O X X
+    X O X],
+
    ])
 
 (def winners-o
@@ -129,6 +133,10 @@
    [_ _ O
     _ O _
     O _ _],
+
+   [X O O
+    O O X
+    X O X],
 
    ])
 
