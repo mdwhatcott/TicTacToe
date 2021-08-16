@@ -86,8 +86,15 @@
     _ _ X
     _ _ X],
 
-   ;; TODO: diagonals
-])
+   [X _ _
+    _ X _
+    _ _ X],
+
+   [_ _ X
+    _ X _
+    X _ _],
+
+   ])
 
 (def winners-o
   [
@@ -115,7 +122,13 @@
     _ _ O
     _ _ O],
 
-   ;; TODO: diagonals
+   [O _ _
+    _ O _
+    _ _ O],
+
+   [_ _ O
+    _ O _
+    O _ _],
 
    ])
 
@@ -123,8 +136,8 @@
 
   (it "starts with 9 empty spots"
     (->> (make-grid) (should= [_ _ _
-                                _ _ _
-                                _ _ _])))
+                               _ _ _
+                               _ _ _])))
 
   (it "places Xs"
     (->> (make-grid)
@@ -159,8 +172,8 @@
   (it "ignores out-of-bounds"
     (let [empty (make-grid)]
       (->> empty
-          (place-o (inc (count empty)))
-          (should= empty))))
+           (place-o (inc (count empty)))
+           (should= empty))))
 
   )
 
@@ -188,4 +201,29 @@
          (should= [O O O
                    X X X
                    O O O])))
+
+  (it "converts rows to right-leaning diagonals"
+    (->> [O X _
+          X _ X
+          _ X O]
+         (partition 3)
+         rows->diagonals
+         (should= [[O]
+                   [X X]
+                   [_ _ _]
+                   [X X]
+                   [O]])))
+
+  (it "converts rows to left-leaning diagonals"
+    (->> [_ X O
+          X _ X
+          O X _]
+         (partition 3)
+         rows->columns
+         rows->diagonals
+         (should= [[O]
+                   [X X]
+                   [_ _ _]
+                   [X X]
+                   [O]])))
   )
