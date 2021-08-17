@@ -46,3 +46,9 @@
         x-wins (some (partial tictactoe X) all)
         o-wins (some (partial tictactoe O) all)]
     (cond x-wins X o-wins O :else nil)))
+
+(defn available-spots [grid]
+  (->> grid
+       count
+       range
+       (filter #(nil? (nth grid %)))))

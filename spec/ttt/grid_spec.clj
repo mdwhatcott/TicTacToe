@@ -181,9 +181,7 @@
     (let [empty (make-grid)]
       (->> empty
            (place-o (inc (count empty)))
-           (should= empty))))
-
-  )
+           (should= empty)))))
 
 (defn render [grid]
   (clojure.string/join "" (map #(if (nil? %) "-" %) grid)))
@@ -233,5 +231,26 @@
                    [X X]
                    [_ _ _]
                    [X X]
-                   [O]])))
-  )
+                   [O]]))))
+
+(describe "Grid Scanning"
+  (it "identifies all available spots on an empty grid"
+    (->> (make-grid)
+         available-spots
+         (should= [0 1 2 3 4 5 6 7 8])))
+
+  (it "identifies all available spots on a partially filled grid"
+    (->> (make-grid)
+         (place-x 0)
+         (place-o 3)
+         (place-x 4)
+         (place-o 8)
+         available-spots
+         (should= [1 2 5 6 7])))
+
+  (it "identifies no available spots on a filled-in grid"
+    (->> [O X O
+          X O O
+          X O X]
+         available-spots
+         (should= []))))
