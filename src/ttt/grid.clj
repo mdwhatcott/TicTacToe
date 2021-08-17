@@ -3,7 +3,10 @@
 (def X "X")
 (def O "O")
 
-(defn make-grid [] (vec (repeat 9 nil)))
+(def ttt 3)
+(def grid-count (* ttt ttt))
+
+(defn make-grid [] (vec (repeat grid-count nil)))
 
 (defn- other [mark] (if (= mark X) O X))
 (defn- place [mark on grid]
@@ -13,7 +16,7 @@
 (defn place-x [on grid] (place X on grid))
 (defn place-o [on grid] (place O on grid))
 
-(defn threesome [mark row] (= row (repeat 3 mark)))
+(defn threesome [mark row] (= row (repeat ttt mark)))
 
 (defn rows->columns [rows]
   (reverse
