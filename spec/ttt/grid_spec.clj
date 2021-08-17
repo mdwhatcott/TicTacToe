@@ -2,8 +2,6 @@
   (:require [speclj.core :refer :all]
             [ttt.grid :refer :all]))
 
-(def _ nil)
-
 (def no-winners
   [
    [_ _ _

@@ -2,14 +2,15 @@
 
 (def X "X")
 (def O "O")
+(def _ nil)
 
 (def ttt 3)
 (def grid-count (* ttt ttt))
 
 (defn make-grid [] (vec (repeat grid-count nil)))
 
-(defn- other [mark] (if (= mark X) O X))
-(defn- place [mark on grid]
+(defn other [mark] (if (= mark X) O X))
+(defn place [mark on grid]
   (cond (>= on (count grid)) grid
         (= (grid on) (other mark)) grid
         :else (assoc grid on mark)))
