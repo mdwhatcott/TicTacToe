@@ -16,7 +16,7 @@
 (defn place-x [on grid] (place X on grid))
 (defn place-o [on grid] (place O on grid))
 
-(defn threesome [mark row] (= row (repeat ttt mark)))
+(defn tictactoe [mark row] (= row (repeat ttt mark)))
 
 (defn rows->columns [rows]
   (reverse
@@ -43,6 +43,6 @@
         left   (rows->diagonals cols)
         right  (rows->diagonals rows)
         all    (concat rows cols left right)
-        x-wins (some (partial threesome X) all)
-        o-wins (some (partial threesome O) all)]
+        x-wins (some (partial tictactoe X) all)
+        o-wins (some (partial tictactoe O) all)]
     (cond x-wins X o-wins O :else nil)))
