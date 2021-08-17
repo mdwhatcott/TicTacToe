@@ -187,14 +187,17 @@
   (apply str (map #(if (nil? %) "-" %) grid)))
 
 (describe "Winning Conditions"
-  (map #(it (str "identifies non-winning conditions " (render %))
-          (should-be-nil (winner %))) no-winners)
+  (for [grid no-winners]
+    (it (str "identifies non-winning conditions " (render grid))
+      (should-be-nil (winner grid))))
 
-  (map #(it (str "identifies winning conditions for X " (render %))
-          (should= X (winner %))) winners-x)
+  (for [grid winners-x]
+    (it (str "identifies winning conditions for X " (render grid))
+      (should= X (winner grid))))
 
-  (map #(it (str "identifies winning conditions for O " (render %))
-          (should= O (winner %))) winners-o))
+  (for [grid winners-o]
+    (it (str "identifies winning conditions for O " (render grid))
+      (should= O (winner grid)))))
 
 (describe "Grid Utilities"
   (it "converts rows to columns"
