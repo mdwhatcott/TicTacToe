@@ -184,7 +184,7 @@
            (should= empty)))))
 
 (defn render [grid]
-  (clojure.string/join "" (map #(if (nil? %) "-" %) grid)))
+  (apply str (map #(if (nil? %) "-" %) grid)))
 
 (describe "Winning Conditions"
   (map #(it (str "identifies non-winning conditions " (render %))
