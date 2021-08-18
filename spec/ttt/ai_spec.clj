@@ -25,5 +25,10 @@
                            O _ _
                            _ _ _])))
 
+  (it "suggests a winning move to prevent subsequent loss"
+    (should= 6 (suggest O [X X _
+                           _ X _
+                           _ O O])))
+
   )
 

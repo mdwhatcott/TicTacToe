@@ -21,4 +21,4 @@
                   best       (last (first ranked))] best))))
 
 (defn suggest [mark grid]
-  (minimax grid 4 (other mark) false))
+  (minimax grid 4 (other mark) true))
