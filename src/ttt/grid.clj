@@ -1,15 +1,21 @@
 (ns ttt.grid)
 
+(def _ nil)
 (def X "X")
 (def O "O")
-(def _ nil)
+
+(defn other [mark]
+  (if (= mark X) O X))
+
+;; This hard-coded value is the only thing preventing
+;; a general solution to game variants that require
+;; more than 3-in-a-row as winning conditions.
 (def ttt 3)
 
 (defn make-grid
   ([] (make-grid ttt))
   ([side-length] (vec (repeat (* side-length side-length) nil))))
 
-(defn other [mark] (if (= mark X) O X))
 (defn place [mark on grid]
   (cond (>= on (count grid)) grid
         (= (grid on) (other mark)) grid
@@ -17,7 +23,7 @@
 (defn place-x [on grid] (place X on grid))
 (defn place-o [on grid] (place O on grid))
 
-(defn tictactoe [mark row] (= row (repeat ttt mark)))
+(defn tic-tac-toe [mark row] (= row (repeat ttt mark)))
 
 (defn rows->columns [rows]
   (reverse
@@ -42,6 +48,10 @@
 ;; It currently employs a brute-force approach. For boards
 ;; larger than 3x3, it would be better to index the grid and
 ;; only scan from populated cells.
+;; Also, this implementation currently assumes that the rows
+;; and columns are as comprised of only 3 cells since it
+;; passes them wholesale to the tic-tac-toe function, which
+;; is currently hard-coded to look for 3-in-a-row conditions.
 (defn winner [grid]
   (let [length (Math/sqrt (count grid))
         rows   (partition (int length) grid)
@@ -49,9 +59,11 @@
         left   (rows->diagonals cols)
         right  (rows->diagonals rows)
         all    (concat rows cols left right)
-        x-wins (some (partial tictactoe X) all)
-        o-wins (some (partial tictactoe O) all)]
-    (cond x-wins X o-wins O :else nil)))
+        x-wins (some (partial tic-tac-toe X) all)
+        o-wins (some (partial tic-tac-toe O) all)]
+    (cond x-wins X
+          o-wins O
+          :else nil)))
 
 (defn available-cells [grid]
   (->> grid
