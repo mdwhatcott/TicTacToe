@@ -237,7 +237,7 @@
 (describe "Grid Scanning"
   (it "identifies all available spots on an empty grid"
     (->> (make-grid)
-         available-spots
+         available-cells
          (should= [0 1 2 3 4 5 6 7 8])))
 
   (it "identifies all available spots on a partially filled grid"
@@ -246,12 +246,12 @@
          (place-o 3)
          (place-x 4)
          (place-o 8)
-         available-spots
+         available-cells
          (should= [1 2 5 6 7])))
 
   (it "identifies no available spots on a filled-in grid"
     (->> [O X O
           X O O
           X O X]
-         available-spots
+         available-cells
          (should= []))))

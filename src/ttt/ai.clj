@@ -2,20 +2,20 @@
   (:require [ttt.grid :refer :all]))
 
 (defn minimax [grid depth mark is-max?]
-  (let [remaining  (available-spots grid)
-        game-tied? (empty? remaining)
+  (let [open-cells (available-cells grid)
+        game-tied? (empty? open-cells)
         game-won?  (not (nil? (winner grid)))]
     (cond
       (zero? depth) 0
       game-tied? 0
-      game-won? (let [score (count remaining)
+      game-won? (let [score (count open-cells)
                       final (if is-max? score (- score))] final)
       :else (let [mark       (other mark)
                   is-max?    (not is-max?)
                   depth      (dec depth)
-                  evolutions (map #(place mark % grid) remaining)
+                  evolutions (map #(place mark % grid) open-cells)
                   scores     (map #(minimax % depth mark is-max?) evolutions)
-                  pairs      (interleave scores remaining)
+                  pairs      (interleave scores open-cells)
                   mapped     (apply assoc {} pairs)
                   ranked     (into (sorted-map) mapped)
                   best       (last (first ranked))] best))))

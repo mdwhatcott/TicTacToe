@@ -3,11 +3,11 @@
 (def X "X")
 (def O "O")
 (def _ nil)
-
 (def ttt 3)
-(def grid-count (* ttt ttt))
 
-(defn make-grid [] (vec (repeat grid-count nil)))
+(defn make-grid
+  ([] (make-grid ttt))
+  ([side-length] (vec (repeat (* side-length side-length) nil))))
 
 (defn other [mark] (if (= mark X) O X))
 (defn place [mark on grid]
@@ -38,8 +38,13 @@
     (->> (range diagonal-count)
          (map #(extract-diagonal rows %)))))
 
+;; winner scans grid for a winning tic-tac-toe (3 in a row).
+;; It currently employs a brute-force approach. For boards
+;; larger than 3x3, it would be better to index the grid and
+;; only scan from populated cells.
 (defn winner [grid]
-  (let [rows   (partition 3 grid)
+  (let [length (Math/sqrt (count grid))
+        rows   (partition (int length) grid)
         cols   (rows->columns rows)
         left   (rows->diagonals cols)
         right  (rows->diagonals rows)
@@ -48,7 +53,7 @@
         o-wins (some (partial tictactoe O) all)]
     (cond x-wins X o-wins O :else nil)))
 
-(defn available-spots [grid]
+(defn available-cells [grid]
   (->> grid
        count
        range
