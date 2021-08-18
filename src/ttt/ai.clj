@@ -1,26 +1,24 @@
 (ns ttt.ai
   (:require [ttt.grid :refer :all]))
 
-(defn minimax [depth grid mark is-max?]
-  (if (zero? depth)
-    0 (cond
-        (nil? (winner grid))
-        (let [
-              available (available-spots grid)
-              grids     (map #(place mark % grid) available)
-              depth     (dec (count available))
-              mark      (other mark)
-              is-max?   (not is-max?)
-              scores    (map #(minimax depth % mark is-max?) grids)
-              pairs     (apply assoc {} (interleave scores available))
-              ranked    (reverse (into (sorted-map) pairs))
-              best      (last (first ranked))
-              ]
-          (println ranked)
-          best)
-
-        is-max? depth
-        :else (- depth))))
+(defn minimax [grid depth mark is-max?]
+  (let [remaining  (available-spots grid)
+        game-tied? (empty? remaining)
+        game-won?  (not (nil? (winner grid)))]
+    (cond
+      (zero? depth) 0
+      game-tied? 0
+      game-won? (let [score (count remaining)
+                      final (if is-max? score (- score))] final)
+      :else (let [mark       (other mark)
+                  is-max?    (not is-max?)
+                  depth      (dec depth)
+                  evolutions (map #(place mark % grid) remaining)
+                  scores     (map #(minimax % depth mark is-max?) evolutions)
+                  pairs      (interleave scores remaining)
+                  mapped     (apply assoc {} pairs)
+                  ranked     (into (sorted-map) mapped)
+                  best       (last (first ranked))] best))))
 
 (defn suggest [mark grid]
-  (minimax (inc (count (available-spots grid))) grid mark true))
+  (minimax grid 4 (other mark) false))
