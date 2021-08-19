@@ -197,43 +197,6 @@
     (it (str "identifies winning conditions for O " (render grid))
       (should= O (winner grid)))))
 
-(describe "Grid Utilities"
-  (it "converts rows to columns"
-    (->> [O X O
-          O X O
-          O X O]
-         (partition 3)
-         rows->columns
-         flatten
-         (should= [O O O
-                   X X X
-                   O O O])))
-
-  (it "converts rows to right-leaning diagonals"
-    (->> [O X _
-          X _ X
-          _ X O]
-         (partition 3)
-         rows->diagonals
-         (should= [[O]
-                   [X X]
-                   [_ _ _]
-                   [X X]
-                   [O]])))
-
-  (it "converts rows to left-leaning diagonals"
-    (->> [_ X O
-          X _ X
-          O X _]
-         (partition 3)
-         rows->columns
-         rows->diagonals
-         (should= [[O]
-                   [X X]
-                   [_ _ _]
-                   [X X]
-                   [O]]))))
-
 (describe "Grid Scanning"
   (it "identifies all available spots on an empty grid"
     (->> (make-grid)
