@@ -18,7 +18,7 @@
         (= (grid on) (other mark)) grid
         :else (assoc grid on mark)))
 
-(defn is-winner [grid mark]
+(defn winner? [grid mark]
   (or (and (= (grid 0) mark) (= (grid 1) mark) (= (grid 2) mark))
       (and (= (grid 3) mark) (= (grid 4) mark) (= (grid 5) mark))
       (and (= (grid 6) mark) (= (grid 7) mark) (= (grid 8) mark))
@@ -31,8 +31,8 @@
       (and (= (grid 2) mark) (= (grid 4) mark) (= (grid 6) mark))))
 
 (defn winner [grid]
-  (cond (is-winner grid X) X
-        (is-winner grid O) O
+  (cond (winner? grid X) X
+        (winner? grid O) O
         :else nil))
 
 (defn available-cells [grid]
