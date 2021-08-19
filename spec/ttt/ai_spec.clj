@@ -1,7 +1,8 @@
 (ns ttt.ai-spec
   (:require [speclj.core :refer :all]
             [ttt.grid :refer :all]
-            [ttt.ai :refer :all]))
+            [ttt.ai :refer :all]
+            [ttt.game :refer :all]))
 
 (describe "Unbeatable AI"
 
@@ -41,5 +42,14 @@
   (it "suggests the best move available, such as a fork"
     (should= 4 (suggest X [X X O
                            O _ _
-                           _ _ _]))))
+                           _ _ _])))
+
+  (for [cell (range 9)]
+    (it (format "can't beat itself when starting with X on cell %d" cell)
+      (should-be-nil
+        (play (fn [_])
+              (place X cell (make-grid))
+              O
+              suggest
+              suggest)))))
 
