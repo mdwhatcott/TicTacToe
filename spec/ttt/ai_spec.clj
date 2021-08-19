@@ -28,22 +28,18 @@
   (it "suggests a blocking move to prevent subsequent loss"
     (should= 6 (suggest O [_ _ X
                            _ X _
-                           _ _ O])))
+                           _ _ O]))
 
-  (it "suggests the best move available, such as a fork"
-    (should= 4 (suggest X [X X O
-                           O _ _
-                           _ _ _])))
-
-  (it "shouldn't let me win"
     (should= 6 (suggest O [_ O X
                            _ X _
-                           _ _ _])))
+                           _ _ _]))
 
-  (it "shouldn't let me win 2"
     (should= 5 (suggest O [O _ _
                            X X _
                            _ O X])))
 
-  )
+  (it "suggests the best move available, such as a fork"
+    (should= 4 (suggest X [X X O
+                           O _ _
+                           _ _ _]))))
 
