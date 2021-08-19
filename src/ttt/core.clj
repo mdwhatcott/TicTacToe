@@ -1,5 +1,16 @@
-(ns ttt.core)
+(ns ttt.core
+  (:require [ttt.grid :as grid]
+            [ttt.human :as human]
+            [ttt.ai :as ai]
+            [ttt.terminal-ui :as terminal]
+            [ttt.game :as game]))
 
-(defn -main
-  [& args]
-  (println "Hello World"))
+(defn -main []
+  (let [presenter  terminal/print-grid
+        grid       (grid/make-grid)
+        player     grid/X
+        player1-in (human/suggest terminal/prompt)
+        player2-in ai/suggest]
+    (println
+      "winner: "
+      (game/play presenter grid player player1-in player2-in))))

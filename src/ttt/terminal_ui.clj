@@ -1,6 +1,13 @@
 (ns ttt.terminal-ui
   (:require [clojure.string :as string]))
 
+(defn prompt [mark]
+  (do
+    (print (format "Player %s: Where would you like to move? " mark))
+    (flush)
+    ; TODO: handle bad input
+    (read-line)))
+
 (defn render-grid [grid]
   (let [slots (apply str (map #(if (nil? %) " " %) grid))]
     (str
@@ -26,4 +33,4 @@
               (string/join "\n")) "\n")))
 
 (defn print-grid [grid]
-  (print (render-grid grid)))
+  (println (decorate-grid (render-grid grid))))
