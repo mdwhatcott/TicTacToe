@@ -147,30 +147,30 @@
 
   (it "places Xs"
     (->> (make-grid)
-         (place-x 0)
+         (place X 0)
          (should= [X _ _
                    _ _ _
                    _ _ _])))
 
   (it "places Os"
     (->> (make-grid)
-         (place-o 0)
+         (place O 0)
          (should= [O _ _
                    _ _ _
                    _ _ _])))
 
   (it "preserves Xs"
     (->> (make-grid)
-         (place-x 0)
-         (place-o 0)
+         (place X 0)
+         (place O 0)
          (should= [X _ _
                    _ _ _
                    _ _ _])))
 
   (it "preserves Os"
     (->> (make-grid)
-         (place-o 0)
-         (place-x 0)
+         (place O 0)
+         (place X 0)
          (should= [O _ _
                    _ _ _
                    _ _ _])))
@@ -178,7 +178,7 @@
   (it "ignores out-of-bounds"
     (let [empty (make-grid)]
       (->> empty
-           (place-o (inc (count empty)))
+           (place O (inc (count empty)))
            (should= empty)))))
 
 (defn render [grid]
@@ -242,10 +242,10 @@
 
   (it "identifies all available spots on a partially filled grid"
     (->> (make-grid)
-         (place-x 0)
-         (place-o 3)
-         (place-x 4)
-         (place-o 8)
+         (place X 0)
+         (place O 3)
+         (place X 4)
+         (place O 8)
          available-cells
          (should= [1 2 5 6 7])))
 

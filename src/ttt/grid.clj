@@ -20,8 +20,6 @@
   (cond (>= on (count grid)) grid
         (= (grid on) (other mark)) grid
         :else (assoc grid on mark)))
-(defn place-x [on grid] (place X on grid))
-(defn place-o [on grid] (place O on grid))
 
 (defn tic-tac-toe [mark row] (= row (repeat ttt mark)))
 
