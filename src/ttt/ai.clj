@@ -2,39 +2,31 @@
   (:require [ttt.grid :refer :all]
             [ttt.terminal-ui :as ui]))
 
+(def max-depth 10)
 
 (defn minimax [grid depth is-max? mark]
   (let [open-cells (available-cells grid)
-        game-tied? (empty? open-cells)
-        game-won?  (not (nil? (winner grid)))]
+        game-won?  (not (nil? (winner grid)))
+        game-tied? (empty? open-cells)]
     (cond
-      (zero? depth) 0
+      (> depth max-depth) 0
+      game-won? (if is-max? (- max-depth depth) (- depth max-depth))
       game-tied? 0
-      game-won? (if is-max? depth (- depth))
       :else
       (let [is-max?    (not is-max?)
             mark       (other mark)
             children   (map #(place mark % grid) open-cells)
-            scores     (map #(minimax % (dec depth) is-max? mark) children)
+            scores     (map #(minimax % (inc depth) is-max? mark) children)
             mixed      (interleave open-cells scores)
             pairs      (partition 2 mixed)
-            ranked     (sort-by last pairs)
-            max-ranked (if is-max? (reverse ranked) ranked)
-            best-score (second (first max-ranked))]
-        ;(println max-ranked)
-        ;(println (ui/render-grid grid))
-        best-score))))
+            ranked     (sort-by last (if is-max? > <) pairs)
+            best-score (second (first ranked))] best-score))))
 
 (defn suggest [mark grid]
-  (let [
-        open-cells (available-cells grid)
-        depth      (count open-cells)
+  (let [open-cells (available-cells grid)
         children   (map #(place mark % grid) open-cells)
-        scores     (map #(minimax % depth true mark) children)
+        scores     (map #(minimax % 0 true mark) children)
         mixed      (interleave open-cells scores)
         pairs      (partition 2 mixed)
-        ranked     (reverse (sort-by last pairs))
-        best-move  (ffirst ranked)
-        ]
-    ;(println ranked)
-    best-move))
+        ranked     (sort-by last > pairs)
+        best-move  (ffirst ranked)] best-move))
