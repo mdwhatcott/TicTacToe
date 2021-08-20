@@ -159,7 +159,6 @@
       (let [grid (new-grid 3)]
         (should= 3 (:row-count grid))
         (should= 3 (:col-count grid))
-        (should= 9 (:empty-cell-count grid))
         (should= #{0 1 2 3 4 5 6 7 8} (:empty-cells grid))
         (should= {} (:filled-by-cell grid))
         (should= {X #{}
@@ -184,7 +183,6 @@
       (let [grid (new-grid 4)]
         (should= 4 (:row-count grid))
         (should= 4 (:col-count grid))
-        (should= 16 (:empty-cell-count grid))
         (should= #{0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15} (:empty-cells grid))
         (should= {} (:filled-by-cell grid))
         (should= {X #{}
@@ -212,8 +210,7 @@
             updated (place X 0 grid)]
         (should= {X #{0} O #{}} (:filled-by-mark updated))
         (should= {0 X} (:filled-by-cell updated))
-        (should= #{1 2 3 4 5 6 7 8} (:empty-cells updated))
-        (should= 8 (:empty-cell-count updated))))
+        (should= #{1 2 3 4 5 6 7 8} (:empty-cells updated))))
 
     (it "rejects out-of-bounds placements (too low)"
       (let [grid    (new-grid 3)
@@ -222,7 +219,7 @@
 
     (it "rejects out-of-bounds placements (too high)"
       (let [grid    (new-grid 3)
-            updated (place X (inc (:empty-cell-count grid)) grid)]
+            updated (place X (inc (count (:empty-cells grid))) grid)]
         (should= grid updated)))
 
     (it "rejects placements that would overwrite previous placements"
@@ -230,8 +227,7 @@
             updated-x (place X 1 grid)
             updated-o (place O 1 updated-x)]
         (should= {X #{1} O #{}} (:filled-by-mark updated-o))
-        (should= {1 X} (:filled-by-cell updated-o))
-        (should= 8 (:empty-cell-count updated-o))))
+        (should= {1 X} (:filled-by-cell updated-o))))
     )
 
   (context "Win Detection"

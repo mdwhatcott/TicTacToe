@@ -2,8 +2,8 @@
   (:require [clojure.set :as set]))
 
 (def _ nil)
-(def X "X") ;; TODO: consider using :X instead
-(def O "O") ;; TODO: consider using :O instead
+(def X "X")                                                 ;; TODO: consider using :X instead
+(def O "O")                                                 ;; TODO: consider using :O instead
 
 (defn other [mark]
   (if (= mark X) O X))
@@ -26,14 +26,13 @@
         diagonals [(diagonal rows)
                    (diagonal (reverse cols))]
         wins      (map set (concat rows cols diagonals))]
-    {:empty-cell-count capacity
-     :empty-cells      (set (range capacity))
-     :row-count        width
-     :col-count        width
-     :filled-by-cell   {}
-     :filled-by-mark   {X #{}
-                        O #{}}
-     :wins             wins}))
+    {:empty-cells    (set (range capacity))
+     :row-count      width
+     :col-count      width
+     :filled-by-cell {}
+     :filled-by-mark {X #{}
+                      O #{}}
+     :wins           wins}))
 
 (defn capacity [grid]
   (* (:row-count grid) (:col-count grid)))
@@ -51,17 +50,15 @@
         (out-of-bounds? on grid) grid
         (already-placed? on grid) grid
         :else
-        (let [old-by-mark      (:filled-by-mark grid)
-              old-cells        (old-by-mark mark)
+        (let [old-by-mark     (:filled-by-mark grid)
+              old-cells       (old-by-mark mark)
 
-              filled-by-mark   (assoc old-by-mark mark (conj old-cells on))
-              filled-by-cells  (assoc (:filled-by-cell grid) on mark)
-              empty-cell-count (dec (:empty-cell-count grid))
-              empty-cells      (disj (:empty-cells grid) on)]
+              filled-by-mark  (assoc old-by-mark mark (conj old-cells on))
+              filled-by-cells (assoc (:filled-by-cell grid) on mark)
+              empty-cells     (disj (:empty-cells grid) on)]
           (-> grid
               (assoc :filled-by-mark filled-by-mark
                      :filled-by-cell filled-by-cells
-                     :empty-cell-count empty-cell-count
                      :empty-cells empty-cells)))))
 
 (defn winner? [marks combinations]
