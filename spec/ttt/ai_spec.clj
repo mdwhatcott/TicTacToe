@@ -51,5 +51,6 @@
               (place X cell (make-grid))
               O
               suggest
-              suggest)))))
+              suggest))))
+  )
 
