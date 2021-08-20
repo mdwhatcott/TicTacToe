@@ -154,7 +154,7 @@
   (apply str (map #(if (nil? %) "-" %) grid)))
 
 (describe "Grid Data Structure"
-  (context "Upon Construction"
+  (context "Upon Construction (3X3)"
     (it "contains metadata to facilitate book-keeping"
       (let [grid (new-grid 3)]
         (should= 3 (:row-count grid))
@@ -168,14 +168,41 @@
     (it "precomputes all winning combinations"
       (let [grid (new-grid 3)]
         (->> (:wins grid)
-             (should= [#{0 1 2} ; row 1
-                       #{3 4 5} ; row 2
-                       #{6 7 8} ; row 3
-                       #{0 3 6} ; col 1
-                       #{1 4 7} ; col 2
-                       #{2 5 8} ; col 3
-                       #{0 4 8} ; dia 1
-                       #{2 4 6} ; dia 2
+             (should= [#{0 1 2}                             ; row 1
+                       #{3 4 5}                             ; row 2
+                       #{6 7 8}                             ; row 3
+                       #{0 3 6}                             ; col 1
+                       #{1 4 7}                             ; col 2
+                       #{2 5 8}                             ; col 3
+                       #{0 4 8}                             ; dia 1
+                       #{2 4 6}                             ; dia 2
+                       ]))))
+    )
+
+  (context "Upon Construction (4X4)"
+    (it "contains metadata to facilitate book-keeping"
+      (let [grid (new-grid 4)]
+        (should= 4 (:row-count grid))
+        (should= 4 (:col-count grid))
+        (should= 16 (:empty-cell-count grid))
+        (should= #{0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15} (:empty-cells grid))
+        (should= {} (:filled-by-cell grid))
+        (should= {X #{}
+                  O #{}} (:filled-by-mark grid))))
+
+    (it "precomputes all winning combinations"
+      (let [grid (new-grid 4)]
+        (->> (:wins grid)
+             (should= [#{0 1 2 3}                           ; row 1
+                       #{4 5 6 7}                           ; row 2
+                       #{8 9 10 11}                         ; row 3
+                       #{12 13 14 15}                       ; row 4
+                       #{0 4 8 12}                          ; col 1
+                       #{1 5 9 13}                          ; col 2
+                       #{2 6 10 14}                         ; col 3
+                       #{3 7 11 15}                         ; col 4
+                       #{0 5 10 15}                         ; dia 1
+                       #{3 6 9 12}                          ; dia 2
                        ]))))
     )
 
