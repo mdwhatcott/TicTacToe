@@ -69,6 +69,9 @@
         failed-attempts (take-while #(not (is-win? %)) combinations)]
     (< (count failed-attempts) (count combinations))))
 
+;; Possible optimization: if grid keeps track of the
+;; last move, use it as a reference point and only
+;; search for a win attached to that move.
 (defn winner [grid]
   (let [combinations (:wins grid)
         by-marks     (:filled-by-mark grid)
