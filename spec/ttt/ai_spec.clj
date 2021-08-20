@@ -44,11 +44,11 @@
                            O _ _
                            _ _ _])))
 
-  (for [cell (range 9)]
-    (it (format "can't beat itself when starting with X on cell %d" cell)
+  (for [first-move (range 9)]
+    (it (format "can't beat itself when starting with X on cell %d" first-move)
       (should-be-nil
         (play (fn [_])
-              (place X cell (make-grid))
+              (place X first-move (make-grid))
               O
               suggest
               suggest))))
