@@ -1,6 +1,5 @@
 (ns ttt.ai
-  (:require [ttt.grid :refer :all]
-            [ttt.terminal-ui :as ui]))
+  (:require [ttt.grid :refer :all]))
 
 (def max-depth 10)
 
