@@ -4,8 +4,8 @@
 (def max-depth 10)
 
 (defn minimax [grid depth is-max? mark]
-  (let [open-cells (available-cells grid)
-        game-won?  (not (nil? (winner grid)))
+  (let [open-cells (:empty-cells grid)
+        game-won?  (boolean (winner grid))
         game-tied? (empty? open-cells)]
     (cond
       (> depth max-depth) 0
@@ -22,7 +22,7 @@
             best-score (second (first ranked))] best-score))))
 
 (defn suggest [mark grid]
-  (let [open-cells (available-cells grid)
+  (let [open-cells (:empty-cells grid)
         children   (map #(place mark % grid) open-cells)
         scores     (map #(minimax % 0 true mark) children)
         mixed      (interleave open-cells scores)

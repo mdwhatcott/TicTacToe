@@ -7,7 +7,7 @@
 
 (defn -main []
   (let [presenter  terminal/print-grid
-        grid       (grid/make-grid)
+        grid       (grid/new-grid 3)
         player     grid/X
         player1-in (human/suggest terminal/prompt)
         player2-in ai/suggest]

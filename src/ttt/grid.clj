@@ -46,7 +46,7 @@
   (or (< on 0)
       (>= on (capacity grid))))
 
-(defn place2 [mark on grid]
+(defn place [mark on grid]
   (cond (nil? mark) grid
         (out-of-bounds? on grid) grid
         (already-placed? on grid) grid
@@ -64,39 +64,18 @@
                      :empty-cell-count empty-cell-count
                      :empty-cells empty-cells)))))
 
-(defn winner2? [marks combinations]
+(defn winner? [marks combinations]
   (let [is-win?         (fn [combo] (set/superset? marks combo))
         failed-attempts (take-while #(not (is-win? %)) combinations)]
     (< (count failed-attempts) (count combinations))))
 
-(defn winner2 [grid]
+(defn winner [grid]
   (let [combinations (:wins grid)
         by-marks     (:filled-by-mark grid)
         x-marks      (by-marks X)
         o-marks      (by-marks O)
         x-count      (count x-marks)
         o-count      (count o-marks)]
-    (cond (and (>= x-count 3) (winner2? x-marks combinations)) X
-          (and (>= o-count 3) (winner2? o-marks combinations)) O
+    (cond (and (>= x-count 3) (winner? x-marks combinations)) X
+          (and (>= o-count 3) (winner? o-marks combinations)) O
           :else nil)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Deprecated
-(def ttt 3)
-
-;; Deprecated
-(defn make-grid []
-  (new-grid ttt))
-
-;; Deprecated
-(defn place [mark on grid]
-  (place2 mark on grid))
-
-;; Deprecated
-(defn winner [grid]
-  (winner2 grid))
-
-;; Deprecated
-(defn available-cells [grid]
-  (:empty-cells grid))

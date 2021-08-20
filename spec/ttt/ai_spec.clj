@@ -45,12 +45,12 @@
                                          O _ _
                                          _ _ _]))))
 
-  ; TODO: uncomment when faster
+  ;; LONG-RUNNING
   #_(for [first-move (range 9)]
       (it (format "can't beat itself when starting with X on cell %d" first-move)
         (should-be-nil
           (play (fn [_])
-                (place X first-move (make-grid))
+                (place X first-move (new-grid 3))
                 O
                 suggest
                 suggest))))

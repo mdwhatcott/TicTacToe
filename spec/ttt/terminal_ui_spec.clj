@@ -17,7 +17,7 @@
                        " |X| \n"))))
 
   (it "decorates the grid"
-    (->> (make-grid)
+    (->> (new-grid 3)
          render-grid
          decorate-grid
          (should= (str " | |  1|2|3\n"

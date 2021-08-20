@@ -9,4 +9,4 @@
       (if (not (nil? (available selection)))
         selection
         (recur (dec (edn/read-string (prompt mark)))
-               (set (available-cells grid)))))))
+               (set (:empty-cells grid)))))))

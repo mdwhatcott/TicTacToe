@@ -11,7 +11,7 @@
   (context "A Single Tick"
     (it "updates game state after one move"
       (let [player1    (stub :player1 {:return 1})
-            grid       (make-grid)
+            grid       (new-grid 3)
             game-state {:grid    grid
                         :mark    X
                         :player1 player1
