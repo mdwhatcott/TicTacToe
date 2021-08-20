@@ -86,38 +86,17 @@
 (def ttt 3)
 
 ;; Deprecated
-(defn make-grid
-  ([] (make-grid ttt))
-  ([side-length] (vec (repeat (* side-length side-length) nil))))
+(defn make-grid []
+  (new-grid ttt))
 
 ;; Deprecated
 (defn place [mark on grid]
-  (cond (>= on (count grid)) grid
-        (= (grid on) (other mark)) grid
-        :else (assoc grid on mark)))
-
-;; Deprecated
-(defn winner? [grid mark]
-  (or (and (= (grid 0) mark) (= (grid 1) mark) (= (grid 2) mark))
-      (and (= (grid 3) mark) (= (grid 4) mark) (= (grid 5) mark))
-      (and (= (grid 6) mark) (= (grid 7) mark) (= (grid 8) mark))
-
-      (and (= (grid 0) mark) (= (grid 3) mark) (= (grid 6) mark))
-      (and (= (grid 1) mark) (= (grid 4) mark) (= (grid 7) mark))
-      (and (= (grid 2) mark) (= (grid 5) mark) (= (grid 8) mark))
-
-      (and (= (grid 0) mark) (= (grid 4) mark) (= (grid 8) mark))
-      (and (= (grid 2) mark) (= (grid 4) mark) (= (grid 6) mark))))
+  (place2 mark on grid))
 
 ;; Deprecated
 (defn winner [grid]
-  (cond (winner? grid X) X
-        (winner? grid O) O
-        :else nil))
+  (winner2 grid))
 
 ;; Deprecated
 (defn available-cells [grid]
-  (->> grid
-       count
-       range
-       (filter #(nil? (nth grid %)))))
+  (:empty-cells grid))

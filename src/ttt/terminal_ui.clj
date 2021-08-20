@@ -1,5 +1,7 @@
 (ns ttt.terminal-ui
-  (:require [clojure.string :as string]))
+  (:require
+    [ttt.grid :as g]
+    [clojure.string :as string]))
 
 (defn prompt [mark]
   (do
@@ -9,7 +11,10 @@
     (read-line)))
 
 (defn render-grid [grid]
-  (let [slots (apply str (map #(if (nil? %) " " %) grid))]
+  (let [slots (->> (g/capacity grid)
+                   range
+                   (map #(get (:filled-by-cell grid) % " "))
+                   (apply str))]
     (str
       (format "%s|%s|%s\n" (nth slots 0) (nth slots 1) (nth slots 2))
       (format "%s+%s+%s\n" "-" "-" "-")

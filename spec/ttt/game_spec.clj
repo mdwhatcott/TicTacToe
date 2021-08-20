@@ -1,7 +1,8 @@
 (ns ttt.game-spec
   (:require [speclj.core :refer :all]
             [ttt.game :refer :all]
-            [ttt.grid :refer :all]))
+            [ttt.grid :refer :all]
+            [ttt.grid-spec :refer :all]))
 
 (describe "Game Play"
 
@@ -26,9 +27,9 @@
 
     (it "detects game-over in the case of a tie"
       (let [player1    (stub :player1 {:return 0})
-            grid       [_ X O
-                        O O X
-                        X O O]
+            grid       (vector->grid [_ X O
+                                      O O X
+                                      X O O])
             game-state {:grid    grid
                         :mark    X
                         :player1 player1
@@ -39,9 +40,9 @@
 
     (it "detects winner in the case of a win"
       (let [player1    (stub :player1 {:return 0})
-            grid       [_ X O
-                        O O X
-                        X _ O]
+            grid       (vector->grid [_ X O
+                                      O O X
+                                      X _ O])
             game-state {:grid    grid
                         :mark    O
                         :player1 player1
