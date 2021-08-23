@@ -11,43 +11,41 @@
     (read-line)))
 
 (defn- cell-hint [n mark]
-  (if (= mark " ") (str n) " "))
+  (if (= mark " ") (str (inc n)) " "))
 
 (def characters
   {nil " "
-   :X "X"
-   :O "O"})
+   :X  "X"
+   :O  "O"})
+
+(defn render-winner [grid]
+  (if (:game-over? grid)
+    (format "\nWinner: %s\n" (characters (:winner grid))) ""))
+
+(defn buffer-row [col-count]
+  (let [row (string/join "+" (repeat col-count "-"))]
+    (str row " " row)))
+
+(defn render-row [[slots hints & _]]
+  (str (string/join "|" slots) " "
+       (string/join "|" hints)))
 
 (defn render-grid [grid]
-  (let [slots (->> (range (g/capacity grid))
-                   (map #(get (:filled-by-cell grid) %))
-                   (map characters))]
-    (str
-      (format "%s|%s|%s %s|%s|%s\n"
-              (nth slots 0)
-              (nth slots 1)
-              (nth slots 2)
-              (cell-hint 1 (nth slots 0))
-              (cell-hint 2 (nth slots 1))
-              (cell-hint 3 (nth slots 2)))
-      (format "%s+%s+%s %s+%s+%s\n" "-" "-" "-" "-" "-" "-")
-      (format "%s|%s|%s %s|%s|%s\n"
-              (nth slots 3)
-              (nth slots 4)
-              (nth slots 5)
-              (cell-hint 4 (nth slots 3))
-              (cell-hint 5 (nth slots 4))
-              (cell-hint 6 (nth slots 5)))
-      (format "%s+%s+%s %s+%s+%s\n" "-" "-" "-" "-" "-" "-")
-      (format "%s|%s|%s %s|%s|%s\n"
-              (nth slots 6)
-              (nth slots 7)
-              (nth slots 8)
-              (cell-hint 7 (nth slots 6))
-              (cell-hint 8 (nth slots 7))
-              (cell-hint 9 (nth slots 8)))
-      (when (:game-over? grid)
-        (format "\nWinner: %s\n" (characters (:winner grid)))))))
+  (let [slots               (->> (range (g/capacity grid))
+                                 (map #(get (:filled-by-cell grid) %))
+                                 (map characters))
+        hints               (map #(cell-hint (first %) (second %))
+                                 (partition 2 (interleave (range (g/capacity grid)) slots)))
+        slot-rows           (partition (:col-count grid) slots)
+        hint-rows           (partition (:col-count grid) hints)
+        slot-hint-row-pairs (partition 2 (interleave slot-rows hint-rows))
+        rendered-rows       (map render-row slot-hint-row-pairs)
+        buffer-rows         (repeat (count rendered-rows) (buffer-row (:col-count grid)))
+        total-rows          (dec (+ (count rendered-rows) (count buffer-rows)))
+        all-rows            (take total-rows (interleave rendered-rows buffer-rows))
+        rendered-grid       (string/join "\n" all-rows)
+        winner              (render-winner grid)]
+    (format "%s\n%s" rendered-grid winner)))
 
 (defn print-grid [grid]
   (println (render-grid grid)))
