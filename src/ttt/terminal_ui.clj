@@ -74,7 +74,8 @@
   (let [message  (format "Player %s: Where would you like to move? " (grid-characters mark))
         response (prompt message)
         result   (get input-characters response)]
-    (if (nil? result) (recur mark) (do (println "choice: " result) result))))
+    (if (nil? result) (recur mark)
+                      result)))
 
 (defn- cell-hint [n mark]
   (if (= mark " ") (hint-characters (str (inc n))) " "))
