@@ -1,15 +1,8 @@
 (ns ttt.grid
   (:require [clojure.set :as set]))
 
-(def _ nil)
-(def X :X)
-(def O :O)
-; TODO: update references from X to :X?
-; TODO: update references from O to :O?
-; TODO: move _, X and O back to tests
-
 (defn other [mark]
-  (if (= mark X) O X))
+  (if (= mark :X) :O :X))
 
 (defn- diagonal [rows]
   (loop [row 0, col 0, result []]

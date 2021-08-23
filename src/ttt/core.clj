@@ -8,7 +8,7 @@
 (defn -main []
   (let [presenter  terminal/print-grid
         grid       (grid/new-grid 3)
-        player     grid/X
+        player     :X
         player1-in (human/suggest terminal/prompt)
         player2-in ai/suggest]
     (println
