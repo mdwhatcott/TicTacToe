@@ -1,10 +1,11 @@
 (ns ttt.ai
   (:require [ttt.grid :refer :all]))
 
-(def max-depth 10)
+(defn max-depth [grid] (if (< (:capacity grid) 9) 10 3))
 
 (defn minimax [grid depth is-max? mark]
-  (let [open-cells (:empty-cells grid)
+  (let [max-depth  (max-depth grid)
+        open-cells (:empty-cells grid)
         game-won?  (boolean (:winner grid))
         game-tied? (empty? open-cells)]
     (cond
