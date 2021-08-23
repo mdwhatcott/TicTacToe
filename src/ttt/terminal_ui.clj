@@ -45,7 +45,7 @@
 
 (defn prompt [mark]
   (do
-    (print (format "Player %s: Where would you like to move? " mark))
+    (print (format "Player %s: Where would you like to move? " (grid-characters mark)))
     (flush)
     ; TODO: handle bad input
     (get input-characters (read-line))))
