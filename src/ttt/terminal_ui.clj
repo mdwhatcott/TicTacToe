@@ -66,6 +66,10 @@
                                             "medium" :medium
                                             "hard"   :hard}))
 
+(defn prompt-grid-size []
+  (prompt-options "What size grid?" {"3x3" 3
+                                     "4x4" 4}))
+
 (defn prompt-player-move [mark]
   (let [message  (format "Player %s: Where would you like to move? " (grid-characters mark))
         response (prompt message)

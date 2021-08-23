@@ -14,10 +14,13 @@
         :medium ai/medium
         :hard ai/hard))))
 
+(defn initialize-grid []
+  (let [grid-size (terminal/prompt-grid-size)] (grid/new-grid grid-size)))
+
 (defn -main []
   (let [presenter terminal/print-grid
-        grid      (grid/new-grid 4)
         player    :X
+        grid      (initialize-grid)
         playerX   (initialize-player :X)
         playerO   (initialize-player :O)]
     (game/play presenter grid player playerX playerO)))
