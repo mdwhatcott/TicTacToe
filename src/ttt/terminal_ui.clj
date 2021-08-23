@@ -31,11 +31,11 @@
        (string/join "|" hints)))
 
 (defn render-grid [grid]
-  (let [slots               (->> (range (g/capacity grid))
+  (let [slots               (->> (range (:capacity grid))
                                  (map #(get (:filled-by-cell grid) %))
                                  (map characters))
         hints               (map #(cell-hint (first %) (second %))
-                                 (partition 2 (interleave (range (g/capacity grid)) slots)))
+                                 (partition 2 (interleave (range (:capacity grid)) slots)))
         slot-rows           (partition (:col-count grid) slots)
         hint-rows           (partition (:col-count grid) hints)
         slot-hint-row-pairs (partition 2 (interleave slot-rows hint-rows))

@@ -37,6 +37,7 @@
      :empty-cells    (set (range capacity))
      :row-count      width
      :col-count      width
+     :capacity       capacity
 
      ; {1 :X, 2 :O}
      :filled-by-cell {}
@@ -49,16 +50,13 @@
      ;  1 [#{0 1 2} #{1 4 7}]          ; all wins 1 is part of, etc..
      :wins-by-cell   wins-by-cell}))
 
-(defn capacity [grid]
-  (* (:row-count grid) (:col-count grid)))
-
 (defn- already-placed? [on grid]
   (let [by-cells (:filled-by-cell grid)]
     (boolean (by-cells on))))
 
 (defn- out-of-bounds? [on grid]
   (or (< on 0)
-      (>= on (capacity grid))))
+      (>= on (:capacity grid))))
 
 (defn- winner? [marks combinations]
   (let [is-win?         (fn [combo] (set/superset? marks combo))
