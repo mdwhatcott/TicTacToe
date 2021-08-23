@@ -35,8 +35,7 @@
     {:game-over?     false
      :winner         nil
      :empty-cells    (set (range capacity))
-     :row-count      width
-     :col-count      width
+     :width          width
      :capacity       capacity
 
      ; {1 :X, 2 :O}

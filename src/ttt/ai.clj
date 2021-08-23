@@ -46,10 +46,11 @@
 (defn easy [_mark grid]
   (first (sort (:empty-cells grid))))
 
+;; Concept: start w/ random moves, progress to handicapped minimax, end w/ random moves (to allow possible win)
 (defn medium [mark grid]
-  (cond (> (count (:empty-cells grid)) 12) (random-empty-cell grid)
-        (< (count (:empty-cells grid)) 8) (random-empty-cell grid)
-        :else (do-minimax mark grid (handicap-max-depth 2))))
+  (cond (> (count (:empty-cells grid)) (- (:capacity grid) (dec (:width grid)))) (random-empty-cell grid)
+        (< (count (:empty-cells grid)) (/ (:capacity grid) 2)) (random-empty-cell grid)
+        :else (do-minimax mark grid (handicap-max-depth 1))))
 
 (defn hard [mark grid]
   (if (> (count (:empty-cells grid)) 12)

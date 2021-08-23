@@ -165,8 +165,7 @@
       (let [grid (new-grid 3)]
         (should= false (:game-over? grid))
         (should= nil (:winner grid))
-        (should= 3 (:row-count grid))
-        (should= 3 (:col-count grid))
+        (should= 3 (:width grid))
         (should= 9 (:capacity grid))
         (should= #{0 1 2 3 4 5 6 7 8} (:empty-cells grid))
         (should= {} (:filled-by-cell grid))
@@ -192,8 +191,7 @@
       (let [grid (new-grid 4)]
         (should= false (:game-over? grid))
         (should= nil (:winner grid))
-        (should= 4 (:row-count grid))
-        (should= 4 (:col-count grid))
+        (should= 4 (:width grid))
         (should= #{0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15}
                  (:empty-cells grid))
         (should= {} (:filled-by-cell grid))
