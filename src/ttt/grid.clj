@@ -8,14 +8,14 @@
 (defn other [mark]
   (if (= mark X) O X))
 
-(defn diagonal [rows]
+(defn- diagonal [rows]
   (loop [row 0, col 0, result []]
     (cond (>= row (count rows)) result
           (>= col (count (first rows))) result
           :else (let [next (conj result (nth (nth rows row) col))]
                   (recur (inc row) (inc col) next)))))
 
-(defn rows->columns [rows]
+(defn- rows->columns [rows]
   (for [column (range (count rows))]
     (map #(nth % column) rows)))
 
@@ -37,11 +37,11 @@
 (defn capacity [grid]
   (* (:row-count grid) (:col-count grid)))
 
-(defn already-placed? [on grid]
+(defn- already-placed? [on grid]
   (let [by-cells (:filled-by-cell grid)]
     (boolean (by-cells on))))
 
-(defn out-of-bounds? [on grid]
+(defn- out-of-bounds? [on grid]
   (or (< on 0)
       (>= on (capacity grid))))
 
@@ -61,7 +61,7 @@
                      :filled-by-cell filled-by-cells
                      :empty-cells empty-cells)))))
 
-(defn winner? [marks combinations]
+(defn- winner? [marks combinations]
   (let [is-win?         (fn [combo] (set/superset? marks combo))
         failed-attempts (take-while #(not (is-win? %)) combinations)]
     (< (count failed-attempts) (count combinations))))
