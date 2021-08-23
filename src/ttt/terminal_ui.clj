@@ -10,31 +10,42 @@
     ; TODO: handle bad input
     (read-line)))
 
+(defn cell-hint [n mark]
+  (if (= mark " ") (str n) " "))
+
+(def characters
+  {nil " "
+   :X "X"
+   :O "O"})
+
 (defn render-grid [grid]
   (let [slots (->> (range (g/capacity grid))
                    (map #(get (:filled-by-cell grid) %))
-                   (map {nil " ", :X "X", :O "O"}))]
+                   (map characters))]
     (str
-      (format "%s|%s|%s\n" (nth slots 0) (nth slots 1) (nth slots 2))
-      (format "%s+%s+%s\n" "-" "-" "-")
-      (format "%s|%s|%s\n" (nth slots 3) (nth slots 4) (nth slots 5))
-      (format "%s+%s+%s\n" "-" "-" "-")
-      (format "%s|%s|%s\n" (nth slots 6) (nth slots 7) (nth slots 8)))))
-
-(def decorations
-  ["1|2|3"
-   "-+-+-"
-   "4|5|6"
-   "-+-+-"
-   "7|8|9"])
-
-(defn decorate-grid [rendered-grid]
-  (let [lines    (string/split-lines rendered-grid)
-        combined (interleave lines decorations)]
-    (str (->> combined
-              (partition 2)
-              (map #(string/join " " %))
-              (string/join "\n")) "\n")))
+      (format "%s|%s|%s %s|%s|%s\n"
+              (nth slots 0)
+              (nth slots 1)
+              (nth slots 2)
+              (cell-hint 1 (nth slots 0))
+              (cell-hint 2 (nth slots 1))
+              (cell-hint 3 (nth slots 2)))
+      (format "%s+%s+%s %s+%s+%s\n" "-" "-" "-" "-" "-" "-")
+      (format "%s|%s|%s %s|%s|%s\n"
+              (nth slots 3)
+              (nth slots 4)
+              (nth slots 5)
+              (cell-hint 4 (nth slots 3))
+              (cell-hint 5 (nth slots 4))
+              (cell-hint 6 (nth slots 5)))
+      (format "%s+%s+%s %s+%s+%s\n" "-" "-" "-" "-" "-" "-")
+      (format "%s|%s|%s %s|%s|%s\n"
+              (nth slots 6)
+              (nth slots 7)
+              (nth slots 8)
+              (cell-hint 7 (nth slots 6))
+              (cell-hint 8 (nth slots 7))
+              (cell-hint 9 (nth slots 8))))))
 
 (defn print-grid [grid]
-  (println (decorate-grid (render-grid grid))))
+  (println (render-grid grid)))

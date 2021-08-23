@@ -10,19 +10,10 @@
                         _ O _
                         _ X _])
          render-grid
-         (should= (str "O| |X\n"
-                       "-+-+-\n"
-                       " |O| \n"
-                       "-+-+-\n"
-                       " |X| \n"))))
+         (should= (str "O| |X  |2| \n"
+                       "-+-+- -+-+-\n"
+                       " |O|  4| |6\n"
+                       "-+-+- -+-+-\n"
+                       " |X|  7| |9\n"))))
 
-  (it "decorates the grid"
-    (->> (new-grid 3)
-         render-grid
-         decorate-grid
-         (should= (str " | |  1|2|3\n"
-                       "-+-+- -+-+-\n"
-                       " | |  4|5|6\n"
-                       "-+-+- -+-+-\n"
-                       " | |  7|8|9\n"))))
   )
