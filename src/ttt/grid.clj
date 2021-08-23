@@ -1,8 +1,9 @@
 (ns ttt.grid
   (:require [clojure.set :as set]))
 
-(defn other [mark]
-  (if (= mark :X) :O :X))
+(def other
+  {:X :O
+   :O :X})
 
 (defn- diagonal [rows]
   (loop [row 0, col 0, result []]
