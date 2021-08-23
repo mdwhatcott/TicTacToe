@@ -11,6 +11,4 @@
         player     :X
         player1-in (human/suggest terminal/prompt)
         player2-in ai/suggest]
-    (println
-      "winner: "
-      (game/play presenter grid player player1-in player2-in))))
+    (game/play presenter grid player player1-in player2-in)))
