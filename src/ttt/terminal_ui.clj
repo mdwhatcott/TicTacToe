@@ -11,10 +11,9 @@
     (read-line)))
 
 (defn render-grid [grid]
-  (let [slots (->> (g/capacity grid)
-                   range
-                   (map #(get (:filled-by-cell grid) % " "))
-                   (apply str))]
+  (let [slots (->> (range (g/capacity grid))
+                   (map #(get (:filled-by-cell grid) %))
+                   (map {nil " ", :X "X", :O "O"}))]
     (str
       (format "%s|%s|%s\n" (nth slots 0) (nth slots 1) (nth slots 2))
       (format "%s+%s+%s\n" "-" "-" "-")

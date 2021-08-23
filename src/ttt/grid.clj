@@ -2,8 +2,8 @@
   (:require [clojure.set :as set]))
 
 (def _ nil)
-(def X "X")                                                 ;; TODO: consider using :X instead
-(def O "O")                                                 ;; TODO: consider using :O instead
+(def X :X)
+(def O :O)
 
 (defn other [mark]
   (if (= mark X) O X))
@@ -29,9 +29,14 @@
     {:empty-cells    (set (range capacity))
      :row-count      width
      :col-count      width
+
+     ; {1 :X, 2 :O}
      :filled-by-cell {}
-     :filled-by-mark {X #{}
-                      O #{}}
+
+     ; {:X #{0 3 8}, :O #{2 5 7}}
+     :filled-by-mark {:X #{}
+                      :O #{}}
+
      :wins           wins}))
 
 (defn capacity [grid]
