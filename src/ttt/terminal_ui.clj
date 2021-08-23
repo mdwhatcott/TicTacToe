@@ -45,7 +45,9 @@
               (nth slots 8)
               (cell-hint 7 (nth slots 6))
               (cell-hint 8 (nth slots 7))
-              (cell-hint 9 (nth slots 8))))))
+              (cell-hint 9 (nth slots 8)))
+      (when (:game-over? grid)
+        (format "\nWinner: %s\n" (characters (:winner grid)))))))
 
 (defn print-grid [grid]
   (println (render-grid grid)))
