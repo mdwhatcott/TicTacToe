@@ -288,14 +288,14 @@
   (context "Win Detection"
     (for [grid no-winners]
       (it (str "identifies non-winning conditions " (render grid))
-        (should= nil (winner (vector->grid grid)))))
+        (should= nil (:winner (vector->grid grid)))))
 
     (for [grid winners-x]
       (it (str "identifies winning conditions for X " (render grid))
-        (should= X (winner (vector->grid grid)))))
+        (should= X (:winner (vector->grid grid)))))
 
     (for [grid winners-o]
       (it (str "identifies winning conditions for O " (render grid))
-        (should= O (winner (vector->grid grid)))))
+        (should= O (:winner (vector->grid grid)))))
     )
   )

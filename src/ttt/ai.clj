@@ -5,7 +5,7 @@
 
 (defn minimax [grid depth is-max? mark]
   (let [open-cells (:empty-cells grid)
-        game-won?  (boolean (winner grid))
+        game-won?  (boolean (:winner grid))
         game-tied? (empty? open-cells)]
     (cond
       (> depth max-depth) 0
