@@ -159,6 +159,8 @@
   (context "Upon Construction (3X3)"
     (it "contains metadata to facilitate book-keeping"
       (let [grid (new-grid 3)]
+        (should= false (:game-over? grid))
+        (should= nil (:winner grid))
         (should= 3 (:row-count grid))
         (should= 3 (:col-count grid))
         (should= #{0 1 2 3 4 5 6 7 8} (:empty-cells grid))
@@ -193,9 +195,12 @@
   (context "Upon Construction (4X4)"
     (it "contains metadata to facilitate book-keeping"
       (let [grid (new-grid 4)]
+        (should= false (:game-over? grid))
+        (should= nil (:winner grid))
         (should= 4 (:row-count grid))
         (should= 4 (:col-count grid))
-        (should= #{0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15} (:empty-cells grid))
+        (should= #{0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15}
+                 (:empty-cells grid))
         (should= {} (:filled-by-cell grid))
         (should= {X #{}
                   O #{}} (:filled-by-mark grid))))
@@ -237,9 +242,23 @@
     (it "manages book-keeping associated with placements"
       (let [grid    (new-grid 3)
             updated (place X 0 grid)]
+        (should= false (:game-over? grid))
+        (should= nil (:winner grid))
         (should= {X #{0} O #{}} (:filled-by-mark updated))
         (should= {0 X} (:filled-by-cell updated))
         (should= #{1 2 3 4 5 6 7 8} (:empty-cells updated))))
+
+    (it "detects game-over conditions with each placement"
+      (let [grid    (vector->grid [_ O O
+                                   _ X X
+                                   _ _ _])
+            updated (place O 0 grid)]
+
+        (should= false (:game-over? grid))
+        (should= true (:game-over? updated))
+
+        (should= nil (:winner grid))
+        (should= O (:winner updated))))
 
     (it "rejects out-of-bounds placements (too low)"
       (let [grid    (new-grid 3)
@@ -257,12 +276,19 @@
             updated-o (place O 1 updated-x)]
         (should= {X #{1} O #{}} (:filled-by-mark updated-o))
         (should= {1 X} (:filled-by-cell updated-o))))
+
+    (it "rejects placements after the game is over"
+      (let [grid    (vector->grid [O O O
+                                   X _ X
+                                   _ _ _])
+            updated (place X 4 grid)]
+        (should= grid updated)))
     )
 
   (context "Win Detection"
     (for [grid no-winners]
       (it (str "identifies non-winning conditions " (render grid))
-        (should-be-nil (winner (vector->grid grid)))))
+        (should= nil (winner (vector->grid grid)))))
 
     (for [grid winners-x]
       (it (str "identifies winning conditions for X " (render grid))

@@ -4,6 +4,9 @@
 (def _ nil)
 (def X :X)
 (def O :O)
+; TODO: update references from X to :X?
+; TODO: update references from O to :O?
+; TODO: move _, X and O back to tests
 
 (defn other [mark]
   (if (= mark X) O X))
@@ -35,7 +38,9 @@
                       (diagonal (reverse cols))]
         wins         (map set (concat rows cols diagonals))
         wins-by-cell (wins-by-cell capacity wins)]
-    {:empty-cells    (set (range capacity))
+    {:game-over?     false
+     :winner         nil
+     :empty-cells    (set (range capacity))
      :row-count      width
      :col-count      width
 
@@ -50,6 +55,7 @@
      ;  1 [#{0 1 2} #{1 4 7}]          ; all wins 1 is part of, etc..
      :wins-by-cell   wins-by-cell
 
+     ; DEPRECATED (TODO: remove)
      :wins           wins}))
 
 (defn capacity [grid]
@@ -63,8 +69,14 @@
   (or (< on 0)
       (>= on (capacity grid))))
 
+(defn- winner? [marks combinations]
+  (let [is-win?         (fn [combo] (set/superset? marks combo))
+        failed-attempts (take-while #(not (is-win? %)) combinations)]
+    (< (count failed-attempts) (count combinations))))
+
 (defn place [mark on grid]
-  (cond (nil? mark) grid
+  (cond (:game-over? grid) grid
+        (nil? mark) grid
         (out-of-bounds? on grid) grid
         (already-placed? on grid) grid
         :else
@@ -73,16 +85,17 @@
 
               filled-by-mark  (assoc old-by-mark mark (conj old-cells on))
               filled-by-cells (assoc (:filled-by-cell grid) on mark)
-              empty-cells     (disj (:empty-cells grid) on)]
+              empty-cells     (disj (:empty-cells grid) on)
+
+              wins-for-cell   (get-in grid [:wins-by-cell on])
+              is-winner?      (winner? (filled-by-mark mark) wins-for-cell)
+              winner          (if is-winner? mark nil)]
           (-> grid
               (assoc :filled-by-mark filled-by-mark
                      :filled-by-cell filled-by-cells
-                     :empty-cells empty-cells)))))
-
-(defn- winner? [marks combinations]
-  (let [is-win?         (fn [combo] (set/superset? marks combo))
-        failed-attempts (take-while #(not (is-win? %)) combinations)]
-    (< (count failed-attempts) (count combinations))))
+                     :empty-cells empty-cells
+                     :game-over? is-winner?
+                     :winner winner)))))
 
 ;; DEPRECATED (TODO: remove)
 ;; Possible optimization: if grid keeps track of the
