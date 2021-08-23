@@ -4,8 +4,7 @@
 (defn tick [{:keys [grid mark player1 player2] :as game-state}]
   (let [next-grid  (place mark (player1 mark grid) grid)
         winner     (:winner next-grid)
-        game-over? (or (empty? (:empty-cells next-grid))
-                       (boolean winner))]
+        game-over? (:game-over? next-grid)]
     (-> game-state
         (update :mark other)
         (assoc :grid next-grid

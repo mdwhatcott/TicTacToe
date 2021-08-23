@@ -30,6 +30,19 @@
                          " |X|O  7| | \n"
                          "\n"
                          "Winner: O\n"))))
+
+    (it "renders no winner for drawn game"
+      (->> (vector->grid [O X X
+                          X X O
+                          O O X])
+           render-grid
+           (should= (str "O|X|X   | | \n"
+                         "-+-+-  -+-+-\n"
+                         "X|X|O   | | \n"
+                         "-+-+-  -+-+-\n"
+                         "O|O|X   | | \n"
+                         "\n"
+                         "Winner: none\n"))))
     )
 
   (context "4x4 Grids"

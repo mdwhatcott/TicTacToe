@@ -229,7 +229,7 @@
         (should= {0 X} (:filled-by-cell updated))
         (should= #{1 2 3 4 5 6 7 8} (:empty-cells updated))))
 
-    (it "detects game-over conditions with each placement"
+    (it "detects game-over because of winning conditions with each placement"
       (let [grid    (vector->grid [_ O O
                                    _ X X
                                    _ _ _])
@@ -240,6 +240,18 @@
 
         (should= nil (:winner grid))
         (should= O (:winner updated))))
+
+    (it "detects game-over because of drawn game conditions with each placement"
+      (let [grid    (vector->grid [_ X O
+                                   X O O
+                                   X O X])
+            updated (place O 0 grid)]
+
+        (should= false (:game-over? grid))
+        (should= true (:game-over? updated))
+
+        (should= nil (:winner grid))
+        (should= nil (:winner updated))))
 
     (it "rejects out-of-bounds placements (too low)"
       (let [grid    (new-grid 3)

@@ -81,8 +81,9 @@
   (if (= mark " ") (hint-characters (str (inc n))) " "))
 
 (defn render-winner [grid]
-  (if (:game-over? grid)
-    (format "\nWinner: %s\n" (grid-characters (:winner grid))) ""))
+  (cond (not (:game-over? grid)) ""
+        (nil? (:winner grid)) "\nWinner: none\n"
+        :else (format "\nWinner: %s\n" (grid-characters (:winner grid)))))
 
 (defn render-row [[slots hints & _]]
   (str (string/join "|" slots) "  "

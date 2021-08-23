@@ -82,5 +82,5 @@
               (assoc :filled-by-mark filled-by-mark
                      :filled-by-cell filled-by-cells
                      :empty-cells empty-cells
-                     :game-over? is-winner?
+                     :game-over? (or is-winner? (empty? empty-cells))
                      :winner winner)))))
