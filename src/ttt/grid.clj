@@ -53,10 +53,7 @@
 
      ; {0 [#{0 1 2} #{0 3 6} #{0 4 8}] ; all wins 0 is part of
      ;  1 [#{0 1 2} #{1 4 7}]          ; all wins 1 is part of, etc..
-     :wins-by-cell   wins-by-cell
-
-     ; DEPRECATED (TODO: remove)
-     :wins           wins}))
+     :wins-by-cell   wins-by-cell}))
 
 (defn capacity [grid]
   (* (:row-count grid) (:col-count grid)))
@@ -96,18 +93,3 @@
                      :empty-cells empty-cells
                      :game-over? is-winner?
                      :winner winner)))))
-
-;; DEPRECATED (TODO: remove)
-;; Possible optimization: if grid keeps track of the
-;; last move, use it as a reference point and only
-;; search for a win attached to that move.
-(defn winner [grid]
-  (let [combinations (:wins grid)
-        by-marks     (:filled-by-mark grid)
-        x-marks      (by-marks X)
-        o-marks      (by-marks O)
-        x-count      (count x-marks)
-        o-count      (count o-marks)]
-    (cond (and (>= x-count 3) (winner? x-marks combinations)) X
-          (and (>= o-count 3) (winner? o-marks combinations)) O
-          :else nil)))
