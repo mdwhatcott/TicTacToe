@@ -10,7 +10,7 @@
     ; TODO: handle bad input
     (read-line)))
 
-(defn cell-hint [n mark]
+(defn- cell-hint [n mark]
   (if (= mark " ") (str n) " "))
 
 (def characters
