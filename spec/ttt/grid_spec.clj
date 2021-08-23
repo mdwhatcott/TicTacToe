@@ -151,7 +151,9 @@
              (place (first v) on grid)))))
 
 (defn render [grid]
-  (apply str (map #(if (nil? %) "-" %) grid)))
+  (->> grid
+       (map {nil "-" :X "X" :O "O"})
+       (apply str)))
 
 (describe "Grid Data Structure"
   (context "Upon Construction (3X3)"
