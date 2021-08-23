@@ -19,13 +19,22 @@
   (for [column (range (count rows))]
     (map #(nth % column) rows)))
 
+(defn- all-wins-for-cell [cell all-wins]
+  (filter #(contains? % cell) all-wins))
+
+(defn- wins-by-cell [capacity wins]
+  (let [keys   (range capacity)
+        values (map #(all-wins-for-cell % wins) keys)]
+    (zipmap keys values)))
+
 (defn new-grid [width]
-  (let [capacity  (* width width)
-        rows      (partition width (range capacity))
-        cols      (rows->columns rows)
-        diagonals [(diagonal rows)
-                   (diagonal (reverse cols))]
-        wins      (map set (concat rows cols diagonals))]
+  (let [capacity     (* width width)
+        rows         (partition width (range capacity))
+        cols         (rows->columns rows)
+        diagonals    [(diagonal rows)
+                      (diagonal (reverse cols))]
+        wins         (map set (concat rows cols diagonals))
+        wins-by-cell (wins-by-cell capacity wins)]
     {:empty-cells    (set (range capacity))
      :row-count      width
      :col-count      width
@@ -36,6 +45,10 @@
      ; {:X #{0 3 8}, :O #{2 5 7}}
      :filled-by-mark {:X #{}
                       :O #{}}
+
+     ; {0 [#{0 1 2} #{0 3 6} #{0 4 8}] ; all wins 0 is part of
+     ;  1 [#{0 1 2} #{1 4 7}]          ; all wins 1 is part of, etc..
+     :wins-by-cell   wins-by-cell
 
      :wins           wins}))
 
@@ -71,6 +84,7 @@
         failed-attempts (take-while #(not (is-win? %)) combinations)]
     (< (count failed-attempts) (count combinations))))
 
+;; DEPRECATED (TODO: remove)
 ;; Possible optimization: if grid keeps track of the
 ;; last move, use it as a reference point and only
 ;; search for a win attached to that move.
