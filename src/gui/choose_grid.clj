@@ -24,8 +24,8 @@
   (let [{:keys [text-size welcome-text what-size-text grid3x3 grid4x4]}
         (get-in state [:screen-anchors :choose-grid])]
 
-    (c/text (:x welcome-text) (:y welcome-text) text-size "Welcome to Tic-Tac-Toe!")
-    (c/text (:x what-size-text) (:y what-size-text) text-size "What size grid?")
+    (c/render-text (:x welcome-text) (:y welcome-text) text-size "Welcome to Tic-Tac-Toe!")
+    (c/render-text (:x what-size-text) (:y what-size-text) text-size "What size grid?")
 
     (c/render-grid 2 3 (:p1 grid3x3) (:p2 grid3x3))
     (c/render-grid 2 4 (:p1 grid4x4) (:p2 grid4x4))))

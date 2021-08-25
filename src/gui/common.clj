@@ -4,7 +4,7 @@
 (def screen-width 500)
 (def background-color 240)
 
-(defn text [x y size text]
+(defn render-text [x y size text]
   (q/fill 0)
   (q/text-size size)
   (q/text text x y))
