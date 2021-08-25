@@ -7,15 +7,15 @@
   (context "Screen Transitions"
 
     (it "maintains current screen when no transition was requested"
-      (let [state   {:current-screen :choose-grid}
+      (let [state   {:screen :choose-grid}
             updated (update-root state)]
         (should= state updated)))
 
     (it "transitions to the next screen when a transition is requested"
-      (let [state   {:current-screen :choose-grid
-                     :transition     :value-not-important}
+      (let [state   {:screen     :choose-grid
+                     :transition :value-not-important}
             updated (update-root state)]
-        (should= (transitions (:current-screen state)) (:current-screen updated)))))
+        (should= (transitions (:screen state)) (:screen updated)))))
 
   (it "initializes brand new state for next game"
     (let [game-over-state {}
