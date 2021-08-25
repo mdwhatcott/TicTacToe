@@ -20,6 +20,10 @@
      :grid3x3              {:p1 (first grid3x3-bounds) :p2 (second grid3x3-bounds)}
      :grid4x4              {:p1 (first grid4x4-bounds) :p2 (second grid4x4-bounds)}}))
 
+(def line-thickness 2)
+(def row-count-3x3 3)
+(def row-count-4x4 4)
+
 (defn draw [state]
   (let [{:keys [text-size welcome-text what-size-text grid3x3 grid4x4]}
         (get-in state [:screen-anchors :choose-grid])]
@@ -27,5 +31,5 @@
     (c/render-text (:x welcome-text) (:y welcome-text) text-size "Welcome to Tic-Tac-Toe!")
     (c/render-text (:x what-size-text) (:y what-size-text) text-size "What size grid?")
 
-    (c/render-grid 2 3 (:p1 grid3x3) (:p2 grid3x3))
-    (c/render-grid 2 4 (:p1 grid4x4) (:p2 grid4x4))))
+    (c/render-grid line-thickness row-count-3x3 (:p1 grid3x3) (:p2 grid3x3))
+    (c/render-grid line-thickness row-count-4x4 (:p1 grid4x4) (:p2 grid4x4))))
