@@ -12,13 +12,8 @@
 
 (defn setup-root []
   {:screen    :choose-grid
-   :screens   {:choose-grid       {:anchors   (choose-grid/calculate-anchors c/screen-width)
-                                   :hovering  nil
-                                   :selection nil}
-               :configure-players {:anchors   (configure-player/calculate-anchors c/screen-width)
-                                   :player    1
-                                   :hovering  nil
-                                   :selection nil}}
+   :screens   {:choose-grid       (choose-grid/calculate-anchors c/screen-width)
+               :configure-players (configure-player/calculate-anchors c/screen-width)}
    :game-grid nil
    :player1   nil
    :player2   nil})

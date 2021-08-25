@@ -4,7 +4,7 @@
             [ttt.grid :as grid]))
 
 (defn update [state]
-  (let [anchors      (get-in state [:screens :choose-grid :anchors])
+  (let [anchors      (get-in state [:screens :choose-grid])
         box3x3       (get anchors :box3x3)
         box4x4       (get anchors :box4x4)
         mx           (q/mouse-x)
@@ -15,9 +15,9 @@
     (cond
       (and hovering3x3? clicked?) (assoc state :game-grid (grid/new-grid 3) :transition true)
       (and hovering4x4? clicked?) (assoc state :game-grid (grid/new-grid 4) :transition true)
-      hovering3x3? (assoc-in state [:screens :choose-grid :hovering] :3x3)
-      hovering4x4? (assoc-in state [:screens :choose-grid :hovering] :4x4)
-      :else (assoc-in state [:screens :choose-grid :hovering] nil))))
+      hovering3x3? (assoc state :hovering :3x3)
+      hovering4x4? (assoc state :hovering :4x4)
+      :else (dissoc state :hovering))))
 
 (defn calculate-anchors [screen-width]
   (let [center         (/ screen-width 2)
@@ -43,9 +43,8 @@
 (def row-count-4x4 4)
 
 (defn draw [state]
-  (let [this     (get-in state [:screens :choose-grid])
-        hovering (get this :hovering)
-        anchors  (get this :anchors)
+  (let [hovering (get state :hovering)
+        anchors  (get-in state [:screens :choose-grid])
         {:keys [text-size welcome-text what-size-text
                 box3x3 box4x4
                 grid3x3 grid4x4]} anchors]
