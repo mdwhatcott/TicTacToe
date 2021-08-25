@@ -42,7 +42,7 @@
    :arena             nil})
 
 (defn draw-root [state]
-  (q/frame-rate 30)
+  (q/frame-rate 15)
   (q/background c/background-color)
   ((drawings (:screen state)) state))
 
