@@ -9,6 +9,14 @@
   (q/text-size size)
   (q/text text x y))
 
+(defn render-rectangle [color [[x1 y1] [x2 y2]]]
+  (q/fill color)
+  (q/rect x1 y1 (- x2 x1) (- y2 y1)))
+
+(defn bounded? [[x y] [[x1 y1] [x2 y2]]]
+  (and (> x x1) (< x x2)
+       (> y y1) (< y y2)))
+
 (defn bounding-box [[x y] width]
   (let [half (/ width 2)
         x1   (- x half)

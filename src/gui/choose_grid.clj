@@ -1,11 +1,26 @@
 (ns gui.choose-grid
   (:require [quil.core :as q]
-            [gui.common :as c]))
+            [gui.common :as c]
+            [ttt.grid :as grid]))
 
 (defn update [state]
-  ; if selected? initialize grid, delete  and transition
+  (let [anchors      (get-in state [:screens :choose-grid :anchors])
+        box3x3       (get anchors :box3x3)
+        box4x4       (get anchors :box4x4)
+        mx           (q/mouse-x)
+        my           (q/mouse-y)
+        clicked?     (q/mouse-pressed?)
+        hovering3x3? (c/bounded? [mx my] box3x3)
+        hovering4x4? (c/bounded? [mx my] box4x4)]
+    (cond
+      (and hovering3x3? clicked?) (assoc state :game-grid (grid/new-grid 3) :transition true)
+      (and hovering4x4? clicked?) (assoc state :game-grid (grid/new-grid 4) :transition true)
+      hovering3x3? (assoc-in state [:screens :choose-grid :hovering] :3x3)
+      hovering4x4? (assoc-in state [:screens :choose-grid :hovering] :4x4)
+      :else (assoc-in state [:screens :choose-grid :hovering] nil)))
+  ; if selected? initialize :game-grid, delete :screens :choose-grid and indicate :transition
   ; if hovering? save side on state
-  state)
+  )
 
 (defn calculate-anchors [screen-width]
   (let [center         (/ screen-width 2)
@@ -14,24 +29,35 @@
         height         screen-width
         grid3x3-center [half (+ center half)]
         grid3x3-bounds (c/bounding-box grid3x3-center (/ width 3))
+        box3x3-bounds  (c/bounding-box grid3x3-center (/ width 2))
         grid4x4-center [(+ center half) (+ center half)]
-        grid4x4-bounds (c/bounding-box grid4x4-center (/ width 3))]
-    {:text-size            (/ height 24)
-     :welcome-text         {:x (/ width 4) :y (/ height 10)}
-     :what-size-text       {:x (/ width 3) :y (/ height 3)}
-     :grid3x3              {:p1 (first grid3x3-bounds) :p2 (second grid3x3-bounds)}
-     :grid4x4              {:p1 (first grid4x4-bounds) :p2 (second grid4x4-bounds)}}))
+        grid4x4-bounds (c/bounding-box grid4x4-center (/ width 3))
+        box4x4-bounds  (c/bounding-box grid4x4-center (/ width 2))]
+    {:text-size      (/ height 24)
+     :welcome-text   {:x (/ width 4) :y (/ height 10)}
+     :what-size-text {:x (/ width 3) :y (/ height 3)}
+     :box3x3         box3x3-bounds
+     :box4x4         box4x4-bounds
+     :grid3x3        {:p1 (first grid3x3-bounds) :p2 (second grid3x3-bounds)}
+     :grid4x4        {:p1 (first grid4x4-bounds) :p2 (second grid4x4-bounds)}}))
 
 (def line-thickness 2)
 (def row-count-3x3 3)
 (def row-count-4x4 4)
 
 (defn draw [state]
-  (let [{:keys [text-size welcome-text what-size-text grid3x3 grid4x4]}
-        (get-in state [:screens :choose-grid :anchors])]
+  (let [this     (get-in state [:screens :choose-grid])
+        hovering (get this :hovering)
+        anchors  (get this :anchors)
+        {:keys [text-size welcome-text what-size-text
+                box3x3 box4x4
+                grid3x3 grid4x4]} anchors]
 
     (c/render-text (:x welcome-text) (:y welcome-text) text-size "Welcome to Tic-Tac-Toe!")
     (c/render-text (:x what-size-text) (:y what-size-text) text-size "What size grid?")
+
+    (cond (= :3x3 hovering) (c/render-rectangle 200 box3x3)
+          (= :4x4 hovering) (c/render-rectangle 200 box4x4))
 
     (c/render-grid line-thickness row-count-3x3 (:p1 grid3x3) (:p2 grid3x3))
     (c/render-grid line-thickness row-count-4x4 (:p1 grid4x4) (:p2 grid4x4))))
