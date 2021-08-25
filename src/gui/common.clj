@@ -2,7 +2,9 @@
   (:require [quil.core :as q]))
 
 (def screen-width 500)
+(def text-size (/ screen-width 24))
 (def background-color 240)
+(def highlight-color 200)
 
 (defn render-text [x y size text]
   (q/fill 0)

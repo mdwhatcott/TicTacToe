@@ -30,8 +30,7 @@
         grid4x4-center [(+ center half) (+ center half)]
         grid4x4-bounds (c/bounding-box grid4x4-center (/ width 3))
         box4x4-bounds  (c/bounding-box grid4x4-center (/ width 2))]
-    {:text-size      (/ height 24)
-     :welcome-text   {:x (/ width 4) :y (/ height 10)}
+    {:welcome-text   {:x (/ width 4) :y (/ height 10)}
      :what-size-text {:x (/ width 3) :y (/ height 3)}
      :box3x3         box3x3-bounds
      :box4x4         box4x4-bounds
@@ -45,15 +44,15 @@
 (defn draw [state]
   (let [hovering (get state :hovering)
         anchors  (get-in state [:screens :choose-grid])
-        {:keys [text-size welcome-text what-size-text
+        {:keys [welcome-text what-size-text
                 box3x3 box4x4
                 grid3x3 grid4x4]} anchors]
 
-    (c/render-text (:x welcome-text) (:y welcome-text) text-size "Welcome to Tic-Tac-Toe!")
-    (c/render-text (:x what-size-text) (:y what-size-text) text-size "What size grid?")
+    (c/render-text (:x welcome-text) (:y welcome-text) c/text-size "Welcome to Tic-Tac-Toe!")
+    (c/render-text (:x what-size-text) (:y what-size-text) c/text-size "What size grid?")
 
-    (cond (= :3x3 hovering) (c/render-rectangle 200 box3x3)
-          (= :4x4 hovering) (c/render-rectangle 200 box4x4))
+    (cond (= :3x3 hovering) (c/render-rectangle c/highlight-color box3x3)
+          (= :4x4 hovering) (c/render-rectangle c/highlight-color box4x4))
 
     (c/render-grid line-thickness row-count-3x3 (:p1 grid3x3) (:p2 grid3x3))
     (c/render-grid line-thickness row-count-4x4 (:p1 grid4x4) (:p2 grid4x4))))
