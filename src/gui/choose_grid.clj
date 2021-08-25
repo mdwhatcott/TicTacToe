@@ -17,10 +17,7 @@
       (and hovering4x4? clicked?) (assoc state :game-grid (grid/new-grid 4) :transition true)
       hovering3x3? (assoc-in state [:screens :choose-grid :hovering] :3x3)
       hovering4x4? (assoc-in state [:screens :choose-grid :hovering] :4x4)
-      :else (assoc-in state [:screens :choose-grid :hovering] nil)))
-  ; if selected? initialize :game-grid, delete :screens :choose-grid and indicate :transition
-  ; if hovering? save side on state
-  )
+      :else (assoc-in state [:screens :choose-grid :hovering] nil))))
 
 (defn calculate-anchors [screen-width]
   (let [center         (/ screen-width 2)
