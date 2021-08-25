@@ -26,7 +26,7 @@
 
 (defn draw [state]
   (let [{:keys [text-size welcome-text what-size-text grid3x3 grid4x4]}
-        (get-in state [:screen-anchors :choose-grid])]
+        (get-in state [:screens :choose-grid :anchors])]
 
     (c/render-text (:x welcome-text) (:y welcome-text) text-size "Welcome to Tic-Tac-Toe!")
     (c/render-text (:x what-size-text) (:y what-size-text) text-size "What size grid?")

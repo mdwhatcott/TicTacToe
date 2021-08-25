@@ -14,10 +14,16 @@
 
 (defn setup-root []
   {:current-screen :choose-grid
-   :screen-anchors {:choose-grid      (choose-grid/calculate-anchors c/screen-width)
-                    :configure-player (configure-player/calculate-anchors c/screen-width)
-                    :arena            nil
-                    :game-over        nil}})
+   :screens        {:choose-grid       {:anchors   (choose-grid/calculate-anchors c/screen-width)
+                                        :hovering  nil
+                                        :selection nil}
+                    :configure-players {:anchors   (configure-player/calculate-anchors c/screen-width)
+                                        :player    1
+                                        :hovering  nil
+                                        :selection nil}}
+   :game-grid      nil
+   :player1        nil
+   :player2        nil})
 
 (def updates
   {:choose-grid #'choose-grid/update
