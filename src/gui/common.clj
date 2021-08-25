@@ -48,3 +48,8 @@
       (q/line lower-right lower-left)
       (q/line lower-left upper-left))))
 
+(defn process-click [state]
+  (let [ready?   (:ready-to-click? state)
+        pressed? (q/mouse-pressed?)]
+    (assoc state :clicked? (and ready? pressed?)
+                 :ready-to-click? (not pressed?))))
