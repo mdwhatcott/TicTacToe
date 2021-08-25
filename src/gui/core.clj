@@ -7,33 +7,38 @@
 (def transitions
   {:choose-grid :player1
    :player1     :player2
-   :player2     :in-play
-   :in-play     :game-over
+   :player2     :arena
+   :arena       :game-over
    :game-over   :choose-grid})
 
 (defn setup-root []
   {:current-screen :choose-grid
-   :screen-anchors {:choose-grid (choose-grid/calculate-anchors c/screen-width)
-                    :player1     nil
-                    :player2     nil
-                    :in-play     nil
-                    :game-over   nil}})
+   :screen-anchors {:choose-grid      (choose-grid/calculate-anchors c/screen-width)
+                    :configure-player nil
+                    :arena            nil
+                    :game-over        nil}})
 
 (def updates
   {:choose-grid #'choose-grid/update
    :player1     nil
    :player2     nil
-   :in-play     nil
+   :arena       nil
    :game-over   nil})
 
 (defn update-root [state]
-  ((updates (:current-screen state)) state))
+  (let [current-screen (:current-screen state)
+        next-screen    (transitions current-screen)
+        updater        (updates current-screen)
+        updated        (updater state)]
+    (if (contains? updated :transition)
+      (-> updated (dissoc :transition) (assoc :current-screen next-screen))
+      updated)))
 
 (def drawings
   {:choose-grid #'choose-grid/draw
    :player1     nil
    :player2     nil
-   :in-play     nil
+   :arena       nil
    :game-over   nil})
 
 (defn draw-root [state]
