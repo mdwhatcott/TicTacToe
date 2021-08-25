@@ -2,7 +2,8 @@
   (:require [quil.core :as q]
             [quil.middleware :as m]
             [gui.common :as c]
-            [gui.choose-grid :as choose-grid]))
+            [gui.choose-grid :as choose-grid]
+            [gui.configure-player :as configure-player]))
 
 (def transitions
   {:choose-grid :player1
@@ -14,14 +15,14 @@
 (defn setup-root []
   {:current-screen :choose-grid
    :screen-anchors {:choose-grid      (choose-grid/calculate-anchors c/screen-width)
-                    :configure-player nil
+                    :configure-player (configure-player/calculate-anchors c/screen-width)
                     :arena            nil
                     :game-over        nil}})
 
 (def updates
   {:choose-grid #'choose-grid/update
-   :player1     nil
-   :player2     nil
+   :player1     (configure-player/update 1)
+   :player2     (configure-player/update 2)
    :arena       nil
    :game-over   nil})
 
@@ -36,8 +37,8 @@
 
 (def drawings
   {:choose-grid #'choose-grid/draw
-   :player1     nil
-   :player2     nil
+   :player1     (configure-player/draw 1)
+   :player2     (configure-player/draw 2)
    :arena       nil
    :game-over   nil})
 
