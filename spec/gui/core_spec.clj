@@ -17,4 +17,8 @@
             updated (update-root state)]
         (should= (transitions (:current-screen state)) (:current-screen updated)))))
 
+  (it "initializes brand new state for next game"
+    (let [game-over-state {}
+          new-game-state  (update-root game-over-state)]
+      (should= (setup-root) new-game-state)))
   )

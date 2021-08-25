@@ -27,13 +27,15 @@
    :game-over   nil})
 
 (defn update-root [state]
-  (let [current-screen (:current-screen state)
-        next-screen    (transitions current-screen)
-        updater        (updates current-screen)
-        updated        (updater state)]
-    (if (contains? updated :transition)
-      (-> updated (dissoc :transition) (assoc :current-screen next-screen))
-      updated)))
+  (if (empty? state)
+    (setup-root)
+    (let [current-screen (:current-screen state)
+          next-screen    (transitions current-screen)
+          updater        (updates current-screen)
+          updated        (updater state)]
+      (if (contains? updated :transition)
+        (-> updated (dissoc :transition) (assoc :current-screen next-screen))
+        updated))))
 
 (def drawings
   {:choose-grid #'choose-grid/draw
