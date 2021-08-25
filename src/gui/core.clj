@@ -11,12 +11,13 @@
    :arena             :choose-grid})
 
 (defn setup-root []
-  {:screen    :choose-grid
-   :screens   {:choose-grid       (choose-grid/calculate-anchors c/screen-width)
-               :configure-players (configure-player/calculate-anchors c/screen-width)}
-   :game-grid nil
-   :player1   nil
-   :player2   nil})
+  {:transition false
+   :screen     :choose-grid
+   :screens    {:choose-grid       (choose-grid/calculate-anchors c/screen-width)
+                :configure-players (configure-player/calculate-anchors c/screen-width)}
+   :game-grid  nil
+   :player1    nil
+   :player2    nil})
 
 (def updates
   {:choose-grid       #'choose-grid/update
@@ -30,8 +31,9 @@
           next-screen    (transitions current-screen)
           updater        (updates current-screen)
           updated        (updater state)]
-      (if (contains? updated :transition)
-        (-> updated (dissoc :transition) (assoc :screen next-screen))
+      (if (true? (:transition updated))
+        (-> updated (assoc :screen next-screen
+                           :transition false))
         updated))))
 
 (def drawings
