@@ -1,4 +1,4 @@
-(ns gui.configure-player
+(ns gui.configure-players
   (:require [quil.core :as q]
             [gui.common :as c]))
 

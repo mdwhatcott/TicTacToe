@@ -3,7 +3,7 @@
             [quil.middleware :as m]
             [gui.common :as c]
             [gui.choose-grid :as choose-grid]
-            [gui.configure-player :as configure-player]))
+            [gui.configure-players :as configure-player]))
 
 (def transitions
   {:choose-grid :player1
