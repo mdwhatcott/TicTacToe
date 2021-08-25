@@ -6,11 +6,9 @@
             [gui.configure-players :as configure-player]))
 
 (def transitions
-  {:choose-grid :player1
-   :player1     :player2
-   :player2     :arena
-   :arena       :game-over
-   :game-over   :choose-grid})
+  {:choose-grid       :configure-players
+   :configure-players :arena
+   :arena             :choose-grid})
 
 (defn setup-root []
   {:current-screen :choose-grid
@@ -26,11 +24,9 @@
    :player2        nil})
 
 (def updates
-  {:choose-grid #'choose-grid/update
-   :player1     (configure-player/update 1)
-   :player2     (configure-player/update 2)
-   :arena       nil
-   :game-over   nil})
+  {:choose-grid       #'choose-grid/update
+   :configure-players #'configure-player/update
+   :arena             nil})
 
 (defn update-root [state]
   (if (empty? state)
@@ -44,11 +40,9 @@
         updated))))
 
 (def drawings
-  {:choose-grid #'choose-grid/draw
-   :player1     (configure-player/draw 1)
-   :player2     (configure-player/draw 2)
-   :arena       nil
-   :game-over   nil})
+  {:choose-grid       #'choose-grid/draw
+   :configure-players #'configure-player/draw
+   :arena             nil})
 
 (defn draw-root [state]
   (q/frame-rate 30)

@@ -3,6 +3,8 @@
             [gui.common :as c]))
 
 (defn update [state]
+  ; if selected? initialize grid, delete  and transition
+  ; if hovering? save side on state
   state)
 
 (defn calculate-anchors [screen-width]
