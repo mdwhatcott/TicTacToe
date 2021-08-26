@@ -15,10 +15,6 @@
     (it "transitions to the next screen when a transition is requested"
       (let [state   (merge (setup-root) {:transition :value-not-important})
             updated (update-root state)]
-        (should= (transitions (:screen state)) (:screen updated)))))
-
-  (it "initializes brand new state for next game"
-    (let [game-over-state {}
-          new-game-state  (update-root game-over-state)]
-      (should= (setup-root) new-game-state)))
+        (should= (transitions (:screen state)) (:screen updated))))
+    )
   )

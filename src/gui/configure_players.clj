@@ -1,6 +1,7 @@
 (ns gui.configure-players
   (:require [quil.core :as q]
-            [gui.common :as c]))
+            [gui.common :as c]
+            [ttt.ai :as ai]))
 
 (defn update [state]
   (let [state     (c/process-click state)
@@ -39,24 +40,24 @@
      {:text   "     Computer (easy)"
       :anchor (nth text-anchors 2)
       :box    (nth boxes 2)
-      :value  :ai-easy}
+      :value  ai/easy}
 
      {:text   "     Computer (medium)"
       :anchor (nth text-anchors 3)
       :box    (nth boxes 3)
-      :value  :ai-medium}
+      :value  ai/medium}
 
      {:text   "     Computer (hard)"
       :anchor (nth text-anchors 4)
       :box    (nth boxes 4)
-      :value  :ai-hard}]))
+      :value  ai/hard}]))
 
 (defn draw [state]
   (let [boxes (get-in state [:screens :configure-players])]
     (doseq [s (range (count boxes))]
       (let [box (nth boxes s)]
         (when (and (> s 0) (= s (:hovering state)))
-          (c/render-rectangle c/highlight-color (:box box)))
+          (c/render-rectangle c/hovering-color (:box box)))
         (c/render-text (:x (:anchor box))
                        (:y (:anchor box))
                        c/text-size

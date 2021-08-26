@@ -18,6 +18,7 @@
                       :configure-players (configure-players/calculate-anchors c/screen-width)
                       :arena             (arena/calculate-anchors c/screen-width)}
    :game-grid        nil
+   :mark             :X
    :player1          nil
    :player2          nil
    :ready-for-click? true
@@ -29,16 +30,14 @@
    :arena             #'arena/update})
 
 (defn update-root [state]
-  (if (empty? state)
-    (setup-root)
-    (let [current-screen (:screen state)
-          next-screen    (transitions current-screen)
-          updater        (updates current-screen)
-          updated        (updater state)]
-      (if (true? (:transition updated))
-        (-> updated (assoc :screen next-screen
-                           :transition false))
-        updated))))
+  (let [current-screen (:screen state)
+        next-screen    (transitions current-screen)
+        updater        (updates current-screen)
+        updated        (updater state)]
+    (if (true? (:transition updated))
+      (-> updated (assoc :screen next-screen
+                         :transition false))
+      updated)))
 
 (def drawings
   {:choose-grid       #'choose-grid/draw
