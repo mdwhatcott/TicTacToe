@@ -1,5 +1,6 @@
 (ns ttt.game
-  (:require [ttt.grid :refer :all]))
+  (:require
+    [ttt.grid :refer :all]))
 
 (defn tick [{:keys [grid mark player1 player2] :as game-state}]
   (let [next-grid  (place mark (player1 mark grid) grid)

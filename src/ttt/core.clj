@@ -1,9 +1,10 @@
 (ns ttt.core
-  (:require [ttt.grid :as grid]
-            [ttt.human :as human]
-            [ttt.ai :as ai]
-            [ttt.terminal-ui :as terminal]
-            [ttt.game :as game]))
+  (:require
+    [ttt.grid :as grid]
+    [ttt.human :as human]
+    [ttt.ai :as ai]
+    [ttt.terminal-ui :as terminal]
+    [ttt.game :as game]))
 
 (defn initialize-player [mark]
   (let [player (terminal/prompt-player mark)]

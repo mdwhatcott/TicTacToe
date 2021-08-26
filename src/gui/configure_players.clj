@@ -1,6 +1,7 @@
 (ns gui.configure-players
-  (:require [gui.common :as c]
-            [ttt.ai :as ai]))
+  (:require
+    [gui.common :as c]
+    [ttt.ai :as ai]))
 
 (defn update_ [state]
   (let [mx        (get-in state [:mouse :x])

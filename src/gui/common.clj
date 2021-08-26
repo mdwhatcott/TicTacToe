@@ -1,5 +1,6 @@
 (ns gui.common
-  (:require [quil.core :as q]))
+  (:require
+    [quil.core :as q]))
 
 (def screen-width 500)
 (def text-size (/ screen-width 24))
@@ -50,8 +51,8 @@
        :loser?    false})))
 
 (defn draw-x [{:keys [center width]}]
-  (let [x (first center)
-        y (second center)
+  (let [x  (first center)
+        y  (second center)
         x1 (- x (* 0.3 width))
         y1 (- y (* 0.3 width))
         x2 (+ x (* 0.3 width))
@@ -63,8 +64,8 @@
 (defn draw-o [{:keys [center width]}]
   (q/stroke-weight 10)
   (q/fill 255)
-  (let [x (first center)
-        y (second center)
+  (let [x     (first center)
+        y     (second center)
         width (* 0.8 width)]
     (q/ellipse x y width width)))
 

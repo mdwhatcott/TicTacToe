@@ -1,5 +1,6 @@
 (ns ttt.ai
-  (:require [ttt.grid :refer :all]))
+  (:require
+    [ttt.grid :refer :all]))
 
 (defn minimax [grid fmax-depth depth is-max? mark]
   (let [max-depth  (fmax-depth grid)

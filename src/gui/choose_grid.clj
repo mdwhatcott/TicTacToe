@@ -1,6 +1,7 @@
 (ns gui.choose-grid
-  (:require [gui.common :as c]
-            [ttt.grid :as grid]))
+  (:require
+    [gui.common :as c]
+    [ttt.grid :as grid]))
 
 (def rows3x3 3)
 (def rows4x4 4)

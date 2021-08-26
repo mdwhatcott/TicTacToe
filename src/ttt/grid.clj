@@ -1,5 +1,6 @@
 (ns ttt.grid
-  (:require [clojure.set :as set]))
+  (:require
+    [clojure.set :as set]))
 
 (def other
   {:X :O

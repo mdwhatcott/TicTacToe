@@ -1,5 +1,6 @@
 (ns ttt.terminal-ui
-  (:require [clojure.string :as string]))
+  (:require
+    [clojure.string :as string]))
 
 (def grid-characters
   {nil " "

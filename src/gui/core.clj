@@ -1,10 +1,11 @@
 (ns gui.core
-  (:require [quil.core :as q]
-            [quil.middleware :as m]
-            [gui.common :as c]
-            [gui.choose-grid :as choose-grid]
-            [gui.configure-players :as configure-players]
-            [gui.arena :as arena]))
+  (:require
+    [quil.core :as q]
+    [quil.middleware :as m]
+    [gui.common :as c]
+    [gui.choose-grid :as choose-grid]
+    [gui.configure-players :as configure-players]
+    [gui.arena :as arena]))
 
 (def transitions
   {:choose-grid       :configure-players

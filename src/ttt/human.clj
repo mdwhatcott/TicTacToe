@@ -1,6 +1,7 @@
 (ns ttt.human
-  (:require [ttt.grid :refer :all]
-            [clojure.edn :as edn]))
+  (:require
+    [ttt.grid :refer :all]
+    [clojure.edn :as edn]))
 
 (defn suggest [prompt]
   (fn [mark grid]
