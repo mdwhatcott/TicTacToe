@@ -1,4 +1,4 @@
-(ns ttt.game
+(ns tui.game
   (:require
     [ttt.grid :refer :all]))
 

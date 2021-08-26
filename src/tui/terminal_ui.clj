@@ -1,4 +1,4 @@
-(ns ttt.terminal-ui
+(ns tui.terminal-ui
   (:require
     [clojure.string :as string]))
 

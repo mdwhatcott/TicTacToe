@@ -1,9 +1,9 @@
-(ns ttt.game-spec
+(ns tui.game-spec
   (:require
     [speclj.core :refer :all]
-    [ttt.game :refer :all]
     [ttt.grid :refer :all]
-    [ttt.grid-spec :refer :all]))
+    [ttt.grid-spec :refer :all]
+    [tui.game :refer :all]))
 
 (describe "Game Play"
 

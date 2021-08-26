@@ -1,4 +1,4 @@
-(ns ttt.human
+(ns tui.human
   (:require
     [ttt.grid :refer :all]
     [clojure.edn :as edn]))

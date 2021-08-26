@@ -1,9 +1,9 @@
-(ns ttt.terminal-ui-spec
+(ns tui.terminal-ui-spec
   (:require
     [speclj.core :refer :all]
-    [ttt.terminal-ui :refer :all]
     [ttt.grid :refer :all]
-    [ttt.grid-spec :refer :all]))
+    [ttt.grid-spec :refer :all]
+    [tui.terminal-ui :refer :all]))
 
 (describe "Console Rendering"
   (context "3x3 Grids"

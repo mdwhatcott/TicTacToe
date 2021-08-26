@@ -4,7 +4,7 @@
     [ttt.grid :refer :all]
     [ttt.grid-spec :refer :all]
     [ttt.ai :refer :all]
-    [ttt.game :refer :all]))
+    [tui.game :refer :all]))
 
 (describe "AI"
 
