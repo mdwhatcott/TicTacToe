@@ -51,11 +51,11 @@
 
 ;; Concept: start w/ random moves, progress to handicapped minimax, end w/ random moves (to allow possible win)
 (defn medium [mark grid]
-  (cond (> (count (:empty-cells grid)) 10) (random-empty-cell grid)
+  (cond (> (count (:empty-cells grid)) 11) (random-empty-cell grid)
         (< (count (:empty-cells grid)) (dec (/ (:capacity grid) 2))) (random-empty-cell grid)
         :else (do-minimax mark grid (handicap-max-depth 1))))
 
 (defn hard [mark grid]
-  (if (> (count (:empty-cells grid)) 10)
+  (if (> (count (:empty-cells grid)) 11)
     (random-empty-cell grid)
     (do-minimax mark grid max-depth)))
