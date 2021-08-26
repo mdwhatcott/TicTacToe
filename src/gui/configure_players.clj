@@ -24,31 +24,19 @@
                         [screen-width (+ height (* height s))]])
         text-anchors (for [s (range sections)]
                        {:x (/ screen-width 10)
-                        :y (+ (/ height 2) (* height s))})]
-    [{:text   "Configure Player %s:"
-      :anchor (nth text-anchors 0)
-      :box    (nth boxes 0)
-      :value  nil}
+                        :y (+ (/ height 2) (* height s))})
+        texts ["Configure Player %s:"
+               "     Human"
+               "     Computer (easy)"
+               "     Computer (medium)"
+               "     Computer (hard)"]
+        values [nil :human ai/easy ai/medium ai/hard]]
 
-     {:text   "     Human"
-      :anchor (nth text-anchors 1)
-      :box    (nth boxes 1)
-      :value  :human}
-
-     {:text   "     Computer (easy)"
-      :anchor (nth text-anchors 2)
-      :box    (nth boxes 2)
-      :value  ai/easy}
-
-     {:text   "     Computer (medium)"
-      :anchor (nth text-anchors 3)
-      :box    (nth boxes 3)
-      :value  ai/medium}
-
-     {:text   "     Computer (hard)"
-      :anchor (nth text-anchors 4)
-      :box    (nth boxes 4)
-      :value  ai/hard}]))
+    (for [i (range (count boxes))]
+      {:text   (nth texts i)
+       :anchor (nth text-anchors i)
+       :box    (nth boxes i)
+       :value  (nth values i)})))
 
 (defn draw [state]
   (let [boxes (get-in state [:screens :configure-players])]
