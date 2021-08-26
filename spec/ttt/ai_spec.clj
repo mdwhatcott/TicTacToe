@@ -9,6 +9,10 @@
 
   (context "Hard/Unbeatable"
 
+    (it "takes the center if available on the second move"
+      (should= 4 (hard O (vector->grid [X _ _
+                                        _ _ _
+                                        _ _ _]))))
     (it "suggests the only remaining (non-winning) move"
       (should= 8 (hard X (vector->grid [O X X
                                         X O X

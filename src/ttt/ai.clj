@@ -33,7 +33,9 @@
   (let [total-turns     (:capacity grid)
         remaining-turns (count (:empty-cells grid))
         turns-taken     (- total-turns remaining-turns)]
-    (min 5 turns-taken)))
+    (let [empty (count (:empty-cells grid))
+          depth (if (> empty 9) 5 6)]
+      (min depth turns-taken))))
 
 (defn- handicap-max-depth [handicap]
   (fn [grid]
