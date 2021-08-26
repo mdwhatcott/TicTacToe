@@ -79,9 +79,8 @@
               wins-for-cell   (get-in grid [:wins-by-cell on])
               is-winner?      (winner? (filled-by-mark mark) wins-for-cell)
               winner          (if is-winner? mark nil)]
-          (-> grid
-              (assoc :filled-by-mark filled-by-mark
-                     :filled-by-cell filled-by-cells
-                     :empty-cells empty-cells
-                     :game-over? (or is-winner? (empty? empty-cells))
-                     :winner winner)))))
+          (assoc grid :filled-by-mark filled-by-mark
+                      :filled-by-cell filled-by-cells
+                      :empty-cells empty-cells
+                      :game-over? (or is-winner? (empty? empty-cells))
+                      :winner winner))))
