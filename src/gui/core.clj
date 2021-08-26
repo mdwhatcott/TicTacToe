@@ -11,23 +11,33 @@
    :configure-players :arena
    :arena             :choose-grid})
 
+(defn setup-anchors []
+  {:choose-grid
+   (choose-grid/calculate-anchors c/screen-width)
+
+   :configure-players
+   (configure-players/calculate-anchors c/screen-width)
+
+   :arena
+   (arena/calculate-anchors c/screen-width)})
+
 (defn setup-root []
   {:transition       false
    :screen           :choose-grid
-   :screens          {:choose-grid       (choose-grid/calculate-anchors c/screen-width)
-                      :configure-players (configure-players/calculate-anchors c/screen-width)
-                      :arena             (arena/calculate-anchors c/screen-width)}
+   :screens          (setup-anchors)
+
    :game-grid        nil
    :mark             :X
    :player1          nil
    :player2          nil
+
    :ready-for-click? true
    :clicked?         false})
 
 (def updates
-  {:choose-grid       #'choose-grid/update
-   :configure-players #'configure-players/update
-   :arena             #'arena/update})
+  {:choose-grid       choose-grid/update
+   :configure-players configure-players/update
+   :arena             arena/update})
 
 (defn update-root [state]
   (let [current-screen (:screen state)
@@ -40,9 +50,9 @@
       updated)))
 
 (def drawings
-  {:choose-grid       #'choose-grid/draw
-   :configure-players #'configure-players/draw
-   :arena             #'arena/draw})
+  {:choose-grid       choose-grid/draw
+   :configure-players configure-players/draw
+   :arena             arena/draw})
 
 (defn draw-root [state]
   (q/frame-rate 30)
