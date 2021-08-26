@@ -46,7 +46,7 @@
     (get empty-cells (rand-int (count empty-cells)))))
 
 (defn easy [_mark grid]
-  (first (sort (:empty-cells grid))))
+  (random-empty-cell grid))
 
 ;; Concept: start w/ random moves, progress to handicapped minimax, end w/ random moves (to allow possible win)
 (defn medium [mark grid]
