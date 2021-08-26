@@ -1,11 +1,10 @@
 (ns gui.configure-players
-  (:require [quil.core :as q]
-            [gui.common :as c]
+  (:require [gui.common :as c]
             [ttt.ai :as ai]))
 
 (defn update [state]
-  (let [mx        (q/mouse-x)
-        my        (q/mouse-y)
+  (let [mx        (get-in state [:mouse :x])
+        my        (get-in state [:mouse :y])
         clicked?  (get-in state [:mouse :clicked?])
         boxes     (get-in state [:screens :configure-players])
         hovering? (map #(c/bounded? [mx my] (:box %)) boxes)

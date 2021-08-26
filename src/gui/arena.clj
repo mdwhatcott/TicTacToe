@@ -1,6 +1,5 @@
 (ns gui.arena
   (:require
-    [quil.core :as q]
     [gui.common :as c]
     [ttt.grid :as g]))
 
@@ -22,14 +21,14 @@
     (ai-choice game-grid mark player)))
 
 (defn play [state]
-  (let [mx               (q/mouse-x)
-        my               (q/mouse-y)
+  (let [mx               (get-in state [:mouse :x])
+        my               (get-in state [:mouse :y])
+        clicked?         (get-in state [:mouse :clicked?])
         mark             (:mark state)
         player1          (:player1 state)
         player2          (:player2 state)
         game-grid        (:game-grid state)
         gui-cells        (:gui-grid state)
-        clicked?         (get-in state [:mouse :clicked?])
         player           (if (= :X mark) player1 player2)
         game-grid        (place mark player game-grid gui-cells clicked? mx my)
         winner           (:winner game-grid)
