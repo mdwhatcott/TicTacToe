@@ -42,7 +42,7 @@
                                  hovering? (c/bounded? [mx my] (:box cell))
                                  mark-made (nth game-marks i)
                                  cell-mark (if (not hovering?) mark-made (or mark-made mark))
-                                 hovering? (and hovering? (nil? mark-made))
+                                 hovering? (and hovering? (nil? mark-made) (= player :human))
                                  winner?   (and (some? winner) (= winner mark-made))
                                  loser?    (and (some? winner) (not= winner mark-made))
                                  tied?     (and game-over? (not winner?) (not loser?))]
