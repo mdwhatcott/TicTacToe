@@ -61,7 +61,7 @@
                :player2 nil
                :game-grid nil))
 
-(defn update [state]
+(defn update_ [state]
   (let [clicked?   (get-in state [:mouse :clicked?])
         game-over? (get-in state [:game-grid :game-over?])]
     (cond

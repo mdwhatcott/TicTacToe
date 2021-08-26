@@ -39,9 +39,9 @@
    :clicked?         false})
 
 (def updates
-  {:choose-grid       choose-grid/update
-   :configure-players configure-players/update
-   :arena             arena/update})
+  {:choose-grid       choose-grid/update_
+   :configure-players configure-players/update_
+   :arena             arena/update_})
 
 (defn update-screen [state]
   (let [current-screen (:screen state)

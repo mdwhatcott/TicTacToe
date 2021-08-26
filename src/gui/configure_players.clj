@@ -2,7 +2,7 @@
   (:require [gui.common :as c]
             [ttt.ai :as ai]))
 
-(defn update [state]
+(defn update_ [state]
   (let [mx        (get-in state [:mouse :x])
         my        (get-in state [:mouse :y])
         clicked?  (get-in state [:mouse :clicked?])

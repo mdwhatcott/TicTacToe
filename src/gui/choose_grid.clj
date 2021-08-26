@@ -11,7 +11,7 @@
                  :gui-grid (c/assemble-grid-cells rows [0 0] [screen-width screen-width])
                  :transition true)))
 
-(defn update [state]
+(defn update_ [state]
   (let [anchors      (get-in state [:screens :choose-grid])
         box3x3       (get anchors :box3x3)
         box4x4       (get anchors :box4x4)
