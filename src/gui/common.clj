@@ -103,8 +103,9 @@
   (let [cells (assemble-grid-cells row-count upper-left lower-right)]
     (render-grid-cells thickness cells)))
 
-(defn process-click [state]
-  (let [ready?   (:ready-to-click? state)
+(defn process-mouse [state]
+  (let [ready?   (get-in state [:mouse :ready-to-click])
         pressed? (q/mouse-pressed?)]
-    (assoc state :clicked? (and ready? pressed?)
-                 :ready-to-click? (not pressed?))))
+    (-> state
+        (assoc-in [:mouse :clicked?] (and ready? pressed?))
+        (assoc-in [:mouse :ready-to-click] (not pressed?)))))

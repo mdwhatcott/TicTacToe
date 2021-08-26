@@ -13,13 +13,12 @@
                  :transition true)))
 
 (defn update [state]
-  (let [state        (c/process-click state)
-        anchors      (get-in state [:screens :choose-grid])
+  (let [anchors      (get-in state [:screens :choose-grid])
         box3x3       (get anchors :box3x3)
         box4x4       (get anchors :box4x4)
         mx           (q/mouse-x)
         my           (q/mouse-y)
-        clicked?     (:clicked? state)
+        clicked?     (get-in state [:mouse :clicked?])
         hovering3x3? (c/bounded? [mx my] box3x3)
         hovering4x4? (c/bounded? [mx my] box4x4)]
     (cond

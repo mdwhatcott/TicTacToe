@@ -4,10 +4,9 @@
             [ttt.ai :as ai]))
 
 (defn update [state]
-  (let [state     (c/process-click state)
-        mx        (q/mouse-x)
+  (let [mx        (q/mouse-x)
         my        (q/mouse-y)
-        clicked?  (:clicked? state)
+        clicked?  (get-in state [:mouse :clicked?])
         boxes     (get-in state [:screens :configure-players])
         hovering? (map #(c/bounded? [mx my] (:box %)) boxes)
         indexed   (map-indexed vector hovering?)

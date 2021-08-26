@@ -29,7 +29,7 @@
         player2          (:player2 state)
         game-grid        (:game-grid state)
         gui-cells        (:gui-grid state)
-        clicked?         (:clicked? state)
+        clicked?         (get-in state [:mouse :clicked?])
         player           (if (= :X mark) player1 player2)
         game-grid        (place mark player game-grid gui-cells clicked? mx my)
         winner           (:winner game-grid)
@@ -63,8 +63,7 @@
                :game-grid nil))
 
 (defn update [state]
-  (let [state      (c/process-click state)
-        clicked?   (:clicked? state)
+  (let [clicked?   (get-in state [:mouse :clicked?])
         game-over? (get-in state [:game-grid :game-over?])]
     (cond
       (and game-over? clicked?) (reset state)

@@ -31,6 +31,10 @@
    :player1          nil
    :player2          nil
 
+   :mouse            {:ready-for-click? true
+                      :clicked          false
+                      :x                nil
+                      :y                nil}
    :ready-for-click? true
    :clicked?         false})
 
@@ -39,7 +43,7 @@
    :configure-players configure-players/update
    :arena             arena/update})
 
-(defn update-root [state]
+(defn update-screen [state]
   (let [current-screen (:screen state)
         next-screen    (transitions current-screen)
         updater        (updates current-screen)
@@ -48,6 +52,9 @@
       (-> updated (assoc :screen next-screen
                          :transition false))
       updated)))
+
+(defn update-root [state]
+  (update-screen (c/process-mouse state)))
 
 (def drawings
   {:choose-grid       choose-grid/draw
