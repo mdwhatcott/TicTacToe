@@ -6,10 +6,15 @@
 (def rows3x3 3)
 (def rows4x4 4)
 
+(defn initialize-grid [state rows]
+  (let [screen-width (get-in state [:screens :choose-grid :screen-width])]
+    (assoc state :game-grid (grid/new-grid rows)
+                 :gui-grid (c/assemble-grid-cells rows [0 0] [screen-width screen-width])
+                 :transition true)))
+
 (defn update [state]
   (let [state        (c/process-click state)
         anchors      (get-in state [:screens :choose-grid])
-        screen-width (get anchors :screen-width)
         box3x3       (get anchors :box3x3)
         box4x4       (get anchors :box4x4)
         mx           (q/mouse-x)
@@ -18,24 +23,10 @@
         hovering3x3? (c/bounded? [mx my] box3x3)
         hovering4x4? (c/bounded? [mx my] box4x4)]
     (cond
-      (and hovering3x3? clicked?)
-      (assoc state :game-grid (grid/new-grid rows3x3)
-                   :gui-grid (c/assemble-grid-cells
-                               rows3x3 [0 0] [screen-width screen-width])
-                   :transition true)
-
-      (and hovering4x4? clicked?)
-      (assoc state :game-grid (grid/new-grid rows4x4)
-                   :gui-grid (c/assemble-grid-cells
-                               rows4x4 [0 0] [screen-width screen-width])
-                   :transition true)
-
-      hovering3x3?
-      (assoc state :hovering :3x3)
-
-      hovering4x4?
-      (assoc state :hovering :4x4)
-
+      (and hovering3x3? clicked?) (initialize-grid state rows3x3)
+      (and hovering4x4? clicked?) (initialize-grid state rows4x4)
+      hovering3x3? (assoc state :hovering :3x3)
+      hovering4x4? (assoc state :hovering :4x4)
       :else (dissoc state :hovering))))
 
 (defn calculate-anchors [screen-width]
@@ -60,8 +51,8 @@
 (def line-thickness 2)
 
 (defn draw [state]
-  (let [hovering (get state :hovering)
-        anchors  (get-in state [:screens :choose-grid])
+  (let [hovered (:hovering state)
+        anchors (get-in state [:screens :choose-grid])
         {:keys [welcome-text what-size-text
                 box3x3 box4x4
                 grid3x3 grid4x4]} anchors]
@@ -69,8 +60,8 @@
     (c/render-text (:x welcome-text) (:y welcome-text) c/text-size "Welcome to Tic-Tac-Toe!")
     (c/render-text (:x what-size-text) (:y what-size-text) c/text-size "What size grid?")
 
-    (cond (= :3x3 hovering) (c/render-rectangle c/hovering-color box3x3)
-          (= :4x4 hovering) (c/render-rectangle c/hovering-color box4x4))
+    (cond (= hovered :3x3) (c/render-rectangle c/hovering-color box3x3)
+          (= hovered :4x4) (c/render-rectangle c/hovering-color box4x4))
 
     (c/render-grid line-thickness rows3x3 (:p1 grid3x3) (:p2 grid3x3))
     (c/render-grid line-thickness rows4x4 (:p1 grid4x4) (:p2 grid4x4))))
