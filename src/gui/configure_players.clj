@@ -53,12 +53,11 @@
 (defn draw [state]
   (let [boxes (get-in state [:screens :configure-players])]
     (doseq [s (range (count boxes))]
-      (let [box (nth boxes s)]
+      (let [box     (nth boxes s)
+            player1 (:player1 state)
+            x       (:x (:anchor box))
+            y       (:y (:anchor box))
+            text    (format (:text box) (if (nil? player1) "X" "O"))]
         (when (and (> s 0) (= s (:hovering state)))
           (c/render-rectangle c/hovering-color (:box box)))
-        (c/render-text (:x (:anchor box))
-                       (:y (:anchor box))
-                       c/text-size
-                       (if (zero? s)
-                         (format (:text box) (if (nil? (:player1 state)) "X" "O"))
-                         (:text box)))))))
+        (c/render-text x y c/text-size text)))))
