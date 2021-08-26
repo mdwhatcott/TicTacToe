@@ -51,14 +51,15 @@
                                         O _ _
                                         _ _ _]))))
 
-    ;; LONG-RUNNING
-    #_(for [first-move (range 9)]
-      (it (format "can't beat itself when starting with X on cell %d" first-move)
-        (should-be-nil
-          (play (fn [_])
-                (place X first-move (new-grid 3))
-                O
-                hard
-                hard)))))
-  )
+    #_(describe "LONG-RUNNING: Hard AI vs. Hard AI"
+      (for [first-move (range 9)]
+        (it (format "can't beat itself when starting with X on cell %d (3x3)" first-move)
+          (should-be-nil
+            (play (fn [_]) (place X first-move (new-grid 3)) O hard hard))))
 
+      #_(for [first-move (range 16)]
+        (it (format "can't beat itself when starting with X on cell %d (4x4)" first-move)
+          (should-be-nil
+            (play (fn [_]) (place X first-move (new-grid 4)) O hard hard)))))
+    )
+  )
