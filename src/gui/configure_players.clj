@@ -17,24 +17,24 @@
         (assoc state :hovering element)))))
 
 (defn calculate-anchors [screen-width]
-  (let [sections     5
-        height       (/ screen-width sections)
-        boxes        (for [s (range sections)]
-                       [[0 (* height s)]
-                        [screen-width (+ height (* height s))]])
-        text-anchors (for [s (range sections)]
-                       {:x (/ screen-width 10)
-                        :y (+ (/ height 2) (* height s))})
-        texts ["Configure Player %s:"
-               "     Human"
-               "     Computer (easy)"
-               "     Computer (medium)"
-               "     Computer (hard)"]
-        values [nil :human ai/easy ai/medium ai/hard]]
+  (let [sections 5
+        height   (/ screen-width sections)
+        boxes    (for [s (range sections)]
+                   [[0 (* height s)]
+                    [screen-width (+ height (* height s))]])
+        anchors  (for [s (range sections)]
+                   {:x (/ screen-width 10)
+                    :y (+ (/ height 2) (* height s))})
+        texts    ["Configure Player %s:"
+                  "     Human"
+                  "     Computer (easy)"
+                  "     Computer (medium)"
+                  "     Computer (hard)"]
+        values   [nil :human ai/easy ai/medium ai/hard]]
 
     (for [i (range (count boxes))]
       {:text   (nth texts i)
-       :anchor (nth text-anchors i)
+       :anchor (nth anchors i)
        :box    (nth boxes i)
        :value  (nth values i)})))
 
