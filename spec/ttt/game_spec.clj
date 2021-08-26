@@ -1,8 +1,9 @@
 (ns ttt.game-spec
-  (:require [speclj.core :refer :all]
-            [ttt.game :refer :all]
-            [ttt.grid :refer :all]
-            [ttt.grid-spec :refer :all]))
+  (:require
+    [speclj.core :refer :all]
+    [ttt.game :refer :all]
+    [ttt.grid :refer :all]
+    [ttt.grid-spec :refer :all]))
 
 (describe "Game Play"
 

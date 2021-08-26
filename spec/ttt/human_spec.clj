@@ -1,10 +1,11 @@
 (ns ttt.human-spec
-  (:require [speclj.core :refer :all]
-            [ttt.human :refer :all]
-            [ttt.grid :refer :all]))
+  (:require
+    [speclj.core :refer :all]
+    [ttt.human :refer :all]
+    [ttt.grid :refer :all]))
 
 (defn fake-prompt [inputs]
-  (fn [mark]
+  (fn [_mark]
     (first inputs)))
 
 (describe "Processing Human Suggestions"

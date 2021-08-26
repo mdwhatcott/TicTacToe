@@ -1,6 +1,7 @@
 (ns ttt.grid-spec
-  (:require [speclj.core :refer :all]
-            [ttt.grid :refer :all]))
+  (:require
+    [speclj.core :refer :all]
+    [ttt.grid :refer :all]))
 
 (def _ nil)
 (def X :X)
