@@ -43,8 +43,6 @@
     (it "recognizes an initial click"
       (let [state   (screen/setup-state 0)
             updated (update-mouse state true 0 0)]
-        (println (:mouse state))
-        (println (:mouse updated))
         (should= true (get-in updated [:mouse :clicked?]))))
 
     (it "only recognizes a click for a single frame/update"
