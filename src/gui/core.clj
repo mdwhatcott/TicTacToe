@@ -57,20 +57,24 @@
                          :transition false))
       updated)))
 
-(defn update-root [state]
-  (update-screen (c/process-mouse state)))
-
 (def drawings
   {:choose-grid       choose-grid/draw
    :configure-players configure-players/draw
    :arena             arena/draw})
 
-(defn draw-root [state]
-  (q/frame-rate 30)
-  (q/background r/background-color)
+(defn draw-screen [state]
   (let [screen (:screen state)
         draw   (drawings screen)]
     (draw state)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn update-root [state]
+  (update-screen (c/process-mouse state)))
+
+(defn draw-root [state]
+  (q/background r/background-color)
+  (draw-screen state))
 
 (declare tic-tac-toe)
 
