@@ -15,6 +15,7 @@
         y2   (+ y half)]
     [[x1 y1] [x2 y2]]))
 
+;; TODO: tests
 (defn assemble-grid-cells [row-count upper-left lower-right]
   (let [[x1 y1] upper-left
         [x2 __] lower-right
@@ -33,6 +34,7 @@
        :winner?   false
        :loser?    false})))
 
+;; TODO: tests
 (defn update-mouse [state pressed? mouse-x mouse-y]
   (let [ready? (get-in state [:mouse :ready-to-click])]
     (-> state

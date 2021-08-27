@@ -62,6 +62,7 @@
                :player2 nil
                :game-grid nil))
 
+;; TODO: test suite
 (defn update_ [state]
   (let [clicked?   (get-in state [:mouse :clicked?])
         game-over? (get-in state [:game-grid :game-over?])]

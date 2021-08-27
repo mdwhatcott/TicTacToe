@@ -29,6 +29,7 @@
    :player1          nil
    :player2          nil
 
+   :gui-grid         nil
    :mouse            {:ready-for-click? true
                       :clicked          false
                       :x                nil
@@ -41,6 +42,7 @@
    :configure-players :arena
    :arena             :choose-grid})
 
+;; TODO: tests
 (defn update_ [state updates-by-screen]
   (let [current-screen (:screen state)
         next-screen    (screen-transitions current-screen)
@@ -51,6 +53,7 @@
                          :transition false))
       updated)))
 
+;; TODO: test
 (defn draw [state drawings-by-screen]
   (let [screen (:screen state)
         drawer (drawings-by-screen screen)]

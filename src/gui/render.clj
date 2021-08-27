@@ -74,4 +74,3 @@
 (defn render-grid [row-count upper-left lower-right]
   (let [cells (c/assemble-grid-cells row-count upper-left lower-right)]
     (render-grid-cells cells)))
-

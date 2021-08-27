@@ -4,6 +4,7 @@
     [gui.render :as r]
     [ttt.ai :as ai]))
 
+;; TODO: test suite
 (defn update_ [state]
   (let [mx        (get-in state [:mouse :x])
         my        (get-in state [:mouse :y])
