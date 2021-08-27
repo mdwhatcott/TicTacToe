@@ -16,6 +16,6 @@
       (it "transitions to the next screen when a transition is requested"
         (let [state   (merge (setup-root) {:transition true})
               updated (update-screen state)]
-          (should= (transitions (:screen state)) (:screen updated))))
+          (should= (screen-transitions (:screen state)) (:screen updated))))
       )
   )

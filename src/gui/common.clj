@@ -33,11 +33,10 @@
        :winner?   false
        :loser?    false})))
 
-(defn process-mouse [state]
-  (let [ready?   (get-in state [:mouse :ready-to-click])
-        pressed? (q/mouse-pressed?)]
+(defn update-mouse [state pressed? mouse-x mouse-y]
+  (let [ready? (get-in state [:mouse :ready-to-click])]
     (-> state
-        (assoc-in [:mouse :x] (q/mouse-x))
-        (assoc-in [:mouse :y] (q/mouse-y))
+        (assoc-in [:mouse :x] mouse-x)
+        (assoc-in [:mouse :y] mouse-y)
         (assoc-in [:mouse :clicked?] (and ready? pressed?))
         (assoc-in [:mouse :ready-to-click] (not pressed?)))))
