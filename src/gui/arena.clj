@@ -14,7 +14,7 @@
   (let [choice (ai mark grid)]
     (place mark choice grid)))
 
-(defn update-game-grid-with-turn [state]
+(defn take-turn [state]
   (let [mx        (get-in state [:mouse :x])
         my        (get-in state [:mouse :y])
         mark      (:mark state)
@@ -75,13 +75,16 @@
                     :loser? loser?
                     :tied? tied?)))))
 
+(defn set-mark-for-upcoming-frame [game-grid]
+  (if (zero? (mod (count (:filled-by-cell game-grid)) 2)) :X :O))
+
 (defn play [state]
   (if (waiting-for-human? state)
     (assoc state :gui-grid (update-gui-grid-with-hovered-cell state))
-    (let [game-grid (update-game-grid-with-turn state)
+    (let [game-grid (take-turn state)
           state     (assoc state :game-grid game-grid)
           gui-grid  (update-gui-grid-with-game-grid state)
-          mark      (if (zero? (mod (count (:filled-by-cell game-grid)) 2)) :X :O)]
+          mark      (set-mark-for-upcoming-frame game-grid)]
       (assoc state :game-grid game-grid
                    :gui-grid gui-grid
                    :mark mark))))
