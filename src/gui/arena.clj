@@ -1,59 +1,93 @@
 (ns gui.arena
   (:require
-    [gui.common :as c]
-    [gui.render :as r]
-    [ttt.grid :as g]))
+    [gui.common :refer [bounded?]]
+    [gui.render :refer [render-grid-cells]]
+    [ttt.grid :as grid]))
 
-(defn human-choice [game-grid gui-grid clicked? mx my mark]
-  (if (or (not clicked?) (< mx 0) (< my 0))
-    game-grid
-    (let [hovering? (map #(c/bounded? [mx my] (:box %)) gui-grid)
-          indexed   (map-indexed vector hovering?)
-          on        (ffirst (drop-while #(not (second %)) indexed))]
-      (g/place mark on game-grid))))
+(defn human-choice [game-grid gui-grid mx my mark]
+  (let [hovering? (map #(bounded? [mx my] (:box %)) gui-grid)
+        indexed   (map-indexed vector hovering?)
+        on        (ffirst (drop-while #(not (second %)) indexed))]
+    (grid/place mark on game-grid)))
 
 (defn ai-choice [grid mark ai]
   (let [choice (ai mark grid)]
-    (g/place mark choice grid)))
+    (grid/place mark choice grid)))
 
-(defn place [mark player game-grid gui-grid clicked? mx my]
+(defn place [mark player game-grid gui-grid mx my]
   (if (= player :human)
-    (human-choice game-grid gui-grid clicked? mx my mark)
+    (human-choice game-grid gui-grid mx my mark)
     (ai-choice game-grid mark player)))
 
+(defn waiting-for-human? [state]
+  (let [mark     (:mark state)
+        player1  (:player1 state)
+        player2  (:player2 state)
+        player   (if (= :X mark) player1 player2)
+        clicked? (get-in state [:mouse :clicked?])]
+    (and (= player :human) (not clicked?))))
+
+(defn update-gui-grid-with-hovered-cell [state]
+  (let [mx         (get-in state [:mouse :x])
+        my         (get-in state [:mouse :y])
+        mark       (:mark state)
+        game-grid  (:game-grid state)
+        gui-cells  (:gui-grid state)
+        capacity   (:capacity game-grid)
+        game-cells (:filled-by-cell game-grid)
+        game-marks (for [i (range capacity)] (get game-cells i))]
+    (for [i (range capacity)]
+      (let [cell      (nth gui-cells i)
+            hovering? (bounded? [mx my] (:box cell))
+            mark-made (nth game-marks i)
+            cell-mark (if (not hovering?) mark-made (or mark-made mark))
+            hovering? (and hovering? (nil? mark-made))]
+        (assoc cell :mark cell-mark
+                    :hovering? hovering?)))))
+
+(defn update-gui-grid-with-game-grid [state]
+  (let [mark       (:mark state)
+        game-grid  (:game-grid state)
+        gui-cells  (:gui-grid state)
+        winner     (:winner game-grid)
+        game-over? (:game-over? game-grid)
+        capacity   (:capacity game-grid)
+        game-cells (:filled-by-cell game-grid)
+        game-marks (for [i (range capacity)] (get game-cells i))]
+    (for [i (range capacity)]
+      (let [cell      (nth gui-cells i)
+            mark-made (nth game-marks i)
+            cell-mark (if mark-made (or mark-made mark))
+            winner?   (and (some? winner) (= winner mark-made))
+            loser?    (and (some? winner) (not= winner mark-made))
+            tied?     (and game-over? (not winner?) (not loser?))]
+        (assoc cell :mark cell-mark
+                    :hovering? false
+                    :winner? winner?
+                    :loser? loser?
+                    :tied? tied?)))))
+
+(defn update-game-grid-with-turn [state]
+  (let [mx        (get-in state [:mouse :x])
+        my        (get-in state [:mouse :y])
+        mark      (:mark state)
+        player1   (:player1 state)
+        player2   (:player2 state)
+        game-grid (:game-grid state)
+        gui-cells (:gui-grid state)
+        player    (if (= :X mark) player1 player2)]
+    (place mark player game-grid gui-cells mx my)))
+
 (defn play [state]
-  (let [mx               (get-in state [:mouse :x])
-        my               (get-in state [:mouse :y])
-        clicked?         (get-in state [:mouse :clicked?])
-        mark             (:mark state)
-        player1          (:player1 state)
-        player2          (:player2 state)
-        game-grid        (:game-grid state)
-        gui-cells        (:gui-grid state)
-        player           (if (= :X mark) player1 player2)
-        game-grid        (place mark player game-grid gui-cells clicked? mx my)
-        winner           (:winner game-grid)
-        game-over?       (:game-over? game-grid)
-        capacity         (:capacity game-grid)
-        game-cells       (:filled-by-cell game-grid)
-        game-marks       (for [i (range capacity)] (get game-cells i))
-        marked-gui-cells (for [i (range capacity)]
-                           (let [cell      (nth gui-cells i)
-                                 hovering? (c/bounded? [mx my] (:box cell))
-                                 mark-made (nth game-marks i)
-                                 cell-mark (if (not hovering?) mark-made (or mark-made mark))
-                                 hovering? (and hovering? (nil? mark-made) (= player :human))
-                                 winner?   (and (some? winner) (= winner mark-made))
-                                 loser?    (and (some? winner) (not= winner mark-made))
-                                 tied?     (and game-over? (not winner?) (not loser?))]
-                             (assoc cell :mark cell-mark
-                                         :hovering? hovering?
-                                         :winner? winner?
-                                         :loser? loser?
-                                         :tied? tied?)))]
-    (assoc state :game-grid game-grid
-                 :mark (if (zero? (mod (count game-cells) 2)) :X :O)
-                 :gui-grid marked-gui-cells)))
+  (if (waiting-for-human? state)
+    (assoc state :gui-grid (update-gui-grid-with-hovered-cell state))
+    (let [game-grid (update-game-grid-with-turn state)
+          state     (assoc state :game-grid game-grid)
+          gui-grid  (update-gui-grid-with-game-grid state)
+          mark      (if (zero? (mod (count (:filled-by-cell game-grid)) 2)) :X :O)]
+      (assoc state :game-grid game-grid
+                   :gui-grid gui-grid
+                   :mark mark))))
 
 (defn reset [state]
   (assoc state :transition? true
@@ -62,7 +96,6 @@
                :player2 nil
                :game-grid nil))
 
-;; TODO: test suite
 (defn update_ [state]
   (let [clicked?   (get-in state [:mouse :clicked?])
         game-over? (get-in state [:game-grid :game-over?])]
@@ -76,4 +109,4 @@
 
 (defn draw [state]
   (let [cells (get state :gui-grid)]
-    (r/render-grid-cells cells)))
+    (render-grid-cells cells)))
