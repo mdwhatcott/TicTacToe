@@ -2,6 +2,7 @@
   (:require
     [quil.core :as q]
     [quil.middleware :as m]
+    [gui.render :as r]
     [gui.common :as c]
     [gui.choose-grid :as choose-grid]
     [gui.configure-players :as configure-players]
@@ -14,13 +15,13 @@
 
 (defn setup-anchors []
   {:choose-grid
-   (choose-grid/calculate-anchors c/screen-width)
+   (choose-grid/calculate-anchors r/screen-width)
 
    :configure-players
-   (configure-players/calculate-anchors c/screen-width)
+   (configure-players/calculate-anchors r/screen-width)
 
    :arena
-   (arena/calculate-anchors c/screen-width)})
+   (arena/calculate-anchors r/screen-width)})
 
 (defn setup-root []
   {:transition       false
@@ -64,7 +65,7 @@
 
 (defn draw-root [state]
   (q/frame-rate 30)
-  (q/background c/background-color)
+  (q/background r/background-color)
   (let [screen (:screen state)
         draw   (drawings screen)]
     (draw state)))
@@ -75,7 +76,7 @@
   (q/defsketch
     tic-tac-toe
     :title "Tic-Tac-Toe"
-    :size [c/screen-width c/screen-width]
+    :size [r/screen-width r/screen-width]
     :setup #'setup-root
     :update #'update-root
     :draw #'draw-root

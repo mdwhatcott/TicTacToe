@@ -1,6 +1,7 @@
 (ns gui.configure-players
   (:require
     [gui.common :as c]
+    [gui.render :as r]
     [ttt.ai :as ai]))
 
 (defn update_ [state]
@@ -48,5 +49,5 @@
             y       (:y (:anchor box))
             text    (format (:text box) (if (nil? player1) "X" "O"))]
         (when (and (> s 0) (= s (:hovering state)))
-          (c/render-rectangle c/hovering-color (:box box)))
-        (c/render-text x y c/text-size text)))))
+          (r/render-rectangle r/hovering-color (:box box)))
+        (r/render-text x y r/text-size text)))))

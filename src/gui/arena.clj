@@ -1,6 +1,7 @@
 (ns gui.arena
   (:require
     [gui.common :as c]
+    [gui.render :as r]
     [ttt.grid :as g]))
 
 (defn human-choice [game-grid gui-grid clicked? mx my mark]
@@ -74,4 +75,4 @@
 
 (defn draw [state]
   (let [cells (get state :gui-grid)]
-    (c/render-grid-cells 10 cells)))
+    (r/render-grid-cells 10 cells)))

@@ -49,7 +49,9 @@
 (defn easy [_mark grid]
   (random-empty-cell grid))
 
-;; Concept: start w/ random moves, progress to handicapped minimax, end w/ random moves (to allow possible win)
+;; Concept: start w/ random moves,
+;; progress to handicapped minimax,
+;; end w/ random moves (to allow possible win)
 (defn medium [mark grid]
   (cond (> (count (:empty-cells grid)) 11) (random-empty-cell grid)
         (< (count (:empty-cells grid)) (dec (/ (:capacity grid) 2))) (random-empty-cell grid)

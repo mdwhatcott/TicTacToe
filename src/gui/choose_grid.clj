@@ -1,6 +1,7 @@
 (ns gui.choose-grid
   (:require
     [gui.common :as c]
+    [gui.render :as r]
     [ttt.grid :as grid]))
 
 (def rows3x3 3)
@@ -56,11 +57,11 @@
                 box3x3 box4x4
                 grid3x3 grid4x4]} anchors]
 
-    (c/render-text (:x welcome-text) (:y welcome-text) c/text-size "Welcome to Tic-Tac-Toe!")
-    (c/render-text (:x what-size-text) (:y what-size-text) c/text-size "What size grid?")
+    (r/render-text (:x welcome-text) (:y welcome-text) r/text-size "Welcome to Tic-Tac-Toe!")
+    (r/render-text (:x what-size-text) (:y what-size-text) r/text-size "What size grid?")
 
-    (cond (= hovered :3x3) (c/render-rectangle c/hovering-color box3x3)
-          (= hovered :4x4) (c/render-rectangle c/hovering-color box4x4))
+    (cond (= hovered :3x3) (r/render-rectangle r/hovering-color box3x3)
+          (= hovered :4x4) (r/render-rectangle r/hovering-color box4x4))
 
-    (c/render-grid line-thickness rows3x3 (:p1 grid3x3) (:p2 grid3x3))
-    (c/render-grid line-thickness rows4x4 (:p1 grid4x4) (:p2 grid4x4))))
+    (r/render-grid line-thickness rows3x3 (:p1 grid3x3) (:p2 grid3x3))
+    (r/render-grid line-thickness rows4x4 (:p1 grid4x4) (:p2 grid4x4))))
