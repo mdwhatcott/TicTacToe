@@ -62,3 +62,24 @@
         (should= true (get-in next-click [:mouse :clicked?]))))
     )
   )
+
+(describe "2-Dimensional Grid Layout"
+  (it "lays out a 2-dimensional square grid (2x2) for convenient rendering"
+    (->>
+      (assemble-grid-cells 2 [0 0] [10 10])
+      (should= [{:width  5 :x 0 :y 0
+                 :center [5/2 5/2] :box [[0 0] [5 5]]
+                 :mark   nil :hovering? false :loser? false :winner? false}
+
+                {:width  5 :x 5 :y 0
+                 :center [15/2 5/2] :box [[5 0] [10 5]]
+                 :mark   nil :hovering? false :loser? false :winner? false}
+
+                {:width  5 :x 0 :y 5
+                 :center [5/2 15/2] :box [[0 5] [5 10]]
+                 :mark   nil :hovering? false :loser? false :winner? false}
+
+                {:width  5 :x 5 :y 5
+                 :center [15/2 15/2] :box [[5 5] [10 10]]
+                 :mark   nil :hovering? false :loser? false :winner? false}])))
+  )
