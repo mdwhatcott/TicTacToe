@@ -2,22 +2,30 @@
   (:require
     [gui.common :refer [bounded?]]
     [gui.render :refer [render-grid-cells]]
-    [ttt.grid :as grid]))
+    [ttt.grid :refer [place]]))
 
 (defn human-choice [game-grid gui-grid mx my mark]
   (let [hovering? (map #(bounded? [mx my] (:box %)) gui-grid)
         indexed   (map-indexed vector hovering?)
         on        (ffirst (drop-while #(not (second %)) indexed))]
-    (grid/place mark on game-grid)))
+    (place mark on game-grid)))
 
 (defn ai-choice [grid mark ai]
   (let [choice (ai mark grid)]
-    (grid/place mark choice grid)))
+    (place mark choice grid)))
 
-(defn place [mark player game-grid gui-grid mx my]
-  (if (= player :human)
-    (human-choice game-grid gui-grid mx my mark)
-    (ai-choice game-grid mark player)))
+(defn update-game-grid-with-turn [state]
+  (let [mx        (get-in state [:mouse :x])
+        my        (get-in state [:mouse :y])
+        mark      (:mark state)
+        player1   (:player1 state)
+        player2   (:player2 state)
+        game-grid (:game-grid state)
+        gui-grid  (:gui-grid state)
+        player    (if (= :X mark) player1 player2)]
+    (if (= player :human)
+      (human-choice game-grid gui-grid mx my mark)
+      (ai-choice game-grid mark player))))
 
 (defn waiting-for-human? [state]
   (let [mark     (:mark state)
@@ -66,17 +74,6 @@
                     :winner? winner?
                     :loser? loser?
                     :tied? tied?)))))
-
-(defn update-game-grid-with-turn [state]
-  (let [mx        (get-in state [:mouse :x])
-        my        (get-in state [:mouse :y])
-        mark      (:mark state)
-        player1   (:player1 state)
-        player2   (:player2 state)
-        game-grid (:game-grid state)
-        gui-cells (:gui-grid state)
-        player    (if (= :X mark) player1 player2)]
-    (place mark player game-grid gui-cells mx my)))
 
 (defn play [state]
   (if (waiting-for-human? state)
