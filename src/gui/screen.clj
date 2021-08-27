@@ -20,27 +20,26 @@
    :arena             (arena/calculate-anchors screen-width)})
 
 (defn setup-state [screen-width]
-  {:transition       false
-   :screen           :choose-grid
-   :screens          (anchors-by-screen screen-width)
+  {:transition false
+   :screen     :choose-grid
+   :screens    (anchors-by-screen screen-width)
 
-   :game-grid        nil
-   :mark             :X
-   :player1          nil
-   :player2          nil
+   :game-grid  nil
+   :mark       :X
+   :player1    nil
+   :player2    nil
 
-   :gui-grid         nil
-   :mouse            {:ready-for-click? true
-                      :clicked          false
-                      :x                nil
-                      :y                nil}
-   :ready-for-click? true
-   :clicked?         false})
+   :gui-grid   nil
+   :mouse      {:ready-to-click? true
+                :clicked?        false
+                :x               nil
+                :y               nil}})
 
 (def screen-transitions
   {:choose-grid       :configure-players
    :configure-players :arena
    :arena             :choose-grid})
+
 
 ;; TODO: tests
 (defn update_ [state updates-by-screen]
