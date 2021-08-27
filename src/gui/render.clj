@@ -3,8 +3,6 @@
     [quil.core :as q]
     [gui.common :as c]))
 
-(def screen-width 1000)
-(def text-size (/ screen-width 24))
 (def background-color 240)
 (def hovering-color 200)
 (def cell-color 255)
@@ -13,9 +11,9 @@
 (def winning-color [0 200 0])
 (def grid-thickness-multiplier 0.05)
 
-(defn render-text [x y size text]
+(defn render-text [x y text]
   (q/fill 0)
-  (q/text-size size)
+  (q/text-size (/ (q/width) 24))
   (q/text text x y))
 
 (defn render-rectangle [color [[x1 y1] [x2 y2]]]

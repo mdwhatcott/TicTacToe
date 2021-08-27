@@ -50,4 +50,4 @@
             text    (format (:text box) (if (nil? player1) "X" "O"))]
         (when (and (> s 0) (= s (:hovering state)))
           (r/render-rectangle r/hovering-color (:box box)))
-        (r/render-text x y r/text-size text)))))
+        (r/render-text x y text)))))

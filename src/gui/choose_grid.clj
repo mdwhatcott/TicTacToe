@@ -55,8 +55,8 @@
                 box3x3 box4x4
                 grid3x3 grid4x4]} anchors]
 
-    (r/render-text (:x welcome-text) (:y welcome-text) r/text-size "Welcome to Tic-Tac-Toe!")
-    (r/render-text (:x what-size-text) (:y what-size-text) r/text-size "What size grid?")
+    (r/render-text (:x welcome-text) (:y welcome-text) "Welcome to Tic-Tac-Toe!")
+    (r/render-text (:x what-size-text) (:y what-size-text) "What size grid?")
 
     (cond (= hovered :3x3) (r/render-rectangle r/hovering-color box3x3)
           (= hovered :4x4) (r/render-rectangle r/hovering-color box4x4))

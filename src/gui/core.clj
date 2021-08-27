@@ -8,6 +8,8 @@
     [gui.configure-players :as configure-players]
     [gui.arena :as arena]))
 
+(def screen-width (- (min (q/screen-width) (q/screen-height)) 100))
+
 (def transitions
   {:choose-grid       :configure-players
    :configure-players :arena
@@ -15,13 +17,13 @@
 
 (defn setup-anchors []
   {:choose-grid
-   (choose-grid/calculate-anchors r/screen-width)
+   (choose-grid/calculate-anchors screen-width)
 
    :configure-players
-   (configure-players/calculate-anchors r/screen-width)
+   (configure-players/calculate-anchors screen-width)
 
    :arena
-   (arena/calculate-anchors r/screen-width)})
+   (arena/calculate-anchors screen-width)})
 
 (defn setup-root []
   {:transition       false
@@ -76,7 +78,7 @@
   (q/defsketch
     tic-tac-toe
     :title "Tic-Tac-Toe"
-    :size [r/screen-width r/screen-width]
+    :size [screen-width screen-width]
     :setup #'setup-root
     :update #'update-root
     :draw #'draw-root
