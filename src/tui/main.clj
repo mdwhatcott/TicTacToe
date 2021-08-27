@@ -1,4 +1,4 @@
-(ns tui.core
+(ns tui.main
   (:require
     [ttt.ai :as ai]
     [ttt.grid :as grid]

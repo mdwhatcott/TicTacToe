@@ -1,4 +1,4 @@
-(ns gui.core
+(ns gui.main
   (:require
     [quil.core :as quil]
     [quil.middleware :as m]
