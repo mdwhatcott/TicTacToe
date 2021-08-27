@@ -56,7 +56,7 @@
                  :gui-grid marked-gui-cells)))
 
 (defn reset [state]
-  (assoc state :transition true
+  (assoc state :transition? true
                :mark :X
                :player1 nil
                :player2 nil

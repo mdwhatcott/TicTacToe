@@ -16,7 +16,7 @@
     (let [player (if (nil? (:player1 state)) :player1 :player2)]
       (if (and clicked? (some? element) (> element 0))
         (assoc state player (:value (nth boxes element))
-                     :transition (= player :player2))
+                     :transition? (= player :player2))
         (assoc state :hovering element)))))
 
 (defn calculate-anchors [screen-width]

@@ -11,7 +11,7 @@
   (let [screen-width (get-in state [:screens :choose-grid :screen-width])]
     (assoc state :game-grid (grid/new-grid rows)
                  :gui-grid (c/assemble-grid-cells rows [0 0] [screen-width screen-width])
-                 :transition true)))
+                 :transition? true)))
 
 ;; TODO: test suite
 (defn update_ [state]

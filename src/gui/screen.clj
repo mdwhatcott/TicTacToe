@@ -20,40 +20,43 @@
    :arena             (arena/calculate-anchors screen-width)})
 
 (defn setup-state [screen-width]
-  {:transition false
-   :screen     :choose-grid
-   :screens    (anchors-by-screen screen-width)
+  {:transition? false
+   :screen      :choose-grid
+   :screens     (anchors-by-screen screen-width)
 
-   :game-grid  nil
-   :mark       :X
-   :player1    nil
-   :player2    nil
+   :game-grid   nil
+   :mark        :X
+   :player1     nil
+   :player2     nil
 
-   :gui-grid   nil
-   :mouse      {:ready-to-click? true
-                :clicked?        false
-                :x               nil
-                :y               nil}})
+   :gui-grid    nil
+   :mouse       {:ready-to-click? true
+                 :clicked?        false
+                 :x               nil
+                 :y               nil}})
 
 (def screen-transitions
   {:choose-grid       :configure-players
    :configure-players :arena
    :arena             :choose-grid})
 
+(defn transition [transitions state]
+  (if (not (:transition? state))
+    state
+    (let [screen (:screen state)
+          next   (transitions screen)]
+      (assoc state :transition? false
+                   :screen next))))
 
 ;; TODO: tests
 (defn update_ [state updates-by-screen]
-  (let [current-screen (:screen state)
-        next-screen    (screen-transitions current-screen)
-        updater        (updates-by-screen current-screen)
-        updated        (updater state)]
-    (if (true? (:transition updated))
-      (-> updated (assoc :screen next-screen
-                         :transition false))
-      updated)))
+  (let [updater      (get updates-by-screen (:screen state))
+        updated      (updater state)
+        transitioned (transition screen-transitions updated)]
+    transitioned))
 
 ;; TODO: test
 (defn draw [state drawings-by-screen]
   (let [screen (:screen state)
-        drawer (drawings-by-screen screen)]
+        drawer (get drawings-by-screen screen)]
     (drawer state)))
