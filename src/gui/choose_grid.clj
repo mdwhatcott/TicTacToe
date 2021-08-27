@@ -48,8 +48,6 @@
      :grid3x3        {:p1 (first grid3x3-bounds) :p2 (second grid3x3-bounds)}
      :grid4x4        {:p1 (first grid4x4-bounds) :p2 (second grid4x4-bounds)}}))
 
-(def line-thickness 2)
-
 (defn draw [state]
   (let [hovered (:hovering state)
         anchors (get-in state [:screens :choose-grid])
@@ -63,5 +61,5 @@
     (cond (= hovered :3x3) (r/render-rectangle r/hovering-color box3x3)
           (= hovered :4x4) (r/render-rectangle r/hovering-color box4x4))
 
-    (r/render-grid line-thickness rows3x3 (:p1 grid3x3) (:p2 grid3x3))
-    (r/render-grid line-thickness rows4x4 (:p1 grid4x4) (:p2 grid4x4))))
+    (r/render-grid rows3x3 (:p1 grid3x3) (:p2 grid3x3))
+    (r/render-grid rows4x4 (:p1 grid4x4) (:p2 grid4x4))))

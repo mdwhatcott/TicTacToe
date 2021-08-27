@@ -3,7 +3,7 @@
     [quil.core :as q]
     [gui.common :as c]))
 
-(def screen-width 500)
+(def screen-width 1000)
 (def text-size (/ screen-width 24))
 (def background-color 240)
 (def hovering-color 200)
@@ -11,6 +11,7 @@
 (def mark-color 50)
 (def losing-color [200 0 0])
 (def winning-color [0 200 0])
+(def grid-thickness-multiplier 0.05)
 
 (defn render-text [x y size text]
   (q/fill 0)
@@ -28,21 +29,22 @@
         y1 (- y (* 0.3 width))
         x2 (+ x (* 0.3 width))
         y2 (+ y (* 0.3 width))]
-    (q/stroke-weight 10)
+    (q/stroke-weight (* grid-thickness-multiplier width))
     (q/line x1 y1 x2 y2)
     (q/line x2 y1 x1 y2)))
 
 (defn draw-o [{:keys [center width]}]
-  (q/stroke-weight 10)
+  (q/stroke-weight (* grid-thickness-multiplier width))
   (q/fill 255)
   (let [x     (first center)
         y     (second center)
         width (* 0.8 width)]
     (q/ellipse x y width width)))
 
-(defn render-grid-cells [thickness cells]
+(defn render-grid-cells [cells]
   (q/fill cell-color)
-  (q/stroke-weight thickness)
+
+  (q/stroke-weight (* grid-thickness-multiplier (:width (first cells))))
 
   (doseq [c cells]
     (q/stroke mark-color)
@@ -71,7 +73,7 @@
     (q/line lower-left upper-left))
   )
 
-(defn render-grid [thickness row-count upper-left lower-right]
+(defn render-grid [row-count upper-left lower-right]
   (let [cells (c/assemble-grid-cells row-count upper-left lower-right)]
-    (render-grid-cells thickness cells)))
+    (render-grid-cells cells)))
 

@@ -75,4 +75,4 @@
 
 (defn draw [state]
   (let [cells (get state :gui-grid)]
-    (r/render-grid-cells 10 cells)))
+    (r/render-grid-cells cells)))
