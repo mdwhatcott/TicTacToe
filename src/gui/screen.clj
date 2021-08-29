@@ -48,14 +48,12 @@
       (assoc state :transition? false
                    :screen next))))
 
-;; TODO: tests
 (defn update_ [state updates-by-screen]
   (let [updater      (get updates-by-screen (:screen state))
         updated      (updater state)
         transitioned (transition screen-transitions updated)]
     transitioned))
 
-;; TODO: test
 (defn draw [state drawings-by-screen]
   (let [screen (:screen state)
         drawer (get drawings-by-screen screen)]
