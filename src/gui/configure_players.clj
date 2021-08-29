@@ -4,20 +4,20 @@
     [gui.render :as r]
     [ttt.ai :as ai]))
 
-;; TODO: test suite
 (defn update_ [state]
-  (let [mx        (get-in state [:mouse :x])
-        my        (get-in state [:mouse :y])
-        clicked?  (get-in state [:mouse :clicked?])
-        boxes     (get-in state [:screens :configure-players])
-        hovering? (map #(c/bounded? [mx my] (:box %)) boxes)
-        indexed   (map-indexed vector hovering?)
-        element   (ffirst (drop-while #(not (second %)) indexed))]
-    (let [player (if (nil? (:player1 state)) :player1 :player2)]
-      (if (and clicked? (some? element) (> element 0))
-        (assoc state player (:value (nth boxes element))
-                     :transition? (= player :player2))
-        (assoc state :hovering element)))))
+  (let [mx       (get-in state [:mouse :x])
+        my       (get-in state [:mouse :y])
+        clicked? (get-in state [:mouse :clicked?])
+        boxes    (get-in state [:screens :configure-players])
+        hovering (map #(c/bounded? [mx my] (:box %)) boxes)
+        indexed  (map-indexed vector hovering)
+        element  (ffirst (drop-while #(not (second %)) indexed))
+        player   (if (nil? (:player1 state)) :player1 :player2)]
+    (cond (and clicked? (some? element) (> element 0))
+          (assoc state player (:value (nth boxes element))
+                       :transition? (= player :player2))
+          :else
+          (assoc state :hovering (if (> element 0) element nil)))))
 
 (defn calculate-anchors [screen-width]
   (let [sections 5
@@ -49,6 +49,6 @@
             x       (:x (:anchor box))
             y       (:y (:anchor box))
             text    (format (:text box) (if (nil? player1) "X" "O"))]
-        (when (and (> s 0) (= s (:hovering state)))
+        (when (= s (:hovering state))
           (r/render-rectangle r/hovering-color (:box box)))
         (r/render-text x y text)))))
