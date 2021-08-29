@@ -20,6 +20,7 @@
 
     (for [y (range y1 (+ y1 total-width-px) cell-width-px)
           x (range x1 (+ x1 total-width-px) cell-width-px)]
+      ; TODO: assign numeric id to allow easier identification of cells later.
       {:x         x
        :y         y
        :width     cell-width-px
