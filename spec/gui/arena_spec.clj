@@ -6,7 +6,7 @@
     [ttt.grid :as grid]
     [ttt.grid-spec :as grid-spec]))
 
-(describe "The Gameplay Arena"
+(describe "Screen: The Gameplay Arena"
 
   (context "Already In Game Over State"
 
