@@ -31,16 +31,16 @@
       :else (dissoc state :hovering))))
 
 (defn calculate-anchors [screen-width]
-  (let [center         (/ screen-width 2)
-        half           (/ center 2)
+  (let [half           (/ screen-width 2)
+        quarter        (/ half 2)
         width          screen-width
         height         screen-width
-        grid3x3-center [half (+ center half)]
-        grid3x3-bounds (c/bounding-box grid3x3-center (/ width 3))
-        box3x3-bounds  (c/bounding-box grid3x3-center (/ width 2))
-        grid4x4-center [(+ center half) (+ center half)]
-        grid4x4-bounds (c/bounding-box grid4x4-center (/ width 3))
-        box4x4-bounds  (c/bounding-box grid4x4-center (/ width 2))]
+        grid3x3-center [quarter (+ half quarter)]
+        grid3x3-bounds (c/bounding-cube grid3x3-center (/ width 3))
+        box3x3-bounds  (c/bounding-cube grid3x3-center (/ width 2))
+        grid4x4-center [(+ half quarter) (+ half quarter)]
+        grid4x4-bounds (c/bounding-cube grid4x4-center (/ width 3))
+        box4x4-bounds  (c/bounding-cube grid4x4-center (/ width 2))]
     {:screen-width   screen-width
      :welcome-text   {:x (/ width 4) :y (/ height 10)}
      :what-size-text {:x (/ width 3) :y (/ height 3)}

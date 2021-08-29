@@ -4,7 +4,7 @@
   (and (> x x1) (< x x2)
        (> y y1) (< y y2)))
 
-(defn bounding-box [[x y] width]
+(defn bounding-cube [[x y] width]
   (let [half (/ width 2)
         x1   (- x half)
         y1   (- y half)
