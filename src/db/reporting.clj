@@ -1,6 +1,7 @@
 (ns db.reporting
-  (:require [db.datomic :as db]
-            [datomic.api :as d]))
+  (:require
+    [db.datomic :as db]
+    [datomic.api :as d]))
 
 (def all-games-query
   '{:find  [?game-name

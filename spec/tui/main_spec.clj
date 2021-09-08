@@ -1,11 +1,12 @@
 (ns tui.main-spec
-  (:require [speclj.core :refer :all]
-            [tui.main :refer :all]
-            [tui.prompts :as prompts]
-            [db.datomic :as db]
-            [ttt.grid :as grid]
-            [ttt.ai :as ai]
-            [tui.human :as human]))
+  (:require
+    [speclj.core :refer :all]
+    [tui.main :refer :all]
+    [tui.prompts :as prompts]
+    [db.datomic :as db]
+    [ttt.grid :as grid]
+    [ttt.ai :as ai]
+    [tui.human :as human]))
 
 (describe "Preparing the game"
   (with-stubs)
