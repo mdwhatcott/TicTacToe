@@ -30,10 +30,19 @@
      :game-name    game-name
      :turn-counter 0}))
 
+(defn restore-game [unfinished]
+  ; TODO: multiple moves from db, O's turn, etc...
+  {:mark :X
+   :grid (grid/new-grid (:grid-width unfinished))
+   :player1 (players (:x-player unfinished))
+   :player2 (players (:o-player unfinished))
+   :game-name (:name unfinished)
+   :turn-counter (count (:moves unfinished))})
+
 (defn prepare-game []
   (let [unfinished (db/get-unfinished-game)]
     (if (some? unfinished)
-      (prepare-new-game)                                    ; TODO: restore unfinished game
+      (restore-game unfinished)
       (prepare-new-game))))
 
 (defn -main []
