@@ -1,11 +1,6 @@
 (ns db.datomic
   (:require
-    [datomic.api :as d]
-    [clojure.string :as string])
-  (:import (java.util Date)))
-
-(defn now []
-  (.toString (Date.)))
+    [datomic.api :as d]))
 
 (defn find-game-id [conn game-start]
   (ffirst (d/q '[:find ?eid
@@ -22,14 +17,6 @@
     [?g :game/x-player ?x-player]
     [?g :game/o-player ?o-player]
     [?g :game/over false]])
-
-(defn get-unfinished-game [conn]
-  (first
-    (for [game (d/q unfinished-games-query (d/db conn))]
-      {:name       (nth game 0)
-       :grid-width (nth game 1)
-       :x-player   (keyword (subs (nth game 2) 1))
-       :o-player   (keyword (subs (nth game 3) 1))})))
 
 (defn establish-new-game [conn game-name grid-width x-player o-player]
   (let [attributes {:db/id                "new-game"
@@ -54,7 +41,6 @@
        (sort-by first)                                      ; ([0 2] [1 1])
        (map second)))                                       ; [2 1]
 
-
 (defn associate-move [conn game-name sequence spot]
   (let [move-id "next-move"]
     @(d/transact
@@ -69,6 +55,15 @@
   @(d/transact
      conn [{:db/id     (find-game-id conn game-name)
             :game/over true}]))
+
+(defn get-unfinished-game [conn]
+  (first
+    (for [game (d/q unfinished-games-query (d/db conn))]
+      {:name       (nth game 0)
+       :grid-width (nth game 1)
+       :x-player   (keyword (subs (nth game 2) 1))
+       :o-player   (keyword (subs (nth game 3) 1))
+       :moves      (get-moves conn (nth game 0))})))
 
 (defn reset-db [uri schema-path]
   (d/delete-database uri)
