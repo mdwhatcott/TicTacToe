@@ -1,13 +1,14 @@
 (ns tui.game
   (:require
-    [ttt.grid :refer :all]))
+    [ttt.grid :as grid]))
 
 (defn tick [{:keys [grid mark player1 player2] :as game-state}]
-  (let [next-grid  (place mark (player1 mark grid) grid)
+  (let [suggestion (player1 mark grid)
+        next-grid  (grid/place mark suggestion grid)
         winner     (:winner next-grid)
         game-over? (:game-over? next-grid)]
     (-> game-state
-        (update :mark other)
+        (update :mark grid/other)
         (assoc :grid next-grid
                :player1 player2
                :player2 player1
