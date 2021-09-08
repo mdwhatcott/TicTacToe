@@ -31,9 +31,9 @@
        :x-human? (nth game 2)
        :o-human? (nth game 3)})))
 
-(defn establish-new-game [conn game-start grid-dimensions x-human? o-human?]
+(defn establish-new-game [conn game-name grid-dimensions x-human? o-human?]
   (let [attributes {:db/id                "new-game"
-                    :game/name            game-start
+                    :game/name            game-name
                     :game/grid-dimensions grid-dimensions
                     :game/x-human?        x-human?
                     :game/o-human?        o-human?
@@ -41,29 +41,28 @@
     @(d/transact conn [attributes])))
 
 (def get-moves-query
-  '[:find ?move-at
+  '[:find ?move-sequence ?move-location
     :in $ ?game-name
     :where
     [?g :game/name ?game-name]
     [?g :game/moves ?m]
-    [?m :move/details ?move-at]])
+    [?m :move/sequence ?move-sequence]
+    [?m :move/location ?move-location]])
 
 (defn get-moves [conn game-name]
   (let [result (d/q get-moves-query (d/db conn) game-name)]
-    (->> result                                             ; #{["1-1"] ["0-2"]}
-         (map vec)                                          ; [["1-1"] ["0-2"]]
-         flatten                                            ; ["1-1" "0-2"]
-         (map #(string/split % #"-"))                       ; [["1" "1"] ["0" "2"]]
-         (sort-by first)                                    ; [["0" "2"] ["1" "1"]]
-         (map second)                                       ; ["2" "1"]
-         (map #(Integer/parseInt %)))))                     ; [2 1]
+    (->> result                                             ; #{[1 1] [0 2]}
+         (sort-by first)                                    ; ([0 2] [1 1])
+         (map second))))                                    ; [2 1]
+
 
 (defn associate-move [conn game-name sequence spot]
-  (let [move-id      "next-move"
-        move-details (str sequence "-" spot)]
+  (let [move-id      "next-move"]
     @(d/transact
-       conn [{:db/id        move-id
-              :move/details move-details}
+       conn [{:db/id         move-id
+              :move/sequence sequence}
+             {:db/id         move-id
+              :move/location spot}
              {:db/id      (find-game-id conn game-name)
               :game/moves move-id}])))
 
