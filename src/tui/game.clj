@@ -23,6 +23,11 @@
         (recur (rest ticks))))))
 
 
+(defn play2 [presenter game-state]
+  (game-loop presenter (iterate tick game-state)))
+
+;; TODO: remove
+;; DEPRECATED
 (defn play [presenter grid mark player1-in player2-in]
   (let [game-state {:grid    grid
                     :mark    mark

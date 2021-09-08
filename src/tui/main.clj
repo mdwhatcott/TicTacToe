@@ -4,24 +4,28 @@
     [ttt.grid :as grid]
     [tui.game :as game]
     [tui.human :as human]
-    [tui.terminal-ui :as terminal]))
+    [tui.grid :as terminal]
+    [tui.prompts :as prompts]))
 
 (defn initialize-player [mark]
-  (let [player (terminal/prompt-player mark)]
+  (let [player (prompts/prompt-player mark)]
     (if (= player :human)
-      (human/suggest terminal/prompt-player-move)
-      (case (terminal/prompt-difficulty)
+      (human/suggest prompts/prompt-player-move)
+      (case (prompts/prompt-difficulty)
         :easy ai/easy
         :medium ai/medium
         :hard ai/hard))))
 
 (defn initialize-grid []
-  (let [grid-size (terminal/prompt-grid-size)] (grid/new-grid grid-size)))
+  (let [grid-size (prompts/prompt-grid-size)]
+    (grid/new-grid grid-size)))
+
+(defn initialize-new-game-state []
+  (let [grid (initialize-grid)]
+    {:grid    grid
+     :mark    :X
+     :player1 (initialize-player :X)
+     :player2 (initialize-player :O)}))
 
 (defn -main []
-  (let [presenter terminal/print-grid
-        player    :X
-        grid      (initialize-grid)
-        playerX   (initialize-player :X)
-        playerO   (initialize-player :O)]
-    (game/play presenter grid player playerX playerO)))
+  (game/play2 terminal/print-grid (initialize-new-game-state)))
