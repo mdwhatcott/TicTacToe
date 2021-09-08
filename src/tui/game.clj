@@ -1,37 +1,31 @@
 (ns tui.game
   (:require
-    [ttt.grid :as grid]))
+    [ttt.grid :as grid]
+    [db.datomic :as db]
+    [tui.grid :as terminal]))
 
-(defn tick [{:keys [grid mark player1 player2] :as game-state}]
+(defn tick [{:keys [game-name turn-counter grid mark player1 player2] :as game-state}]
   (let [suggestion (player1 mark grid)
         next-grid  (grid/place mark suggestion grid)
         winner     (:winner next-grid)
         game-over? (:game-over? next-grid)]
+    (db/associate-move game-name turn-counter suggestion)
     (-> game-state
         (update :mark grid/other)
         (assoc :grid next-grid
                :player1 player2
                :player2 player1
                :winner winner
-               :game-over? game-over?))))
+               :game-over? game-over?
+               :turn-counter (inc turn-counter)))))
 
-(defn game-loop [presenter ticks]
+(defn game-loop [ticks]
   (loop [ticks ticks]
     (let [tick (first ticks)]
-      (presenter (:grid tick))
+      (terminal/print-grid (:grid tick))
       (if (:game-over? tick)
         (:winner tick)
         (recur (rest ticks))))))
 
-
-(defn play2 [presenter game-state]
-  (game-loop presenter (iterate tick game-state)))
-
-;; TODO: remove
-;; DEPRECATED
-(defn play [presenter grid mark player1-in player2-in]
-  (let [game-state {:grid    grid
-                    :mark    mark
-                    :player1 player1-in
-                    :player2 player2-in}]
-    (game-loop presenter (iterate tick game-state))))
+(defn play [game-state]
+  (game-loop (iterate tick game-state)))

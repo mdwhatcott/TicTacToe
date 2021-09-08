@@ -4,9 +4,13 @@
     [ttt.grid :refer :all]
     [ttt.grid-spec :refer :all]
     [ttt.ai :refer :all]
-    [tui.game :refer :all]))
+    [tui.game :refer :all]
+    [tui.grid :as terminal]
+    [db.datomic :as db]))
 
 (describe "AI"
+
+  (with-stubs)
 
   (context "Hard/Unbeatable"
 
@@ -52,15 +56,26 @@
                                         O _ _
                                         _ _ _]))))
 
-    #_(describe "LONG-RUNNING: Hard AI vs. Hard AI"
-        (for [first-move (range 9)]
-          (it (format "can't beat itself when starting with X on cell %d (3x3)" first-move)
-            (should-be-nil
-              (play (fn [_]) (place X first-move (new-grid 3)) O hard hard))))
+    #_(context "LONG-RUNNING: Hard AI vs. Hard AI"
+      (for [first-move (range 9)]
+        (it (format "can't beat itself when starting with X on cell %d (3x3)" first-move)
+          (with-redefs [db/associate-move   (stub :thing1)
+                        terminal/print-grid (stub :thing2)]
+            (let [initial {:grid    (place X first-move (new-grid 3))
+                           :mark    O
+                           :player1 hard
+                           :player2 hard}
+                  winner  (play initial)]
+              (should-be-nil winner)))))
 
-        #_(for [first-move (range 16)]
-            (it (format "can't beat itself when starting with X on cell %d (4x4)" first-move)
-              (should-be-nil
-                (play (fn [_]) (place X first-move (new-grid 4)) O hard hard)))))
+      #_(for [first-move (range 16)]
+        (it (format "can't beat itself when starting with X on cell %d (4x4)" first-move)
+          (with-redefs [db/associate-move   (stub :thing1)
+                        terminal/print-grid (stub :thing2)]
+            (let [initial {:grid    (place X first-move (new-grid 4))
+                           :mark    O
+                           :player1 hard
+                           :player2 hard}]
+              (should-be-nil (play initial)))))))
     )
   )

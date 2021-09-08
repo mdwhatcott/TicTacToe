@@ -4,28 +4,42 @@
     [ttt.grid :as grid]
     [tui.game :as game]
     [tui.human :as human]
-    [tui.grid :as terminal]
-    [tui.prompts :as prompts]))
+    [tui.prompts :as prompts]
+    [db.datomic :as db]
+    [datomic.api :as d])
+  (:import (java.util Date)))
 
-(defn initialize-player [mark]
-  (let [player (prompts/prompt-player mark)]
-    (if (= player :human)
-      (human/suggest prompts/prompt-player-move)
-      (case (prompts/prompt-difficulty)
-        :easy ai/easy
-        :medium ai/medium
-        :hard ai/hard))))
+(def players
+  {:human  human/suggest
+   :easy   ai/easy
+   :medium ai/medium
+   :hard   ai/hard})
 
-(defn initialize-grid []
-  (let [grid-size (prompts/prompt-grid-size)]
-    (grid/new-grid grid-size)))
+(defn now [] (.toString (Date.)))
 
-(defn initialize-new-game-state []
-  (let [grid (initialize-grid)]
-    {:grid    grid
-     :mark    :X
-     :player1 (initialize-player :X)
-     :player2 (initialize-player :O)}))
+(defn prepare-new-game []
+  (let [game-name  (now)
+        grid-width (prompts/prompt-grid-size)
+        player-x   (prompts/prompt-player :X)
+        player-o   (prompts/prompt-player :O)]
+    (db/establish-new-game game-name grid-width player-x player-o)
+    {:mark         :X
+     :grid         (grid/new-grid grid-width)
+     :player1      (players player-x)
+     :player2      (players player-o)
+     :game-name    game-name
+     :turn-counter 0}))
+
+(defn prepare-game []
+  (let [unfinished (db/get-unfinished-game)]
+    (if (some? unfinished)
+      (prepare-new-game)                                    ; TODO: restore unfinished game
+      (prepare-new-game))))
 
 (defn -main []
-  (game/play2 terminal/print-grid (initialize-new-game-state)))
+  #_(db/reset-db db/prod-uri db/schema)                       ; TODO: disable
+  (with-redefs [db/conn (d/connect db/prod-uri)]
+    (let [game-state (prepare-game)]
+      (game/play game-state)
+      (db/conclude-game (:game-name game-state))
+      (d/shutdown true))))
