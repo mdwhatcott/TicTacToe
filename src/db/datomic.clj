@@ -15,12 +15,12 @@
                game-start)))
 
 (def unfinished-games-query
-  '[:find ?game-name ?grid-dimensions ?x-human? ?o-human?
+  '[:find ?game-name ?grid-dimensions ?x-player ?o-player
     :where
     [?g :game/name ?game-name]
     [?g :game/grid-dimensions ?grid-dimensions]
-    [?g :game/x-human? ?x-human?]
-    [?g :game/o-human? ?o-human?]
+    [?g :game/x-player ?x-player]
+    [?g :game/o-player ?o-player]
     [?g :game/over false]])
 
 (defn get-unfinished-game [conn]
@@ -28,15 +28,15 @@
     (for [game (d/q unfinished-games-query (d/db conn))]
       {:name     (nth game 0)
        :grid     (nth game 1)
-       :x-human? (nth game 2)
-       :o-human? (nth game 3)})))
+       :x-player (keyword (subs (nth game 2) 1))
+       :o-player (keyword (subs (nth game 3) 1))})))
 
-(defn establish-new-game [conn game-name grid-dimensions x-human? o-human?]
+(defn establish-new-game [conn game-name grid-dimensions x-player o-player]
   (let [attributes {:db/id                "new-game"
                     :game/name            game-name
                     :game/grid-dimensions grid-dimensions
-                    :game/x-human?        x-human?
-                    :game/o-human?        o-human?
+                    :game/x-player        (str x-player)
+                    :game/o-player        (str o-player)
                     :game/over            false}]
     @(d/transact conn [attributes])))
 

@@ -16,12 +16,12 @@
   (it "establishes a new game"
     (with-redefs [now (fn [] "game-1-start")]
       (let [conn       (create-empty-in-memory-db)
-            _          (establish-new-game conn "game-1" "3x3" true true)
+            _          (establish-new-game conn "game-1" "3x3" :human :easy)
             unfinished (get-unfinished-game conn)]
         (should= {:name     "game-1"
                   :grid     "3x3"
-                  :x-human? true
-                  :o-human? true} unfinished))))
+                  :x-player :human
+                  :o-player :easy} unfinished))))
 
   (it "stores moves made with the corresponding game"
     (let [conn          (create-empty-in-memory-db)
@@ -34,7 +34,7 @@
 
   (it "concludes a game"
     (let [conn (create-empty-in-memory-db)
-          _    (establish-new-game conn "game-1" "3x3" true true)
+          _    (establish-new-game conn "game-1" "3x3" :human :human)
           _    (conclude-game conn "game-1")]
       (should= nil (get-unfinished-game conn))))
 

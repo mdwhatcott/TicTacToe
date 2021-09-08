@@ -12,17 +12,17 @@
   :db/cardinality        :db.cardinality/one
   :db.install/_attribute :db.part/db}
 
- {:db/doc                "A boolean indicating whether X is played by a human"
+ {:db/doc                "The X player"
   :db/id                 #db/id[:db.part/db]
-  :db/ident              :game/x-human?
-  :db/valueType          :db.type/boolean
+  :db/ident              :game/x-player
+  :db/valueType          :db.type/string
   :db/cardinality        :db.cardinality/one
   :db.install/_attribute :db.part/db}
 
- {:db/doc                "A boolean indicating whether O is played by a human"
+ {:db/doc                "The O player"
   :db/id                 #db/id[:db.part/db]
-  :db/ident              :game/o-human?
-  :db/valueType          :db.type/boolean
+  :db/ident              :game/o-player
+  :db/valueType          :db.type/string
   :db/cardinality        :db.cardinality/one
   :db.install/_attribute :db.part/db}
 
