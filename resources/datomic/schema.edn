@@ -1,49 +1,63 @@
-[{:db/id                 #db/id[:db.part/db]
+[{:db/doc                "A game's name."
+  :db/id                 #db/id[:db.part/db]
   :db/ident              :game/name
   :db/valueType          :db.type/string
   :db/cardinality        :db.cardinality/one
-  :db/doc                "A game's name."
   :db.install/_attribute :db.part/db}
 
- {:db/id                 #db/id[:db.part/db]
+ {:db/doc                "A game's grid dimensions (3x3, 4x4, etc.)."
+  :db/id                 #db/id[:db.part/db]
   :db/ident              :game/grid-dimensions
   :db/valueType          :db.type/string
   :db/cardinality        :db.cardinality/one
-  :db/doc                "A game's grid dimensions (3x3, 4x4, etc.)."
   :db.install/_attribute :db.part/db}
 
- {:db/id                 #db/id[:db.part/db]
+ {:db/doc                "A boolean indicating whether X is played by a human"
+  :db/id                 #db/id[:db.part/db]
   :db/ident              :game/x-human?
   :db/valueType          :db.type/boolean
   :db/cardinality        :db.cardinality/one
-  :db/doc                "A boolean indicating whether X is played by a human"
   :db.install/_attribute :db.part/db}
 
- {:db/id                 #db/id[:db.part/db]
+ {:db/doc                "A boolean indicating whether O is played by a human"
+  :db/id                 #db/id[:db.part/db]
   :db/ident              :game/o-human?
   :db/valueType          :db.type/boolean
   :db/cardinality        :db.cardinality/one
-  :db/doc                "A boolean indicating whether O is played by a human"
   :db.install/_attribute :db.part/db}
 
- {:db/id                 #db/id[:db.part/db]
+ {:db/doc                "A game's status in terms of being over."
+  :db/id                 #db/id[:db.part/db]
   :db/ident              :game/over
   :db/valueType          :db.type/boolean
   :db/cardinality        :db.cardinality/one
-  :db/doc                "A game's status in terms of being over."
   :db.install/_attribute :db.part/db}
 
- {:db/id                 #db/id[:db.part/db]
+ {:db/doc                "All moves for a given game"
+  :db/id                 #db/id[:db.part/db]
   :db/ident              :game/moves
   :db/valueType          :db.type/ref
   :db/cardinality        :db.cardinality/many
-  :db/doc                "All moves for a given game"
   :db.install/_attribute :db.part/db}
 
- {:db/id                 #db/id[:db.part/db]
+ {:db/doc                "The move (<sequence>-<location>)"
+  :db/id                 #db/id[:db.part/db]
   :db/ident              :move/details
   :db/valueType          :db.type/string
   :db/cardinality        :db.cardinality/one
-  :db/doc                "The move (<sequence>-<location>)"
+  :db.install/_attribute :db.part/db}
+
+ {:db/doc                "The move's sequence"
+  :db/id                 #db/id[:db.part/db]
+  :db/ident              :move/sequence
+  :db/valueType          :db.type/long
+  :db/cardinality        :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ {:db/doc                "The move's location on the grid"
+  :db/id                 #db/id[:db.part/db]
+  :db/ident              :move/location
+  :db/valueType          :db.type/long
+  :db/cardinality        :db.cardinality/one
   :db.install/_attribute :db.part/db}
  ]
