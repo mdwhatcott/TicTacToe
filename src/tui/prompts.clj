@@ -42,13 +42,10 @@
 
 (defn prompt-player [mark]
   (let [question (format "Who will be playing '%s'?" (grid-characters mark))]
-    (prompt-options question {"human"    :human
-                              "computer" :computer})))
-
-(defn prompt-difficulty []
-  (prompt-options "What difficulty level?" {"easy"   :easy
-                                            "medium" :medium
-                                            "hard"   :hard}))
+    (prompt-options question {"human"  :human
+                              "easy"   :easy
+                              "medium" :medium
+                              "hard"   :hard})))
 
 (defn prompt-grid-size []
   (prompt-options "What size grid?" {"3x3" 3

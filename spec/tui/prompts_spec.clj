@@ -48,7 +48,7 @@
           (should-throw Exception (prompt-player :X))
           (should-have-invoked
             :prompter
-            {:with  ["Who will be playing 'X'? (\"human\" \"computer\"): "]
+            {:with  ["Who will be playing 'X'? (\"human\" \"easy\" \"medium\" \"hard\"): "]
              :times 10}))))
 
     (it "accepts human as a valid option"
@@ -57,40 +57,24 @@
           (let [response (prompt-player :X)]
             (should= :human response)))))
 
-    (it "accepts computer as a valid option"
-      (let [prompter (stub :prompter {:return "computer"})]
-        (with-redefs [prompt prompter]
-          (let [response (prompt-player :X)]
-            (should= :computer response)))))
-
-    )
-
-  (context "prompt-difficulty function"
-    (it "repeats the prompt if the response is not a valid option"
-      (let [prompter (stub :prompter {:return "invalid"})]
-        (with-redefs [prompt prompter]
-          (should-throw Exception (prompt-difficulty))
-          (should-have-invoked
-            :prompter {:with  ["What difficulty level? (\"easy\" \"medium\" \"hard\"): "]
-                       :times 10}))))
-
     (it "accepts easy as a valid option"
       (let [prompter (stub :prompter {:return "easy"})]
         (with-redefs [prompt prompter]
-          (let [response (prompt-difficulty)]
+          (let [response (prompt-player :X)]
             (should= :easy response)))))
 
     (it "accepts medium as a valid option"
       (let [prompter (stub :prompter {:return "medium"})]
         (with-redefs [prompt prompter]
-          (let [response (prompt-difficulty)]
+          (let [response (prompt-player :X)]
             (should= :medium response)))))
 
     (it "accepts hard as a valid option"
       (let [prompter (stub :prompter {:return "hard"})]
         (with-redefs [prompt prompter]
-          (let [response (prompt-difficulty)]
+          (let [response (prompt-player :X)]
             (should= :hard response)))))
+
     )
 
   (context "prompt-grid-size function"
