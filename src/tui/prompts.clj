@@ -24,17 +24,21 @@
    "g" "16"})
 
 (defn prompt [message]
-  (do
-    (print message)
-    (flush)
-    (read-line)))
+  (print message)
+  (flush)
+  (read-line))
 
 (defn prompt-options [message options-map]
-  (let [full-message (format "%s %s: " message (keys options-map))
-        response     (prompt full-message)]
-    (if (contains? options-map response)
-      (options-map response)
-      (recur message options-map))))
+  (loop [message       message
+         options-map   options-map
+         attempts-left 10]
+    (if (zero? attempts-left)
+      (throw (Exception. "too many wrong answers"))
+      (let [full-message (format "%s %s: " message (keys options-map))
+            response     (prompt full-message)]
+        (if (contains? options-map response)
+          (options-map response)
+          (recur message options-map (dec attempts-left)))))))
 
 (defn prompt-player [mark]
   (let [question (format "Who will be playing '%s'?" (grid-characters mark))]
