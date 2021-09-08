@@ -50,14 +50,13 @@
     [?m :move/location ?move-location]])
 
 (defn get-moves [conn game-name]
-  (let [result (d/q get-moves-query (d/db conn) game-name)]
-    (->> result                                             ; #{[1 1] [0 2]}
-         (sort-by first)                                    ; ([0 2] [1 1])
-         (map second))))                                    ; [2 1]
+  (->> (d/q get-moves-query (d/db conn) game-name)          ; #{[1 1] [0 2]}
+       (sort-by first)                                      ; ([0 2] [1 1])
+       (map second)))                                       ; [2 1]
 
 
 (defn associate-move [conn game-name sequence spot]
-  (let [move-id      "next-move"]
+  (let [move-id "next-move"]
     @(d/transact
        conn [{:db/id         move-id
               :move/sequence sequence}
