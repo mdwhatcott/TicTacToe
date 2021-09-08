@@ -33,10 +33,10 @@
 
 
 (def unfinished-games-query
-  '[:find ?game-name ?grid-dimensions ?x-player ?o-player
+  '[:find ?game-name ?grid-width ?x-player ?o-player
     :where
     [?g :game/name ?game-name]
-    [?g :game/grid-dimensions ?grid-dimensions]
+    [?g :game/grid-width ?grid-width]
     [?g :game/x-player ?x-player]
     [?g :game/o-player ?o-player]
     [?g :game/over false]])
@@ -52,12 +52,12 @@
 
 
 (defn establish-new-game [game-name grid-width x-player o-player]
-  @(d/transact conn [{:db/id                "new-game"
-                      :game/name            game-name
-                      :game/grid-dimensions grid-width
-                      :game/x-player        (str x-player)
-                      :game/o-player        (str o-player)
-                      :game/over            false}]))
+  @(d/transact conn [{:db/id           "new-game"
+                      :game/name       game-name
+                      :game/grid-width grid-width
+                      :game/x-player   (str x-player)
+                      :game/o-player   (str o-player)
+                      :game/over       false}]))
 
 (defn associate-move [game-name sequence spot]
   (let [move-id "next-move"]

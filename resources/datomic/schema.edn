@@ -7,7 +7,7 @@
 
  {:db/doc                "A game's grid width (3: 3x3, 4: 4x4, etc.)."
   :db/id                 #db/id[:db.part/db]
-  :db/ident              :game/grid-dimensions
+  :db/ident              :game/grid-width
   :db/valueType          :db.type/long
   :db/cardinality        :db.cardinality/one
   :db.install/_attribute :db.part/db}
