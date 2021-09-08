@@ -14,19 +14,31 @@
                (d/db conn)
                game-start)))
 
-(defn get-unfinished-games [conn]
-  (d/q '[:find ?game-start
-         :where
-         [?g :game/name ?game-start]
-         [?g :game/over false]]
-       (d/db conn)))
+(def unfinished-games-query
+  '[:find ?game-name ?grid-dimensions ?x-human? ?o-human?
+    :where
+    [?g :game/name ?game-name]
+    [?g :game/grid-dimensions ?grid-dimensions]
+    [?g :game/x-human? ?x-human?]
+    [?g :game/o-human? ?o-human?]
+    [?g :game/over false]])
 
-(defn establish-new-game [conn game-start]
-  (let [attributes {:db/id      "new-game"
-                    :game/name game-start
-                    :game/over  false}]
-    @(d/transact conn [attributes])
-    game-start))
+(defn get-unfinished-game [conn]
+  (first
+    (for [game (d/q unfinished-games-query (d/db conn))]
+      {:name     (nth game 0)
+       :grid     (nth game 1)
+       :x-human? (nth game 2)
+       :o-human? (nth game 3)})))
+
+(defn establish-new-game [conn game-start grid-dimensions x-human? o-human?]
+  (let [attributes {:db/id                "new-game"
+                    :game/name            game-start
+                    :game/grid-dimensions grid-dimensions
+                    :game/x-human?        x-human?
+                    :game/o-human?        o-human?
+                    :game/over            false}]
+    @(d/transact conn [attributes])))
 
 (def get-moves-query
   '[:find ?move-at
