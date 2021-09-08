@@ -1,19 +1,19 @@
 (ns tui.human-spec
   (:require
     [speclj.core :refer :all]
-    [tui.human :refer :all]))
+    [tui.human :refer :all]
+    [tui.prompts :as prompts]))
 
 (describe "Human Suggestions"
   (with-stubs)
 
   (it "repeats the prompt when an invalid response is provided"
-    (let [prompter  (stub :prompter {:return "invalid"})
-          suggester (suggest prompter)]
-      (should-throw Exception (suggester :X {:empty-cells [0 1 2]}))))
+    (let [prompter (stub :prompter {:return "invalid"})]
+      (with-redefs [prompts/prompt-player-move prompter]
+        (should-throw Exception (suggest :X {:empty-cells [0 1 2]})))))
 
   (it "accepts a valid answer"
-    (let [prompter  (stub :prompter {:return "2"})
-          suggester (suggest prompter)
-          response  (suggester :X {:empty-cells [1]})]
-      (should= 1 response)))
+    (let [prompter (stub :prompter {:return "2"})]
+      (with-redefs [prompts/prompt-player-move prompter]
+        (should= 1 (suggest :X {:empty-cells [1]})))))
   )
