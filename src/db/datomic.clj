@@ -26,15 +26,15 @@
 (defn get-unfinished-game [conn]
   (first
     (for [game (d/q unfinished-games-query (d/db conn))]
-      {:name     (nth game 0)
-       :grid     (nth game 1)
-       :x-player (keyword (subs (nth game 2) 1))
-       :o-player (keyword (subs (nth game 3) 1))})))
+      {:name       (nth game 0)
+       :grid-width (nth game 1)
+       :x-player   (keyword (subs (nth game 2) 1))
+       :o-player   (keyword (subs (nth game 3) 1))})))
 
-(defn establish-new-game [conn game-name grid-dimensions x-player o-player]
+(defn establish-new-game [conn game-name grid-width x-player o-player]
   (let [attributes {:db/id                "new-game"
                     :game/name            game-name
-                    :game/grid-dimensions grid-dimensions
+                    :game/grid-dimensions grid-width
                     :game/x-player        (str x-player)
                     :game/o-player        (str o-player)
                     :game/over            false}]
