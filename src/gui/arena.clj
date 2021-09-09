@@ -85,6 +85,7 @@
           state     (assoc state :game-grid game-grid)
           gui-grid  (update-gui-grid-with-game-grid state)]
       (assoc state :game-grid game-grid
+                   :last-move choice
                    :gui-grid gui-grid
                    :screen :store-turn))))
 

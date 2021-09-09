@@ -54,6 +54,7 @@
             gui-marks      (map :mark (:gui-grid output))
             gui-highlights (map :hovering? (:gui-grid output))
             grid-marks     (:filled-by-cell (:game-grid output))]
+        (should= (:last-move output) 0)
         (should= [:X nil nil nil] gui-marks)
         (should= [false false false false] gui-highlights)
         (should= {0 :X} grid-marks)))
@@ -96,6 +97,7 @@
               output     (update_ input)
               gui-marks  (map :mark (:gui-grid output))
               grid-marks (:filled-by-cell (:game-grid output))]
+          (should= (:last-move output) 1)
           (should= [nil :X nil nil] gui-marks)
           (should= {1 :X} grid-marks))))
 
