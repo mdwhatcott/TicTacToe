@@ -16,24 +16,11 @@
 
   (with-stubs)
 
-  (context "Already In Game Over State"
-
-    (it "waits for a click"
-      (let [input  {:mouse     {:clicked? false}
-                    :game-grid {:game-over? true}}
-            output (update_ input)]
-        (should= input output)))
-
-    (it "resets all state and transitions to next screen on-click"
-      (let [input  {:mouse     {:clicked? true}
-                    :game-grid {:game-over? true}}
-            output (update_ input)]
-        (should= true (:transition? output))
-        (should= :X (:mark output))
-        (should= nil (:player1 output))
-        (should= nil (:player2 output))
-        (should= nil (:game-grid output))))
-    )
+  (it "waits for a click when already in game-over state"
+    (let [input  {:mouse     {:clicked? false}
+                  :game-grid {:game-over? true}}
+          output (update_ input)]
+      (should= input output)))
 
   (context "Human Players Taking Turns"
 
@@ -130,18 +117,6 @@
     )
 
   (context "Taking Turns (in general)"
-    (it "alternates the mark as turns are taken"
-      (with-redefs [ai/players fake-players]
-        (let [startX {:mouse     {:clicked? false :x 1 :y 1}
-                      :mark      :X
-                      :player1   :easy
-                      :player2   :medium
-                      :game-grid (grid/new-grid 2)
-                      :gui-grid  (common/assemble-grid-cells 2 [0 0] [4 4])}
-              stateO (update_ startX)
-              stateX (update_ stateO)]
-          (should= :O (:mark stateO))
-          (should= :X (:mark stateX)))))
 
     (it "flags winning and losing marks when a player achieves tic-tac-toe"
       (with-redefs [ai/players fake-players]

@@ -12,9 +12,10 @@
     (doseq [x (range (inc (first upper-left)) (first lower-right))
             y (range (inc (second upper-left)) (second lower-right))]
       (let [input  {:mouse   {:clicked? true :x x :y y}
+                    :screen  :configure-players
                     :screens {:configure-players anchors}}
             output (update_ input)]
-        (should= nil (:transition? output))
+        (should= :configure-players (:screen output))
         (should= nil (:hovering output))
         (should= nil (:player1 output))
         (should= nil (:player2 output))))))
@@ -28,9 +29,10 @@
     (doseq [x (range (inc (first upper-left)) (first lower-right))
             y (range (inc (second upper-left)) (second lower-right))]
       (let [input  {:mouse   {:clicked? false :x x :y y}
+                    :screen  :configure-players
                     :screens {:configure-players anchors}}
             output (update_ input)]
-        (should= nil (:transition? output))
+        (should= :configure-players (:screen output))
         (should= nil (:hovering output))))))
 
 (defn check-valid-hovering-range [option-index]
@@ -42,13 +44,14 @@
     (doseq [x (range (inc (first upper-left)) (first lower-right))
             y (range (inc (second upper-left)) (second lower-right))]
       (let [input  {:mouse   {:clicked? false :x x :y y}
+                    :screen  :configure-players
                     :screens {:configure-players anchors}}
             output (update_ input)]
-        (should= nil (:transition? output))
+        (should= :configure-players (:screen output))
         (should= option-index (:hovering output))))))
 
 (defn check-selection-option
-  [option-index configured-player-key expected-value should-transition?]
+  [option-index configured-player-key expected-value expected-screen]
   (let [anchors     (calculate-anchors 20)
         option      (nth anchors option-index)
         box         (:box option)
@@ -58,10 +61,11 @@
             y (range (inc (second upper-left)) (second lower-right))]
       (let [input  {:mouse   {:clicked? true :x x :y y}
                     :screens {:configure-players anchors}
+                    :screen  :configure-players
                     :player1 (when (= configured-player-key :player2)
-                               :player1:selected-previously)}
+                               :player1)}
             output (update_ input)]
-        (should= should-transition? (:transition? output))
+        (should= expected-screen (:screen output))
         (should= expected-value (configured-player-key output))))))
 
 (describe "Screen: Configure Player"
@@ -87,28 +91,28 @@
       (check-no-selection))
 
     (it "assigns player1 the 'human' option when clicked"
-      (check-selection-option 1 :player1 :human false))
+      (check-selection-option 1 :player1 :human :configure-players))
 
     (it "assigns player1 the 'easy computer' option when clicked"
-      (check-selection-option 2 :player1 :easy false))
+      (check-selection-option 2 :player1 :easy :configure-players))
 
     (it "assigns player1 the 'medium computer' option when clicked"
-      (check-selection-option 3 :player1 :medium false))
+      (check-selection-option 3 :player1 :medium :configure-players))
 
     (it "assigns player1 the 'hard computer' option when clicked"
-      (check-selection-option 4 :player1 :hard false)))
+      (check-selection-option 4 :player1 :hard :configure-players)))
 
   (context "Configuring player 2"
     (it "assigns player2 the 'human' option when clicked (and transitions!)"
-      (check-selection-option 1 :player2 :human true))
+      (check-selection-option 1 :player2 :human :establish-game))
 
     (it "assigns player2 the 'easy computer' option when clicked (and transitions!)"
-      (check-selection-option 2 :player2 :easy true))
+      (check-selection-option 2 :player2 :easy :establish-game))
 
     (it "assigns player2 the 'medium computer' option when clicked (and transitions!)"
-      (check-selection-option 3 :player2 :medium true))
+      (check-selection-option 3 :player2 :medium :establish-game))
 
     (it "assigns player2 the 'hard computer' option when clicked (and transitions!)"
-      (check-selection-option 4 :player2 :hard true)))
+      (check-selection-option 4 :player2 :hard :establish-game)))
 
   )

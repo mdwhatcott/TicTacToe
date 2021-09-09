@@ -11,9 +11,10 @@
     (doseq [x (range (inc (first upper-left)) (first lower-right))
             y (range (inc (second upper-left)) (second lower-right))]
       (let [input  {:mouse   {:clicked? false :x x :y y}
+                    :screen  :choose-grid
                     :screens {:choose-grid anchors}}
             output (update_ input)]
-        (should= nil (:transition? output))
+        (should= :choose-grid (:screen output))
         (should= nil (:game-grid output))
         (should= nil (:gui-grid output))
         (should= expected-hover-element (:hovering output))))))
@@ -26,9 +27,10 @@
     (doseq [x (range (inc (first upper-left)) (first lower-right))
             y (range (inc (second upper-left)) (second lower-right))]
       (let [input  {:mouse   {:clicked? true :x x :y y}
+                    :screen  :choose-grid
                     :screens {:choose-grid anchors}}
             output (update_ input)]
-        (should= true (:transition? output))
+        (should= :configure-players (:screen output))
         (should= expected-grid-cell-count (count (:gui-grid output)))
         (should= expected-grid-cell-count (count (:empty-cells (:game-grid output))))))))
 
@@ -39,9 +41,10 @@
     (doseq [x (range (first top-half-upper-left) (first top-half-lower-right))
             y (range (second top-half-upper-left) (second top-half-lower-right))]
       (let [input  {:mouse   {:clicked? false :x x :y y}
+                    :screen  :choose-grid
                     :screens {:choose-grid anchors}}
             output (update_ input)]
-        (should= nil (:transition? output))
+        (should= :choose-grid (:screen output))
         (should= nil (:game-grid output))
         (should= nil (:gui-grid output))
         (should= nil (:hovering output))))))

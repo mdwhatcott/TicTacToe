@@ -5,7 +5,7 @@
     [ttt.grid :refer [place]]
     [ttt.ai :as ai]))
 
-(defn human-choice [game-grid gui-grid mx my mark]
+(defn human-choice [gui-grid mx my]
   (let [hovering? (map #(bounded? [mx my] (:box %)) gui-grid)
         indexed   (map-indexed vector hovering?)
         on        (ffirst (drop-while #(not (second %)) indexed))]
@@ -26,7 +26,7 @@
         gui-grid  (:gui-grid state)
         player    (if (= :X mark) player1 player2)]
     (if (= player :human)
-      (human-choice game-grid gui-grid mx my mark)
+      (human-choice gui-grid mx my)
       (ai-choice game-grid mark player))))
 
 (defn waiting-for-human? [state]
@@ -77,35 +77,22 @@
                     :loser? loser?
                     :tied? tied?)))))
 
-(defn set-mark-for-upcoming-frame [game-grid]
-  (if (zero? (mod (count (:filled-by-cell game-grid)) 2)) :X :O))
-
 (defn play [state]
   (if (waiting-for-human? state)
     (assoc state :gui-grid (update-gui-grid-with-hovered-cell state))
     (let [choice    (take-turn state)
-          ;; (db/associate-move game-name turn-counter suggestion) ; TODO
           game-grid (place (:mark state) choice (:game-grid state))
           state     (assoc state :game-grid game-grid)
-          gui-grid  (update-gui-grid-with-game-grid state)
-          mark      (set-mark-for-upcoming-frame game-grid)]
+          gui-grid  (update-gui-grid-with-game-grid state)]
       (assoc state :game-grid game-grid
                    :gui-grid gui-grid
-                   :mark mark))))
-
-(defn reset [state]
-  ;; (db/conclude-game (:game-name game-state)) ; TODO
-  (assoc state :transition? true
-               :mark :X
-               :player1 nil
-               :player2 nil
-               :game-grid nil))
+                   :screen :store-turn))))
 
 (defn update_ [state]
   (let [clicked?   (get-in state [:mouse :clicked?])
         game-over? (get-in state [:game-grid :game-over?])]
     (cond
-      (and game-over? clicked?) (reset state)
+      (and game-over? clicked?) (assoc state :screen :conclude-game)
       game-over? state
       :else (play state))))
 
