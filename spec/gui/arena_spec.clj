@@ -162,5 +162,18 @@
           (should= (repeat 9 false) losers)
           (should= (repeat 9 true) tied))))
 
+    (it "transitions to the conclude-game phase when the game is over and the user clicks"
+      (with-redefs [ai/players fake-players]
+        (let [game-grid (grid-spec/vector->grid [:O :O :X
+                                                 :X :X :O
+                                                 :O :X :X])
+              input     {:mouse     {:clicked? true :x 1 :y 1}
+                         :mark      :X
+                         :player1   :medium
+                         :game-grid game-grid
+                         :gui-grid  (common/assemble-grid-cells 3 [0 0] [4 4])}
+              output    (update_ input)]
+          (should= :conclude-game (:screen output)))))
+
     )
   )

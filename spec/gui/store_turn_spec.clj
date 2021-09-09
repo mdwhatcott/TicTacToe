@@ -12,9 +12,6 @@
    :last-move  5
    :game-grid  (grid/new-grid 3)})
 
-(def input-over
-  (assoc-in input-not-over [:game-grid :game-over?] true))
-
 (def input-mark-o
   (assoc input-not-over :mark :O))
 
@@ -40,12 +37,8 @@
         (let [output (update_ input-mark-o)]
           (should= :X (:mark output))))
 
-      (it "transitions back to the arena if there game is not yet over"
+      (it "transitions back to the arena"
         (let [output (update_ input-not-over)]
           (should= :arena (:screen output))))
-
-      (it "transitions to conclude-game when the game is over"
-        (let [output (update_ input-over)]
-          (should= :conclude-game (:screen output))))
 
       )))

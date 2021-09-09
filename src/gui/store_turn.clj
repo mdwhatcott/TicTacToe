@@ -3,10 +3,9 @@
             [db.datomic :as db]))
 
 (defn update_ [state]
-  (let [{:keys [game-name turn-count last-move]} state
-        game-over? (-> state :game-grid :game-over?)]
+  (let [{:keys [game-name turn-count last-move]} state]
     (db/associate-move game-name turn-count last-move)
     (-> state
         (update :turn-count inc)
         (update :mark grid/other)
-        (assoc :screen (if game-over? :conclude-game :arena)))))
+        (assoc :screen :arena))))
