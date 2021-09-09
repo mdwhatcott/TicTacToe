@@ -4,7 +4,9 @@
     [quil.middleware :as m]
     [gui.render :as render]
     [gui.screen :as screen]
-    [gui.common :as common]))
+    [gui.common :as common]
+    [db.datomic :as db]
+    [datomic.api :as d]))
 
 (def screen-width (- (min (quil/screen-width)
                           (quil/screen-height)) 100))
@@ -23,15 +25,20 @@
   (quil/background render/background-color)
   (screen/draw state screen/drawings-by-screen))
 
+(defn on-close [_state]
+  (d/shutdown true))
+
 (declare tic-tac-toe)
 
 (defn -main [& _args]
-  (quil/defsketch
-    tic-tac-toe
-    :title "Tic-Tac-Toe"
-    :size [screen-width screen-width]
-    :setup #'setup-root
-    :update #'update-root
-    :draw #'draw-root
-    :features [:keep-on-top]
-    :middleware [m/fun-mode]))
+  (with-redefs [db/conn (d/connect db/prod-uri)]
+    (quil/defsketch
+      tic-tac-toe
+      :title "Tic-Tac-Toe"
+      :size [screen-width screen-width]
+      :setup #'setup-root
+      :update #'update-root
+      :draw #'draw-root
+      :on-close #'on-close
+      :features [:keep-on-top]
+      :middleware [m/fun-mode])))
