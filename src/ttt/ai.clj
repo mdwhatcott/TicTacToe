@@ -61,3 +61,8 @@
   (if (> (count (:empty-cells grid)) 11)
     (random-empty-cell grid)
     (do-minimax mark grid max-depth)))
+
+(def players
+  {:easy   easy
+   :medium medium
+   :hard   hard})

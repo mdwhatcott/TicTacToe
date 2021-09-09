@@ -3,7 +3,7 @@
     [speclj.core :refer :all]
     [ttt.grid :refer :all]
     [ttt.grid-spec :refer :all]
-    [ttt.ai :refer :all]
+    [ttt.ai :refer [easy medium hard]]
     [tui.game :refer :all]
     [tui.grid :as terminal]
     [db.datomic :as db]))

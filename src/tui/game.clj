@@ -7,10 +7,7 @@
     [ttt.ai :as ai]))
 
 (def players
-  {:human  human/suggest
-   :easy   ai/easy
-   :medium ai/medium
-   :hard   ai/hard})
+  (assoc ai/players :human human/suggest))
 
 (defn tick [{:keys [game-name turn-counter grid mark player1 player2] :as game-state}]
   (let [player     (if (= mark :X) player1 player2)
