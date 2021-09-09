@@ -20,11 +20,11 @@
                     prompts/prompt-player    player-prompt
                     db/get-unfinished-game   db-reader
                     db/establish-new-game    db-writer]
-        (should= {:mark         :X
-                  :grid         (grid/new-grid 4)
-                  :player1      :medium
-                  :player2      :medium
-                  :game-name    "new-game"
+        (should= {:mark       :X
+                  :game-grid  (grid/new-grid 4)
+                  :player1    :medium
+                  :player2    :medium
+                  :game-name  "new-game"
                   :turn-count 0} (prepare-game))
         (should-have-invoked :db-writer {:with ["new-game" 4 :medium :medium] :times 1}))))
 
@@ -41,11 +41,11 @@
                     prompts/prompt-player    (stub :player)
                     db/get-unfinished-game   db-reader
                     db/establish-new-game    db-writer]
-        (should= {:mark         :X
-                  :grid         (grid/new-grid 3)
-                  :player1      :human
-                  :player2      :easy
-                  :game-name    "saved-game"
+        (should= {:mark       :X
+                  :game-grid  (grid/new-grid 3)
+                  :player1    :human
+                  :player2    :easy
+                  :game-name  "saved-game"
                   :turn-count 0} (prepare-game)))))
 
   )

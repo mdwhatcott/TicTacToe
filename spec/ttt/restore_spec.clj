@@ -12,11 +12,11 @@
                     :o-player   :easy
                     :moves      []}
           restored (restore-game saved)]
-      (->> restored (should= {:mark         :X
-                              :grid         (grid/new-grid 3)
-                              :player1      :human
-                              :player2      :easy
-                              :game-name    "saved-game"
+      (->> restored (should= {:mark       :X
+                              :game-grid  (grid/new-grid 3)
+                              :player1    :human
+                              :player2    :easy
+                              :game-name  "saved-game"
                               :turn-count 0}))))
 
   (it "restores a game wherein each player has already taken a single turn"
@@ -26,13 +26,13 @@
                     :o-player   :easy
                     :moves      [8 0]}
           restored (restore-game saved)]
-      (->> restored (should= {:mark         :X
-                              :grid         (->> (grid/new-grid 3)
-                                                 (grid/place :X 8)
-                                                 (grid/place :O 0))
-                              :player1      :human
-                              :player2      :easy
-                              :game-name    "saved-game"
+      (->> restored (should= {:mark       :X
+                              :game-grid  (->> (grid/new-grid 3)
+                                               (grid/place :X 8)
+                                               (grid/place :O 0))
+                              :player1    :human
+                              :player2    :easy
+                              :game-name  "saved-game"
                               :turn-count 2}))))
 
   (it "restores a game wherein it is now O's turn to move"
@@ -42,12 +42,12 @@
                     :o-player   :easy
                     :moves      [8]}
           restored (restore-game saved)]
-      (->> restored (should= {:mark         :O
-                              :grid         (->> (grid/new-grid 3)
-                                                 (grid/place :X 8))
-                              :player1      :human
-                              :player2      :easy
-                              :game-name    "saved-game"
+      (->> restored (should= {:mark       :O
+                              :game-grid  (->> (grid/new-grid 3)
+                                               (grid/place :X 8))
+                              :player1    :human
+                              :player2    :easy
+                              :game-name  "saved-game"
                               :turn-count 1}))))
 
   )

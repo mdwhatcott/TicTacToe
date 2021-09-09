@@ -15,10 +15,10 @@
         turn-count (count moves)
         mark       (if (zero? (mod turn-count 2)) :X :O)
         grid       (apply-moves (new-grid grid-width) moves)]
-    {:mark         mark
-     :grid         grid
-     :player1      x-player
-     :player2      o-player
-     :game-name    name
+    {:mark       mark
+     :game-grid  grid
+     :player1    x-player
+     :player2    o-player
+     :game-name  name
      :turn-count turn-count}))
 

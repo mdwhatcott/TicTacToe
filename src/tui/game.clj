@@ -9,16 +9,16 @@
 (def players
   (assoc ai/players :human human/suggest))
 
-(defn tick [{:keys [game-name turn-count grid mark player1 player2] :as game-state}]
+(defn tick [{:keys [game-name turn-count game-grid mark player1 player2] :as game-state}]
   (let [player     (if (= mark :X) player1 player2)
-        suggestion ((players player) mark grid)
-        next-grid  (grid/place mark suggestion grid)
+        suggestion ((players player) mark game-grid)
+        next-grid  (grid/place mark suggestion game-grid)
         winner     (:winner next-grid)
         game-over? (:game-over? next-grid)]
     (db/associate-move game-name turn-count suggestion)
     (-> game-state
         (update :mark grid/other)
-        (assoc :grid next-grid
+        (assoc :game-grid next-grid
                :winner winner
                :game-over? game-over?
                :turn-count (inc turn-count)))))
@@ -26,7 +26,7 @@
 (defn game-loop [ticks]
   (loop [ticks ticks]
     (let [tick (first ticks)]
-      (terminal/print-grid (:grid tick))
+      (terminal/print-grid (:game-grid tick))
       (if (:game-over? tick)
         (:winner tick)
         (recur (rest ticks))))))
