@@ -32,8 +32,7 @@
    :arena             (arena/calculate-anchors screen-width)})
 
 (defn setup-state [screen-width]
-  {:transition? false
-   :screen      :restore-game
+  {:screen      :restore-game
    :screens     (anchors-by-screen screen-width)
 
    :game-grid   nil
