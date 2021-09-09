@@ -2,19 +2,19 @@
   (:require
     [gui.common :refer [bounded?]]
     [gui.render :refer [render-grid-cells]]
-    [ttt.grid :refer [place]]))
+    [ttt.grid :refer [place]]
+    [ttt.ai :as ai]))
 
 (defn human-choice [game-grid gui-grid mx my mark]
   (let [hovering? (map #(bounded? [mx my] (:box %)) gui-grid)
         indexed   (map-indexed vector hovering?)
         on        (ffirst (drop-while #(not (second %)) indexed))]
-    ;; (db/associate-move game-name turn-counter suggestion) ; TODO
-    (place mark on game-grid)))
+    on))
 
-(defn ai-choice [grid mark ai]
-  (let [choice (ai mark grid)]
-    ;; (db/associate-move game-name turn-counter suggestion) ; TODO
-    (place mark choice grid)))
+(defn ai-choice [grid mark difficulty]
+  (let [player (ai/players difficulty)
+        choice (player mark grid)]
+    choice))
 
 (defn take-turn [state]
   (let [mx        (get-in state [:mouse :x])
@@ -83,7 +83,9 @@
 (defn play [state]
   (if (waiting-for-human? state)
     (assoc state :gui-grid (update-gui-grid-with-hovered-cell state))
-    (let [game-grid (take-turn state)
+    (let [choice    (take-turn state)
+          ;; (db/associate-move game-name turn-counter suggestion) ; TODO
+          game-grid (place (:mark state) choice (:game-grid state))
           state     (assoc state :game-grid game-grid)
           gui-grid  (update-gui-grid-with-game-grid state)
           mark      (set-mark-for-upcoming-frame game-grid)]

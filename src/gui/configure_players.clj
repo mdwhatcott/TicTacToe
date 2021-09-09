@@ -1,8 +1,7 @@
 (ns gui.configure-players
   (:require
     [gui.common :as c]
-    [gui.render :as r]
-    [ttt.ai :as ai]))
+    [gui.render :as r]))
 
 (defn update_ [state]
   (let [mx       (get-in state [:mouse :x])
@@ -36,7 +35,7 @@
                   "     Computer (easy)"
                   "     Computer (medium)"
                   "     Computer (hard)"]
-        values   [nil :human ai/easy ai/medium ai/hard]]
+        values   [nil :human :easy :medium :hard]]
 
     (for [i (range (count boxes))]
       {:text   (nth texts i)

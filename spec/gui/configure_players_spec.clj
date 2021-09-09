@@ -1,8 +1,7 @@
 (ns gui.configure-players-spec
   (:require
     [speclj.core :refer :all]
-    [gui.configure-players :refer :all]
-    [ttt.ai :as ai]))
+    [gui.configure-players :refer :all]))
 
 (defn check-no-selection []
   (let [anchors     (calculate-anchors 20)
@@ -91,25 +90,25 @@
       (check-selection-option 1 :player1 :human false))
 
     (it "assigns player1 the 'easy computer' option when clicked"
-      (check-selection-option 2 :player1 ai/easy false))
+      (check-selection-option 2 :player1 :easy false))
 
     (it "assigns player1 the 'medium computer' option when clicked"
-      (check-selection-option 3 :player1 ai/medium false))
+      (check-selection-option 3 :player1 :medium false))
 
     (it "assigns player1 the 'hard computer' option when clicked"
-      (check-selection-option 4 :player1 ai/hard false)))
+      (check-selection-option 4 :player1 :hard false)))
 
   (context "Configuring player 2"
     (it "assigns player2 the 'human' option when clicked (and transitions!)"
       (check-selection-option 1 :player2 :human true))
 
     (it "assigns player2 the 'easy computer' option when clicked (and transitions!)"
-      (check-selection-option 2 :player2 ai/easy true))
+      (check-selection-option 2 :player2 :easy true))
 
     (it "assigns player2 the 'medium computer' option when clicked (and transitions!)"
-      (check-selection-option 3 :player2 ai/medium true))
+      (check-selection-option 3 :player2 :medium true))
 
     (it "assigns player2 the 'hard computer' option when clicked (and transitions!)"
-      (check-selection-option 4 :player2 ai/hard true)))
+      (check-selection-option 4 :player2 :hard true)))
 
   )

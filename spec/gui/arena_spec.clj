@@ -4,9 +4,17 @@
     [gui.arena :refer :all]
     [gui.common :as common]
     [ttt.grid :as grid]
-    [ttt.grid-spec :as grid-spec]))
+    [ttt.grid-spec :as grid-spec]
+    [ttt.ai :as ai]))
+
+(def fake-players
+  {:easy   (fn [_mark _grid] 1)
+   :medium (fn [_mark _grid] 2)
+   :hard   (fn [_mark _grid] 3)})
 
 (describe "Screen: The Gameplay Arena"
+
+  (with-stubs)
 
   (context "Already In Game Over State"
 
@@ -92,85 +100,90 @@
   (context "AI Players Taking Turns"
 
     (it "places :X on game grid and gui corresponding with ai suggestion"
-      (let [input      {:mouse     {:clicked? false :x 1 :y 1}
-                        :mark      :X
-                        :player1   (fn [_mark _grid] "the suggested cell:" 1)
-                        :game-grid (grid/new-grid 2)
-                        :gui-grid  (common/assemble-grid-cells 2 [0 0] [4 4])}
-            output     (update_ input)
-            gui-marks  (map :mark (:gui-grid output))
-            grid-marks (:filled-by-cell (:game-grid output))]
-        (should= [nil :X nil nil] gui-marks)
-        (should= {1 :X} grid-marks)))
+      (with-redefs [ai/players fake-players]
+        (let [input      {:mouse     {:clicked? false :x 1 :y 1}
+                          :mark      :X
+                          :player1   :easy
+                          :game-grid (grid/new-grid 2)
+                          :gui-grid  (common/assemble-grid-cells 2 [0 0] [4 4])}
+              output     (update_ input)
+              gui-marks  (map :mark (:gui-grid output))
+              grid-marks (:filled-by-cell (:game-grid output))]
+          (should= [nil :X nil nil] gui-marks)
+          (should= {1 :X} grid-marks))))
 
     (it "places :O on game grid and gui corresponding with ai suggestion"
-      (let [game-grid  (->> (grid/new-grid 2)
-                            (grid/place :X 3))
-            input      {:mouse     {:clicked? false :x 1 :y 1}
-                        :mark      :O
-                        :player2   (fn [_mark _grid] "the suggested cell:" 1)
-                        :game-grid game-grid
-                        :gui-grid  (common/assemble-grid-cells 2 [0 0] [4 4])}
-            output     (update_ input)
-            gui-marks  (map :mark (:gui-grid output))
-            grid-marks (:filled-by-cell (:game-grid output))]
-        (should= [nil :O nil :X] gui-marks)
-        (should= {1 :O, 3 :X} grid-marks)))
+      (with-redefs [ai/players fake-players]
+        (let [game-grid  (->> (grid/new-grid 2)
+                              (grid/place :X 3))
+              input      {:mouse     {:clicked? false :x 1 :y 1}
+                          :mark      :O
+                          :player2   :easy
+                          :game-grid game-grid
+                          :gui-grid  (common/assemble-grid-cells 2 [0 0] [4 4])}
+              output     (update_ input)
+              gui-marks  (map :mark (:gui-grid output))
+              grid-marks (:filled-by-cell (:game-grid output))]
+          (should= [nil :O nil :X] gui-marks)
+          (should= {1 :O, 3 :X} grid-marks))))
 
     )
 
   (context "Taking Turns (in general)"
     (it "alternates the mark as turns are taken"
-      (let [startX {:mouse     {:clicked? false :x 1 :y 1}
-                    :mark      :X
-                    :player1   (fn [_mark _grid] 1)
-                    :player2   (fn [_mark _grid] 2)
-                    :game-grid (grid/new-grid 2)
-                    :gui-grid  (common/assemble-grid-cells 2 [0 0] [4 4])}
-            stateO (update_ startX)
-            stateX (update_ stateO)]
-        (should= :O (:mark stateO))
-        (should= :X (:mark stateX))))
+      (with-redefs [ai/players fake-players]
+        (let [startX {:mouse     {:clicked? false :x 1 :y 1}
+                      :mark      :X
+                      :player1   :easy
+                      :player2   :medium
+                      :game-grid (grid/new-grid 2)
+                      :gui-grid  (common/assemble-grid-cells 2 [0 0] [4 4])}
+              stateO (update_ startX)
+              stateX (update_ stateO)]
+          (should= :O (:mark stateO))
+          (should= :X (:mark stateX)))))
 
     (it "flags winning and losing marks when a player achieves tic-tac-toe"
-      (let [game-grid (->> (grid/new-grid 2)
-                           (grid/place :X 0)
-                           (grid/place :O 3))
-            input     {:mouse     {:clicked? false :x 1 :y 1}
-                       :mark      :X
-                       :player1   (fn [_mark _grid] 1)
-                       :game-grid game-grid
-                       :gui-grid  (common/assemble-grid-cells 2 [0 0] [4 4])}
-            output    (update_ input)
-            gui-marks (map :mark (:gui-grid output))
-            winners   (map :winner? (:gui-grid output))
-            losers    (map :loser? (:gui-grid output))
-            tied      (map :tied? (:gui-grid output))]
-        (should= [:X,,, :X,,, nil,, :O,,,] gui-marks)
-        (should= [true, true, false false] winners)
-        (should= [false false true, true,] losers)
-        (should= [false false false false] tied)))
+      (with-redefs [ai/players fake-players]
+        (let [game-grid (->> (grid/new-grid 2)
+                             (grid/place :X 0)
+                             (grid/place :O 3))
+              input     {:mouse     {:clicked? false :x 1 :y 1}
+                         :mark      :X
+                         :player1   :easy
+                         :game-grid game-grid
+                         :gui-grid  (common/assemble-grid-cells 2 [0 0] [4 4])}
+              output    (update_ input)
+              gui-marks (map :mark (:gui-grid output))
+              winners   (map :winner? (:gui-grid output))
+              losers    (map :loser? (:gui-grid output))
+              tied      (map :tied? (:gui-grid output))]
+          (should= [:X,,, :X,,, nil,, :O,,,] gui-marks)
+          (should= [true, true, false false] winners)
+          (should= [false false true, true,] losers)
+          (should= [false false false false] tied))))
 
     (it "flags all placed marks as losing when a the game is drawn"
-      (let [game-grid (grid-spec/vector->grid [:O :X :O
-                                               :X :X :O
-                                               :X :O nil])
-            input     {:mouse     {:clicked? false :x 1 :y 1}
-                       :mark      :X
-                       :player1   (fn [_mark _grid] 8)
-                       :game-grid game-grid
-                       :gui-grid  (common/assemble-grid-cells 3 [0 0] [4 4])}
-            output    (update_ input)
-            gui-marks (map :mark (:gui-grid output))
-            winners   (map :winner? (:gui-grid output))
-            losers    (map :loser? (:gui-grid output))
-            tied      (map :tied? (:gui-grid output))]
-        (should= [:O :X :O
-                  :X :X :O
-                  :X :O :X] gui-marks)
-        (should= (repeat 9 false) winners)
-        (should= (repeat 9 false) losers)
-        (should= (repeat 9 true) tied)))
+      (with-redefs [ai/players fake-players]
+        (let [game-grid (grid-spec/vector->grid [:O :O nil
+                                                 :X :X :O
+                                                 :O :X :X])
+              input     {:mouse     {:clicked? false :x 1 :y 1}
+                         :mark      :X
+                         :player1   :medium
+                         :game-grid game-grid
+                         :gui-grid  (common/assemble-grid-cells 3 [0 0] [4 4])}
+              output    (update_ input)
+              gui-marks (map :mark (:gui-grid output))
+              winners   (map :winner? (:gui-grid output))
+              losers    (map :loser? (:gui-grid output))
+              tied      (map :tied? (:gui-grid output))]
+          (should= [:O :O :X
+                    :X :X :O
+                    :O :X :X] gui-marks)
+          (should= (repeat 9 false) winners)
+          (should= (repeat 9 false) losers)
+          (should= (repeat 9 true) tied))))
 
     )
   )
