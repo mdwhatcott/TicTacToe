@@ -18,7 +18,7 @@
    :conclude-game     conclude-game/update_})
 
 (def drawings-by-screen
-  {:restore-game      choose-grid/draw
+  {:restore-game      (fn [_])
    :choose-grid       choose-grid/draw
    :configure-players configure-players/draw
    :establish-game    configure-players/draw
@@ -27,7 +27,8 @@
    :conclude-game     arena/draw})
 
 (defn anchors-by-screen [screen-width]
-  {:choose-grid       (choose-grid/calculate-anchors screen-width)
+  {:screen-width      screen-width
+   :choose-grid       (choose-grid/calculate-anchors screen-width)
    :configure-players (configure-players/calculate-anchors screen-width)
    :arena             (arena/calculate-anchors screen-width)})
 
