@@ -16,6 +16,9 @@
     (cond (and clicked? (some? element) (> element 0))
           (assoc state player (:value (nth boxes element))
                        :transition? (= player :player2))
+          ;; (db/establish-new-game name grid-width x-player o-player) TODO
+          ;; (restore/restore-game {:game :stuff}) TODO (or equivalent)
+
           :else
           (assoc state :hovering (if (> element 0) element nil)))))
 

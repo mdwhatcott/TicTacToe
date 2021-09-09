@@ -8,10 +8,12 @@
   (let [hovering? (map #(bounded? [mx my] (:box %)) gui-grid)
         indexed   (map-indexed vector hovering?)
         on        (ffirst (drop-while #(not (second %)) indexed))]
+    ;; (db/associate-move game-name turn-counter suggestion) ; TODO
     (place mark on game-grid)))
 
 (defn ai-choice [grid mark ai]
   (let [choice (ai mark grid)]
+    ;; (db/associate-move game-name turn-counter suggestion) ; TODO
     (place mark choice grid)))
 
 (defn take-turn [state]
@@ -90,6 +92,7 @@
                    :mark mark))))
 
 (defn reset [state]
+  ;; (db/conclude-game (:game-name game-state)) ; TODO
   (assoc state :transition? true
                :mark :X
                :player1 nil
