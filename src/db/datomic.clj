@@ -5,7 +5,7 @@
 (def test-uri "datomic:mem://ttt-test-db")
 (def prod-uri "datomic:free://localhost:4334/ttt-db")
 (def schema "resources/datomic/schema.edn")
-(def conn nil)
+(def conn (d/connect test-uri))
 
 
 (def game-id-query
