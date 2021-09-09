@@ -20,5 +20,5 @@
      :player1      x-player
      :player2      o-player
      :game-name    name
-     :turn-counter turn-count}))
+     :turn-count turn-count}))
 

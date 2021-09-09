@@ -17,7 +17,7 @@
                               :player1      :human
                               :player2      :easy
                               :game-name    "saved-game"
-                              :turn-counter 0}))))
+                              :turn-count 0}))))
 
   (it "restores a game wherein each player has already taken a single turn"
     (let [saved    {:name       "saved-game"
@@ -33,7 +33,7 @@
                               :player1      :human
                               :player2      :easy
                               :game-name    "saved-game"
-                              :turn-counter 2}))))
+                              :turn-count 2}))))
 
   (it "restores a game wherein it is now O's turn to move"
     (let [saved    {:name       "saved-game"
@@ -48,6 +48,6 @@
                               :player1      :human
                               :player2      :easy
                               :game-name    "saved-game"
-                              :turn-counter 1}))))
+                              :turn-count 1}))))
 
   )

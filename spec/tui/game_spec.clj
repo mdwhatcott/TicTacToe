@@ -28,12 +28,12 @@
                             :player1      :easy
                             :player2      :medium
                             :game-name    "game-name"
-                            :turn-counter 0}
+                            :turn-count 0}
                 result     (tick game-state)]
             (should= (place X 1 grid) (:grid result))
             (should= O (:mark result))
             (should-have-invoked :persistence {:with ["game-name" 0 1]})
-            (should= 1 (:turn-counter result))
+            (should= 1 (:turn-count result))
             (should= false (:game-over? result))
             (should-be-nil (:winner result))))))
 
@@ -48,7 +48,7 @@
                             :mark         X
                             :player1      :human
                             :player2      :easy
-                            :turn-counter 0}
+                            :turn-count 0}
                 result     (tick game-state)]
             (should= true (:game-over? result))
             (should-be-nil (:winner result))))))
@@ -64,7 +64,7 @@
                             :mark         O
                             :player1      :easy
                             :player2      :human
-                            :turn-counter 0}
+                            :turn-count 0}
                 result     (tick game-state)]
             (should= true (:game-over? result))
             (should= O (:winner result))))))

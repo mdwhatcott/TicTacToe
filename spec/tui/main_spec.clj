@@ -25,7 +25,7 @@
                   :player1      :medium
                   :player2      :medium
                   :game-name    "new-game"
-                  :turn-counter 0} (prepare-game))
+                  :turn-count 0} (prepare-game))
         (should-have-invoked :db-writer {:with ["new-game" 4 :medium :medium] :times 1}))))
 
   (it "restores the unfinished game from the database"
@@ -46,7 +46,7 @@
                   :player1      :human
                   :player2      :easy
                   :game-name    "saved-game"
-                  :turn-counter 0} (prepare-game)))))
+                  :turn-count 0} (prepare-game)))))
 
   )
 
