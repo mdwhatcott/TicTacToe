@@ -29,8 +29,6 @@
             (should-have-invoked :player1 {:with [X grid]})
             (should-have-invoked :persistence {:with ["game-name" 0 1]})
             (should= 1 (:turn-counter result))
-            (should= player1 (:player2 result))
-            (should= :player2 (:player1 result))
             (should= false (:game-over? result))
             (should-be-nil (:winner result))))))
 
@@ -53,14 +51,14 @@
     (it "detects winner in the case of a win"
       (let [persistence (stub :persistence)]
         (with-redefs [db/associate-move persistence]
-          (let [player1    (stub :player1 {:return 0})
+          (let [player2    (stub :player2 {:return 0})
                 grid       (vector->grid [_ X O
                                           O O X
                                           X _ O])
                 game-state {:grid    grid
                             :mark    O
-                            :player1 player1
-                            :player2 :player2
+                            :player1 :player1
+                            :player2 player2
                             :turn-counter 0}
                 result     (tick game-state)]
             (should= true (:game-over? result))

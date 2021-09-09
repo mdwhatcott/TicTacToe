@@ -5,7 +5,7 @@
     [tui.grid :as terminal]))
 
 (defn tick [{:keys [game-name turn-counter grid mark player1 player2] :as game-state}]
-  (let [suggestion (player1 mark grid)
+  (let [suggestion (if (= mark :X) (player1 mark grid) (player2 mark grid))
         next-grid  (grid/place mark suggestion grid)
         winner     (:winner next-grid)
         game-over? (:game-over? next-grid)]
@@ -13,8 +13,6 @@
     (-> game-state
         (update :mark grid/other)
         (assoc :grid next-grid
-               :player1 player2
-               :player2 player1
                :winner winner
                :game-over? game-over?
                :turn-counter (inc turn-counter)))))
