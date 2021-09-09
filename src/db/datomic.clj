@@ -7,6 +7,8 @@
 (def schema "resources/datomic/schema.edn")
 (def conn nil)
 
+(defn connect []
+  (if (some? conn) conn (d/connect prod-uri)))
 
 (def game-id-query
   '[:find ?eid
@@ -14,7 +16,7 @@
     :where [?eid :game/name ?game-start]])
 
 (defn find-game-id [game-start]
-  (ffirst (d/q game-id-query (d/db conn) game-start)))
+  (ffirst (d/q game-id-query (d/db (connect)) game-start)))
 
 
 (def get-moves-query
@@ -27,7 +29,7 @@
     [?m :move/location ?move-location]])
 
 (defn get-moves [game-name]
-  (->> (d/q get-moves-query (d/db conn) game-name)          ; #{[1 1] [0 2]}
+  (->> (d/q get-moves-query (d/db (connect)) game-name)     ; #{[1 1] [0 2]}
        (sort-by first)                                      ; ([0 2] [1 1])
        (map second)))                                       ; [2 1]
 
@@ -43,7 +45,7 @@
 
 (defn get-unfinished-game []
   (first
-    (for [game (d/q unfinished-games-query (d/db conn))]
+    (for [game (d/q unfinished-games-query (d/db (connect)))]
       {:name       (nth game 0)
        :grid-width (nth game 1)
        :x-player   (keyword (subs (nth game 2) 1))
@@ -52,23 +54,23 @@
 
 
 (defn establish-new-game [game-name grid-width x-player o-player]
-  @(d/transact conn [{:db/id           "new-game"
-                      :game/name       game-name
-                      :game/grid-width grid-width
-                      :game/x-player   (str x-player)
-                      :game/o-player   (str o-player)
-                      :game/over       false}]))
+  @(d/transact (connect) [{:db/id           "new-game"
+                           :game/name       game-name
+                           :game/grid-width grid-width
+                           :game/x-player   (str x-player)
+                           :game/o-player   (str o-player)
+                           :game/over       false}]))
 
 (defn associate-move [game-name sequence spot]
   (let [move-id "next-move"]
     @(d/transact
-       conn [{:db/id move-id :move/sequence sequence}
-             {:db/id move-id :move/location spot}
-             {:db/id (find-game-id game-name) :game/moves move-id}])))
+       (connect) [{:db/id move-id :move/sequence sequence}
+                  {:db/id move-id :move/location spot}
+                  {:db/id (find-game-id game-name) :game/moves move-id}])))
 
 (defn conclude-game [game-name]
   @(d/transact
-     conn [{:db/id (find-game-id game-name) :game/over true}]))
+     (connect) [{:db/id (find-game-id game-name) :game/over true}]))
 
 
 (defn reset-db [uri schema-path]

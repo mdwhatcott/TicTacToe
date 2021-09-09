@@ -26,8 +26,7 @@
         (restore/restore-game created)))))
 
 (defn -main []
-  (with-redefs [db/conn (d/connect db/prod-uri)]
-    (let [game-state (prepare-game)]
-      (game/play game-state)
-      (db/conclude-game (:game-name game-state))
-      (d/shutdown true))))
+  (let [game-state (prepare-game)]
+    (game/play game-state)
+    (db/conclude-game (:game-name game-state))
+    (d/shutdown true)))

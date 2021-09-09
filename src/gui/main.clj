@@ -31,14 +31,13 @@
 (declare tic-tac-toe)
 
 (defn -main [& _args]
-  (with-redefs [db/conn (d/connect db/prod-uri)]
-    (quil/defsketch
-      tic-tac-toe
-      :title "Tic-Tac-Toe"
-      :size [screen-width screen-width]
-      :setup #'setup-root
-      :update #'update-root
-      :draw #'draw-root
-      :on-close #'on-close
-      :features [:keep-on-top]
-      :middleware [m/fun-mode])))
+  (quil/defsketch
+    tic-tac-toe
+    :title "Tic-Tac-Toe"
+    :size [screen-width screen-width]
+    :setup #'setup-root
+    :update #'update-root
+    :draw #'draw-root
+    :on-close #'on-close
+    :features [:keep-on-top]
+    :middleware [m/fun-mode]))
