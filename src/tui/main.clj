@@ -26,7 +26,6 @@
         (restore/restore-game created)))))
 
 (defn -main []
-  #_(db/reset-db db/prod-uri db/schema)                     ; TODO: disable
   (with-redefs [db/conn (d/connect db/prod-uri)]
     (let [game-state (prepare-game)]
       (game/play game-state)
