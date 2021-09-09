@@ -12,7 +12,6 @@
                           (quil/screen-height)) 100))
 
 (defn setup-root []
-  ;; (restore/restore-game (db/get-unfinished-game)) TODO
   (screen/setup-state screen-width))
 
 (defn update-root [state]

@@ -5,10 +5,12 @@
     [gui.choose-grid :as choose-grid]
     [gui.configure-players :as configure-players]
     [gui.establish-game :as establish-game]
+    [gui.restore-game :as restore-game]
     [gui.store-turn :as store-turn]))
 
 (def updates-by-screen
-  {:choose-grid       choose-grid/update_
+  {:restore-game      restore-game/update_
+   :choose-grid       choose-grid/update_
    :configure-players configure-players/update_
    :establish-game    establish-game/update_
    :arena             arena/update_
@@ -16,7 +18,8 @@
    :conclude-game     conclude-game/update_})
 
 (def drawings-by-screen
-  {:choose-grid       choose-grid/draw
+  {:restore-game      choose-grid/draw
+   :choose-grid       choose-grid/draw
    :configure-players configure-players/draw
    :establish-game    configure-players/draw
    :arena             arena/draw
@@ -30,7 +33,7 @@
 
 (defn setup-state [screen-width]
   {:transition? false
-   :screen      :choose-grid
+   :screen      :restore-game
    :screens     (anchors-by-screen screen-width)
 
    :game-grid   nil
