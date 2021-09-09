@@ -4,9 +4,7 @@
     [tui.main :refer :all]
     [tui.prompts :as prompts]
     [db.datomic :as db]
-    [ttt.grid :as grid]
-    [ttt.ai :as ai]
-    [tui.human :as human]))
+    [ttt.grid :as grid]))
 
 (describe "Preparing the game"
   (with-stubs)
@@ -24,8 +22,8 @@
                     db/establish-new-game    db-writer]
         (should= {:mark         :X
                   :grid         (grid/new-grid 4)
-                  :player1      ai/medium
-                  :player2      ai/medium
+                  :player1      :medium
+                  :player2      :medium
                   :game-name    "new-game"
                   :turn-counter 0} (prepare-game))
         (should-have-invoked :db-writer {:with ["new-game" 4 :medium :medium] :times 1}))))
@@ -45,8 +43,8 @@
                     db/establish-new-game    db-writer]
         (should= {:mark         :X
                   :grid         (grid/new-grid 3)
-                  :player1      human/suggest
-                  :player2      ai/easy
+                  :player1      :human
+                  :player2      :easy
                   :game-name    "saved-game"
                   :turn-counter 0} (prepare-game)))))
 
@@ -62,8 +60,8 @@
           restored (restore-game saved)]
       (->> restored (should= {:mark         :X
                               :grid         (grid/new-grid 3)
-                              :player1      human/suggest
-                              :player2      ai/easy
+                              :player1      :human
+                              :player2      :easy
                               :game-name    "saved-game"
                               :turn-counter 0}))))
 
@@ -78,8 +76,8 @@
                               :grid         (->> (grid/new-grid 3)
                                                  (grid/place :X 8)
                                                  (grid/place :O 0))
-                              :player1      human/suggest
-                              :player2      ai/easy
+                              :player1      :human
+                              :player2      :easy
                               :game-name    "saved-game"
                               :turn-counter 2}))))
 
@@ -93,8 +91,8 @@
       (->> restored (should= {:mark         :O
                               :grid         (->> (grid/new-grid 3)
                                                  (grid/place :X 8))
-                              :player1      human/suggest
-                              :player2      ai/easy
+                              :player1      :human
+                              :player2      :easy
                               :game-name    "saved-game"
                               :turn-counter 1}))))
 

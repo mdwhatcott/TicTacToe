@@ -2,10 +2,19 @@
   (:require
     [ttt.grid :as grid]
     [db.datomic :as db]
-    [tui.grid :as terminal]))
+    [tui.grid :as terminal]
+    [tui.human :as human]
+    [ttt.ai :as ai]))
+
+(def players
+  {:human  human/suggest
+   :easy   ai/easy
+   :medium ai/medium
+   :hard   ai/hard})
 
 (defn tick [{:keys [game-name turn-counter grid mark player1 player2] :as game-state}]
-  (let [suggestion (if (= mark :X) (player1 mark grid) (player2 mark grid))
+  (let [player     (if (= mark :X) player1 player2)
+        suggestion ((players player) mark grid)
         next-grid  (grid/place mark suggestion grid)
         winner     (:winner next-grid)
         game-over? (:game-over? next-grid)]

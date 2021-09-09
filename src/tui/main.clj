@@ -1,9 +1,7 @@
 (ns tui.main
   (:require
-    [ttt.ai :as ai]
     [ttt.grid :refer [new-grid place]]
     [tui.game :as game]
-    [tui.human :as human]
     [tui.prompts :as prompts]
     [db.datomic :as db]
     [datomic.api :as d])
@@ -17,12 +15,6 @@
    :o-player   (prompts/prompt-player :O)
    :name       (now)})
 
-(def players
-  {:human  human/suggest
-   :easy   ai/easy
-   :medium ai/medium
-   :hard   ai/hard})
-
 (defn apply-moves [grid moves]
   (loop [grid  grid
          pairs (partition 2 (interleave moves (cycle [:X :O])))]
@@ -34,14 +26,12 @@
 (defn restore-game [unfinished]
   (let [{:keys [name grid-width x-player o-player moves]} unfinished
         turn-count (count moves)
-        player-x   (players x-player)
-        player-o   (players o-player)
         mark       (if (zero? (mod turn-count 2)) :X :O)
         grid       (apply-moves (new-grid grid-width) moves)]
     {:mark         mark
      :grid         grid
-     :player1      player-x
-     :player2      player-o
+     :player1      x-player
+     :player2      o-player
      :game-name    name
      :turn-counter turn-count}))
 

@@ -7,6 +7,12 @@
     [db.datomic :as db]
     [tui.grid :as terminal]))
 
+(def fake-players
+  {:human  (fn [_mark _grid] 0)
+   :easy   (fn [_mark _grid] 1)
+   :medium (fn [_mark _grid] 2)
+   :hard   (fn [_mark _grid] 3)})
+
 (describe "Game Play"
 
   (with-stubs)
@@ -14,19 +20,18 @@
   (context "A Single Tick"
     (it "updates and persists game state after one move"
       (let [persistence (stub :persistence)]
-        (with-redefs [db/associate-move persistence]
-          (let [player1    (stub :player1 {:return 1})
-                grid       (new-grid 3)
+        (with-redefs [db/associate-move persistence
+                      players           fake-players]
+          (let [grid       (new-grid 3)
                 game-state {:grid         grid
                             :mark         X
-                            :player1      player1
-                            :player2      :player2
+                            :player1      :easy
+                            :player2      :medium
                             :game-name    "game-name"
                             :turn-counter 0}
                 result     (tick game-state)]
             (should= (place X 1 grid) (:grid result))
             (should= O (:mark result))
-            (should-have-invoked :player1 {:with [X grid]})
             (should-have-invoked :persistence {:with ["game-name" 0 1]})
             (should= 1 (:turn-counter result))
             (should= false (:game-over? result))
@@ -34,15 +39,15 @@
 
     (it "detects game-over in the case of a tie"
       (let [persistence (stub :persistence)]
-        (with-redefs [db/associate-move persistence]
-          (let [player1    (stub :player1 {:return 0})
-                grid       (vector->grid [_ X O
+        (with-redefs [db/associate-move persistence
+                      players           fake-players]
+          (let [grid       (vector->grid [_ X O
                                           O O X
                                           X O O])
-                game-state {:grid    grid
-                            :mark    X
-                            :player1 player1
-                            :player2 :player2
+                game-state {:grid         grid
+                            :mark         X
+                            :player1      :human
+                            :player2      :easy
                             :turn-counter 0}
                 result     (tick game-state)]
             (should= true (:game-over? result))
@@ -50,15 +55,15 @@
 
     (it "detects winner in the case of a win"
       (let [persistence (stub :persistence)]
-        (with-redefs [db/associate-move persistence]
-          (let [player2    (stub :player2 {:return 0})
-                grid       (vector->grid [_ X O
+        (with-redefs [db/associate-move persistence
+                      players           fake-players]
+          (let [grid       (vector->grid [_ X O
                                           O O X
                                           X _ O])
-                game-state {:grid    grid
-                            :mark    O
-                            :player1 :player1
-                            :player2 player2
+                game-state {:grid         grid
+                            :mark         O
+                            :player1      :easy
+                            :player2      :human
                             :turn-counter 0}
                 result     (tick game-state)]
             (should= true (:game-over? result))
