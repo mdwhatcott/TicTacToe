@@ -5,7 +5,6 @@
     [gui.render :as render]
     [gui.screen :as screen]
     [gui.common :as common]
-    [db.datomic :as db]
     [datomic.api :as d]))
 
 (def screen-width (- (min (quil/screen-width)
