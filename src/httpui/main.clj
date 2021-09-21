@@ -1,12 +1,14 @@
 (ns httpui.main
   (:require
-    [httpui.start :as start])
+    [httpui.start :as start]
+    [httpui.play :as play])
   (:import
     (jhs Server Service HTTPResponse)
     (java.util HashMap)))
 
+;; TODO: test-drive this
 (defn parse-request [java-request]
-  {:form (into {} (. java-request -Form))})
+  {:form (into {} (. java-request -Form))})                 ;; TODO: convert ArrayList values into vectors
 
 ;; TODO: test? (how do you invoke a reified thing in clojure?)
 (defn handle [f]
@@ -24,7 +26,7 @@
   (let [routes (HashMap.)]
     (doto routes
       (.put "/ttt" (handle start/serve-start-page))
-      (.put "/ttt/play" (handle nil)))))
+      (.put "/ttt/play" (handle play/serve-play-page)))))
 
 (defn -main [& _args]
   (let [routes (setup-routes)

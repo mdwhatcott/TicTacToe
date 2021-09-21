@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :main tui.main
+  :main httpui.main
   :java-source-paths ["/Users/mike/src/github.com/mdwhatcott/java-http-server"]
   :datomic {:schemas ["resources/datomic" ["schema.edn"]]}
   :dependencies [[org.clojure/clojure "1.8.0"]
