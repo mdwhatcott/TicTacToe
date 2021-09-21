@@ -16,5 +16,5 @@
 
 (defn serve-start-page [_request]
   {:status  200
-   :headers {"content-type" "text/html"}
+   :headers {:content-type "text/html"}
    :body    (hiccup/html (start-tags))})

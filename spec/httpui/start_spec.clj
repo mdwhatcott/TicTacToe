@@ -24,7 +24,7 @@
           renderedTags (hiccup/html expectedTags)
           response     (serve-start-page nil)]
       (should= {:status 200
-                :headers {"content-type" "text/html"}
+                :headers {:content-type "text/html"}
                 :body renderedTags} response)
 
       (let [lines

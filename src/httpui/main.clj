@@ -6,33 +6,22 @@
     (jhs Server Service HTTPResponse HTTPRequest)
     (java.util HashMap)))
 
-(def hello
+(defn handle [f]
   (reify Service
-    (serve [this request]
-      (println request)
-      (let [response (HTTPResponse.)]
-        (set! (. response -StatusCode) 200)
-        (doto response
-          (.setBody "<html><head></head><body><h1>Hello, world!</h1></body></html>")
-          (.setHeader "content-type" "text/html"))))))
-
-(def start
-  (reify Service
-    (serve [this reader]
-      (let [writer   (HTTPResponse.)
-            request  {}                                     ;; TODO
-            response (start/serve-start-page reader)]
-        (doto writer
+    (serve [this javaRequest]
+      (let [javaResponse (HTTPResponse.)
+            request      {}                                     ;; TODO
+            response     (f request)]
+        (set! (. javaResponse -StatusCode) 200)
+        (doto javaResponse
           (.setBody (str (:body response)))
-          (doseq [[k v] (:headers response)]
-                 (.setHeader k v)))))))
+          (.setHeader "content-type" "text/html"))))))
 
 (defn setup-routes []
   (let [routes (HashMap.)]
     (doto routes
-      (.put "/" hello)
-      (.put "/ttt" start)
-      (.put "/ttt/play" nil))))
+      (.put "/ttt" (handle start/serve-start-page))
+      (.put "/ttt/play" (handle nil)))))
 
 (defn -main [& _args]
   (let [routes (setup-routes)
