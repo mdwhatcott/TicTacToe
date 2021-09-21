@@ -5,14 +5,18 @@
     (jhs Server Service HTTPResponse)
     (java.util HashMap)))
 
+(defn parse-request [java-request]
+  {:form (into {} (. java-request -Form))})
+
+;; TODO: test? (how do you invoke a reified thing in clojure?)
 (defn handle [f]
   (reify Service
-    (serve [this javaRequest]
-      (let [javaResponse (HTTPResponse.)
-            request      {}                                     ;; TODO
-            response     (f request)]
-        (set! (. javaResponse -StatusCode) 200)
-        (doto javaResponse
+    (serve [_this java-request]
+      (let [java-response (HTTPResponse.)
+            request       (parse-request java-request)
+            response      (f request)]
+        (set! (. java-response -StatusCode) 200)
+        (doto java-response
           (.setBody (str (:body response)))
           (.setHeader "content-type" "text/html"))))))
 
