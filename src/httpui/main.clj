@@ -1,9 +1,8 @@
 (ns httpui.main
   (:require
-    [hiccup.core :as hiccup]
     [httpui.start :as start])
   (:import
-    (jhs Server Service HTTPResponse HTTPRequest)
+    (jhs Server Service HTTPResponse)
     (java.util HashMap)))
 
 (defn handle [f]
