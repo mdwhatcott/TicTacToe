@@ -11,4 +11,5 @@ pom.xml
 .lein-plugins
 .lein-repl-history
 .nrepl-port
-.idea/libraries
+.idea
+*.iml
