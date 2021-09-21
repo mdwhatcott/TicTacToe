@@ -1,6 +1,6 @@
 (ns httpui.start-spec
   (:require
-    [clojure.string :refer [trim replace starts-with?]]
+    [clojure.string :as string]
     [speclj.core :refer :all]
     [httpui.start :refer :all]
     [hiccup.core :as hiccup])
@@ -43,9 +43,9 @@
              "  </body>                                                                  "
              "</html>                                                                    "]]
         (as-> lines $
-              (map trim $)
+              (map string/trim $)
               (apply str $)
-              (replace $ "'" "\"")
+              (string/replace $ "'" "\"")
               (should= $ renderedTags)))))
 
   )
