@@ -3,24 +3,35 @@
     [clojure.string :as string]
     [tui.prompts :as prompts]))
 
-(def hint-characters
-  {"1"  "1"
-   "2"  "2"
-   "3"  "3"
-   "4"  "4"
-   "5"  "5"
-   "6"  "6"
-   "7"  "7"
-   "8"  "8"
-   "9"  "9"
+(def values
+  (concat (range 1 10)
+          (seq "abcdefghijklmnopqrstuvwxyz")))
 
-   "10" "a"
-   "11" "b"
-   "12" "c"
-   "13" "d"
-   "14" "e"
-   "15" "f"
-   "16" "g"})
+(def keys
+  (->> (range 1 (count values))
+       (map #(format "%d" %))))
+
+;(def hint-characters
+;  {"1"  "1"
+;   "2"  "2"
+;   "3"  "3"
+;   "4"  "4"
+;   "5"  "5"
+;   "6"  "6"
+;   "7"  "7"
+;   "8"  "8"
+;   "9"  "9"
+;
+;   "10" "a"
+;   "11" "b"
+;   "12" "c"
+;   "13" "d"
+;   "14" "e"
+;   "15" "f"
+;   "16" "g"})
+
+(def hint-characters
+  (zipmap keys values))
 
 (defn- cell-hint [n mark]
   (if (= mark " ") (hint-characters (str (inc n))) " "))
