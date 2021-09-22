@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :main httpui.main
+  :main gui.main
   :datomic {:schemas ["resources/datomic" ["schema.edn"]]}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [com.datomic/datomic-free "0.9.5697"]
