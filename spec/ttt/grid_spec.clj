@@ -168,6 +168,7 @@
         (should= nil (:winner grid))
         (should= 3 (:width grid))
         (should= 9 (:capacity grid))
+        (should= [] (:moves grid))
         (should= #{0 1 2 3 4 5 6 7 8} (:empty-cells grid))
         (should= {} (:filled-by-cell grid))
         (should= {X #{}
@@ -193,6 +194,7 @@
         (should= false (:game-over? grid))
         (should= nil (:winner grid))
         (should= 4 (:width grid))
+        (should= [] (:moves grid))
         (should= #{0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15}
                  (:empty-cells grid))
         (should= {} (:filled-by-cell grid))
@@ -228,7 +230,8 @@
         (should= nil (:winner grid))
         (should= {X #{0} O #{}} (:filled-by-mark updated))
         (should= {0 X} (:filled-by-cell updated))
-        (should= #{1 2 3 4 5 6 7 8} (:empty-cells updated))))
+        (should= #{1 2 3 4 5 6 7 8} (:empty-cells updated))
+        (should= [0] (:moves updated))))
 
     (it "detects game-over because of winning conditions with each placement"
       (let [grid    (vector->grid [_ O O

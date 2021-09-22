@@ -39,6 +39,9 @@
      :width          width
      :capacity       capacity
 
+     ; [0 1 2]
+     :moves          []
+
      ; {1 :X, 2 :O}
      :filled-by-cell {}
 
@@ -69,7 +72,8 @@
         (out-of-bounds? on grid) grid
         (already-placed? on grid) grid
         :else
-        (let [old-by-mark     (:filled-by-mark grid)
+        (let [moves           (conj (:moves grid) on)
+              old-by-mark     (:filled-by-mark grid)
               old-cells       (old-by-mark mark)
 
               filled-by-mark  (assoc old-by-mark mark (conj old-cells on))
@@ -79,7 +83,8 @@
               wins-for-cell   (get-in grid [:wins-by-cell on])
               is-winner?      (winner? (filled-by-mark mark) wins-for-cell)
               winner          (if is-winner? mark nil)]
-          (assoc grid :filled-by-mark filled-by-mark
+          (assoc grid :moves moves
+                      :filled-by-mark filled-by-mark
                       :filled-by-cell filled-by-cells
                       :empty-cells empty-cells
                       :game-over? (or is-winner? (empty? empty-cells))
