@@ -6,9 +6,8 @@
     (jhs Server Service HTTPResponse)
     (java.util HashMap)))
 
-;; TODO: test-drive this
 (defn parse-request [java-request]
-  {:form (into {} (. java-request -Form))})                 ;; TODO: convert ArrayList values into vectors
+  {:form (into {} (. java-request -Form))})
 
 ;; TODO: test? (how do you invoke a reified thing in clojure?)
 (defn handle [f]
@@ -17,6 +16,7 @@
       (let [java-response (HTTPResponse.)
             request       (parse-request java-request)
             response      (f request)]
+        (println "response: " response)
         (set! (. java-response -StatusCode) 200)
         (doto java-response
           (.setBody (str (:body response)))
