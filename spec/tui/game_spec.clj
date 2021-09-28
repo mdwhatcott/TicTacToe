@@ -2,7 +2,6 @@
   (:require
     [speclj.core :refer :all]
     [ttt.grid :refer :all]
-    [ttt.grid-spec :refer :all]
     [tui.game :refer :all]
     [db.datomic :as db]
     [tui.grid :as terminal]))
@@ -12,6 +11,10 @@
    :easy   (fn [_mark _grid] 1)
    :medium (fn [_mark _grid] 2)
    :hard   (fn [_mark _grid] 3)})
+
+(def O :O)
+(def X :X)
+(def _ nil)
 
 (describe "Game Play"
 

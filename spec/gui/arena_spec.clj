@@ -4,7 +4,6 @@
     [gui.arena :refer :all]
     [gui.common :as common]
     [ttt.grid :as grid]
-    [ttt.grid-spec :as grid-spec]
     [ttt.ai :as ai]))
 
 (def fake-players
@@ -142,7 +141,7 @@
 
     (it "flags all placed marks as losing when a the game is drawn"
       (with-redefs [ai/players fake-players]
-        (let [game-grid (grid-spec/vector->grid [:O :O nil
+        (let [game-grid (grid/vector->grid [:O :O nil
                                                  :X :X :O
                                                  :O :X :X])
               input     {:mouse     {:clicked? false :x 1 :y 1}
@@ -164,7 +163,7 @@
 
     (it "transitions to the conclude-game phase when the game is over and the user clicks"
       (with-redefs [ai/players fake-players]
-        (let [game-grid (grid-spec/vector->grid [:O :O :X
+        (let [game-grid (grid/vector->grid [:O :O :X
                                                  :X :X :O
                                                  :O :X :X])
               input     {:mouse     {:clicked? true :x 1 :y 1}

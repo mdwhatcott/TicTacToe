@@ -2,8 +2,11 @@
   (:require
     [speclj.core :refer :all]
     [ttt.grid :refer :all]
-    [ttt.grid-spec :refer :all]
     [tui.grid :refer :all]))
+
+(def O :O)
+(def X :X)
+(def _ nil)
 
 (describe "Console Rendering"
   (context "3x3 Grids"
