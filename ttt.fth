@@ -1,9 +1,21 @@
 : EMPTY [char] _ ;
 : X     [char] X ;
+: O     [char] O ;
 
 variable grid 8 cells allot
+variable mark
+
+: switch! ( -- )
+	mark @ X = if
+		O mark !
+	else
+		X mark !
+	then
+;
+
 
 : grid-init ( -- )
+	X mark !
 	9 0 do
 		EMPTY grid i cells + !
 	loop
@@ -17,5 +29,6 @@ variable grid 8 cells allot
 ;
 
 : grid-place ( n -- )
-	X grid rot cells + !
+	mark @ grid rot cells + !
+	switch!
 ;
