@@ -76,10 +76,8 @@ variable mark
     then then then ;
 
 : grid-turn ( n -- )
-    grid-winner C =
-    if
-        drop
-    else
-        grid-place
+    { on -- }
+    grid-winner _ = if
+        on grid-place
         switch!
     then ;

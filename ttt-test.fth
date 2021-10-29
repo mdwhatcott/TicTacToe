@@ -83,6 +83,33 @@
     
     s" OXXXXOOOX" assert-grid
 
+
+." - A game won by X is immutable" cr
+    X X X
+    _ O O
+    _ O O
+    setup-grid
+
+    s" XXX-OO-OO" assert-grid
+
+    3 grid-turn ( should have no effect )
+
+    s" XXX-OO-OO" assert-grid
+
+
+." - A game won by O is immutable" cr
+    O O O
+    _ X X
+    _ X X
+    setup-grid
+
+    s" OOO-XX-XX" assert-grid
+
+    3 grid-turn ( should have no effect )
+
+    s" OOO-XX-XX" assert-grid
+
+
 ." - An empty grid has no winner" cr
     grid-init
     _ assert-winner
