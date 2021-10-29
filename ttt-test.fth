@@ -71,7 +71,7 @@
 
 ." - grid-win?: empty board" cr
     grid-init!
-    grid-win?
+    grid-winner
     EMPTY should-equal-char
 
 bye

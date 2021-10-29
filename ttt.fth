@@ -34,6 +34,6 @@ variable mark
     grid swap cells + @
 ;
 
-: grid-win? ( -- c )
+: grid-winner ( -- c )
     EMPTY
 ;
