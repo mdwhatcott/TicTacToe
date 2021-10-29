@@ -1,6 +1,6 @@
-: EMPTY [char] _ ;
-: X     [char] X ;
-: O     [char] O ;
+: N [char] _ ;
+: X [char] X ;
+: O [char] O ;
 
 variable grid 8 cells allot
 variable mark
@@ -19,7 +19,7 @@ variable mark
 ;
 
 : grid-init ( -- )
-    EMPTY mark !
+    N mark !
     9 0 do i grid-place loop
     X mark !
 ;
@@ -34,5 +34,5 @@ variable mark
 ;
 
 : grid-winner ( -- c )
-    EMPTY
+    N
 ;

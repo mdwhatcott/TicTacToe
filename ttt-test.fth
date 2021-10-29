@@ -80,7 +80,7 @@
 ." - An empty grid has no winner" cr
     grid-init
     grid-winner
-    EMPTY should-equal-char
+    N should-equal-char
 
 ." - A drawn grid has no winner" cr
     O X X
@@ -88,7 +88,7 @@
     O O X
     setup-grid
     grid-winner
-    EMPTY should-equal-char
+    N should-equal-char
 
 ." - X wins on row 1 (TODO)" cr
 ." - X wins on row 2 (TODO)" cr
