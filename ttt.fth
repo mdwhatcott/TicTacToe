@@ -1,4 +1,4 @@
-: N [char] _ ;
+: N [char] _ ; \ TODO: -
 : X [char] X ;
 : O [char] O ;
 : C [char] C ;
@@ -39,12 +39,32 @@ variable mark
     loop
 ;
 
-: grid-winner ( -- c )
-    count-blanks 0=
-    if
-        C
+: 3-in-a-row? { g1 g2 g3 c -- b }
+    g1 c = invert if
+        false
     else
-        N
+        g1 g2 =
+        g1 g3 =
+        and
+    then
+;
+
+: get-3 { n1 n2 n3 }
+    n1 grid-at
+    n2 grid-at
+    n3 grid-at
+;
+
+: grid-winner ( -- c )
+    0 1 2 get-3 X 3-in-a-row? if
+        X
+    else
+        count-blanks 0=
+        if
+            C
+        else
+            N
+        then
     then
 ;
 

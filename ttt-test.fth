@@ -102,7 +102,13 @@
     setup-drawn-grid
     C assert-winner
 
-." - X wins on row 1 (TODO)" cr
+." - X wins on row 1" cr
+    X X X
+    O N O
+    O N O
+    setup-grid
+    X assert-winner
+
 ." - X wins on row 2 (TODO)" cr
 ." - X wins on row 3 (TODO)" cr
 ." - X wins on col 1 (TODO)" cr
