@@ -13,15 +13,20 @@ variable mark
     then
 ;
 
-: grid-init! ( -- )
-    X mark !
-    9 0 do
-        EMPTY grid i cells + !
-    loop
+: grid-place! ( n -- )
+    mark @ grid rot cells + !
 ;
 
-: grid-place ( n -- )
-    mark @ grid rot cells + !
+: grid-init! ( -- )
+    EMPTY mark !
+    9 0 do
+        i grid-place!
+    loop
+    X mark !
+;
+
+: grid-turn! ( n -- )
+    grid-place!
     switch!
 ;
 

@@ -48,24 +48,24 @@
     s" _________"
     assert-grid
 
-." - grid-place: places X first" cr
+." - grid-turn!: places X first" cr
     grid-init!
-    0 grid-place
+    0 grid-turn!
     s" X________"
     assert-grid
 
-." - grid-place: places O after X" cr
+." - grid-turn!: places O after X" cr
     grid-init!
-    0 grid-place
-    1 grid-place
+    0 grid-turn!
+    1 grid-turn!
     s" XO_______"
     assert-grid
 
-." - grid-place: places X after O" cr
+." - grid-turn!: places X after O" cr
     grid-init!
-    0 grid-place
-    1 grid-place
-    2 grid-place
+    0 grid-turn!
+    1 grid-turn!
+    2 grid-turn!
     s" XOX______" 
     assert-grid
 
