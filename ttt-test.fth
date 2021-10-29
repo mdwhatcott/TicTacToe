@@ -8,7 +8,18 @@
     swap
 ;
 
-: should-equal-str ( str-addr len str-addr len -- n )
+: should-equal-char ( expected actual -- )
+    2dup = invert if
+        swap
+        ." << fail >>" cr
+        ." -expect: " emit cr
+        ." -actual: " emit cr
+    else
+        2drop
+    then
+;
+
+: should-equal-str ( str-addr len str-addr len -- )
           ( um, there's got to )
           ( be a better way... )
           ( 1 2  3 4           )
@@ -57,5 +68,10 @@
     2 grid-place
     s" XOX______" 
     assert-grid
+
+." - grid-win?: empty board" cr
+    grid-init!
+    grid-win?
+    EMPTY should-equal-char
 
 bye

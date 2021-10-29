@@ -28,3 +28,7 @@ variable mark
 : grid-at ( n -- c )
     grid swap cells + @
 ;
+
+: grid-win? ( -- c )
+    EMPTY
+;
