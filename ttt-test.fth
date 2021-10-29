@@ -9,6 +9,8 @@
 ;
 
 : should-equal-str ( str-addr len str-addr len -- n )
+          ( um, there's got to )
+          ( be a better way... )
           ( 1 2  3 4           )
     2swap ( 3 4  1 2           )
     2dup  ( 3 4  1 2  1 2      )
