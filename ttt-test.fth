@@ -51,6 +51,10 @@
     grid-line should-equal-str
 ;
 
+: assert-winner ( expected -- )
+    grid-winner should-equal-char
+;
+
 ." - A newly created grid is empty" cr
     grid-init
     s" _________"
@@ -79,16 +83,14 @@
 
 ." - An empty grid has no winner" cr
     grid-init
-    grid-winner
-    N should-equal-char
+    N assert-winner
 
 ." - A drawn grid has no winner" cr
     O X X
     X X O
     O O X
     setup-grid
-    grid-winner
-    N should-equal-char
+    N assert-winner
 
 ." - X wins on row 1 (TODO)" cr
 ." - X wins on row 2 (TODO)" cr
