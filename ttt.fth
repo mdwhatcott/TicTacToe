@@ -14,7 +14,6 @@ variable mark
 ;
 
 : grid-init! ( -- )
-: grid-init ( -- )
 	X mark !
 	9 0 do
 		EMPTY grid i cells + !
@@ -24,4 +23,8 @@ variable mark
 : grid-place ( n -- )
 	mark @ grid rot cells + !
 	switch!
+;
+
+: grid-at ( n -- c )
+	grid swap cells + @
 ;
