@@ -13,19 +13,12 @@ variable mark
 	then
 ;
 
-
+: grid-init! ( -- )
 : grid-init ( -- )
 	X mark !
 	9 0 do
 		EMPTY grid i cells + !
 	loop
-;
-
-: grid-line ( -- )
-	9 0 do
-		grid i cells + @ emit
-	loop
-	cr
 ;
 
 : grid-place ( n -- )
