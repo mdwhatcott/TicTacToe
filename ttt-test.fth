@@ -1,13 +1,13 @@
-cr ." board-init: creates a new board"
+cr ." grid-init: creates a new grid"
 cr ." - expect: _________"
-cr ." - actual: " board-init
-                  board-line
+cr ." - actual: " grid-init
+                  grid-line
 cr
-cr ." board-place: places X"
+cr ." grid-place: places X"
 cr ." - expect: ____X____"
-cr ." - actual: " board-init
-                  4 board-place
-                  board-line
+cr ." - actual: " grid-init
+                  4 grid-place
+                  grid-line
 cr
 
 bye

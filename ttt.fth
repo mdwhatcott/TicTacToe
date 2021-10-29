@@ -1,21 +1,21 @@
 : EMPTY [char] _ ;
 : X     [char] X ;
 
-variable board 8 cells allot
+variable grid 8 cells allot
 
-: board-init ( -- )
+: grid-init ( -- )
 	9 0 do
-		EMPTY board i cells + !
+		EMPTY grid i cells + !
 	loop
 ;
 
-: board-line ( -- )
+: grid-line ( -- )
 	9 0 do
-		board i cells + @ emit
+		grid i cells + @ emit
 	loop
 	cr
 ;
 
-: board-place ( n -- )
-	X board rot cells + !
+: grid-place ( n -- )
+	X grid rot cells + !
 ;
