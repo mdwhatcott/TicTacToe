@@ -27,8 +27,8 @@
     expected actual = invert
     if
         ." <<< FAIL >>>" cr
-        ." -expect: " expected emit cr
-        ." -actual: " actual emit cr
+        ." -- expect: " expected emit cr
+        ." -- actual: " actual emit cr
         cr
     then
 ;
@@ -40,8 +40,8 @@
     if
         actual actual-length expected expected-length
         ." <<< FAIL >>>" cr
-        ." - expect: [" type ." ]" cr
-        ." - actual: [" type ." ]" cr
+        ." -- expect: [" type ." ]" cr
+        ." -- actual: [" type ." ]" cr
         cr
     then
 ;
@@ -57,25 +57,25 @@
 
 cr ." # Board Placement" cr cr
 
-." ## A newly created grid is empty" cr
+." - A newly created grid is empty" cr
     clear-grid
     s" ---------" assert-grid
 
 
-." ## The first turn places an X" cr
+." - The first turn places an X" cr
     clear-grid
     0 take-turn
     s" X--------" assert-grid
 
 
-." ## The second turn places an O" cr
+." - The second turn places an O" cr
     clear-grid
     0 take-turn
     1 take-turn
     s" XO-------" assert-grid
 
 
-." ## The third turn places another X" cr
+." - The third turn places another X" cr
     clear-grid
     0 take-turn
     1 take-turn
@@ -83,7 +83,7 @@ cr ." # Board Placement" cr cr
     s" XOX------" assert-grid
 
 
-." ## A drawn game is immutable" cr
+." - A drawn game is immutable" cr
     setup-drawn-grid
     
     s" OXXXXOOOX" assert-grid
@@ -93,7 +93,7 @@ cr ." # Board Placement" cr cr
     s" OXXXXOOOX" assert-grid
 
 
-." ## A game won by X is immutable" cr
+." - A game won by X is immutable" cr
     X X X
     _ O O
     _ O O
@@ -106,7 +106,7 @@ cr ." # Board Placement" cr cr
     s" XXX-OO-OO" assert-grid
 
 
-." ## A game won by O is immutable" cr
+." - A game won by O is immutable" cr
     O O O
     _ X X
     _ X X
@@ -121,17 +121,17 @@ cr ." # Board Placement" cr cr
 
 cr ." # Winning Conditions" cr cr
 
-." ## An empty grid has no winner" cr
+." - An empty grid has no winner" cr
     clear-grid
     _ assert-winner
 
 
-." ## A drawn grid has no winner" cr
+." - A drawn grid has no winner" cr
     setup-drawn-grid
     C assert-winner
 
 
-." ## X wins on row 1" cr
+." - X wins on row 1" cr
     X X X
     O _ O
     O _ O
@@ -139,7 +139,7 @@ cr ." # Winning Conditions" cr cr
     X assert-winner
 
 
-." ## X wins on row 2" cr
+." - X wins on row 2" cr
     O _ O
     X X X
     O _ O
@@ -147,7 +147,7 @@ cr ." # Winning Conditions" cr cr
     X assert-winner
 
 
-." ## X wins on row 3" cr
+." - X wins on row 3" cr
     O _ O
     O _ O
     X X X
@@ -155,7 +155,7 @@ cr ." # Winning Conditions" cr cr
     X assert-winner
 
 
-." ## X wins on col 1" cr
+." - X wins on col 1" cr
     X O O
     X _ _
     X O O
@@ -163,7 +163,7 @@ cr ." # Winning Conditions" cr cr
     X assert-winner
 
 
-." ## X wins on col 2" cr
+." - X wins on col 2" cr
     O X O
     _ X _
     O X O
@@ -171,7 +171,7 @@ cr ." # Winning Conditions" cr cr
     X assert-winner
 
 
-." ## X wins on col 3" cr
+." - X wins on col 3" cr
     O O X
     _ _ X
     O O X
@@ -179,7 +179,7 @@ cr ." # Winning Conditions" cr cr
     X assert-winner
 
 
-." ## X wins on dia 1" cr
+." - X wins on dia 1" cr
     X O _
     O X O
     _ O X
@@ -187,7 +187,7 @@ cr ." # Winning Conditions" cr cr
     X assert-winner
 
 
-." ## X wins on dia 2" cr
+." - X wins on dia 2" cr
     _ O X
     O X O
     X O _
@@ -195,7 +195,7 @@ cr ." # Winning Conditions" cr cr
     X assert-winner
 
 
-." ## O wins on row 1" cr
+." - O wins on row 1" cr
     O O O
     X _ X
     X _ X
@@ -203,7 +203,7 @@ cr ." # Winning Conditions" cr cr
     O assert-winner
 
 
-." ## O wins on row 2" cr
+." - O wins on row 2" cr
     X _ X
     O O O
     X _ X
@@ -211,7 +211,7 @@ cr ." # Winning Conditions" cr cr
     O assert-winner
 
 
-." ## O wins on row 3" cr
+." - O wins on row 3" cr
     X _ X
     X _ X
     O O O
@@ -219,7 +219,7 @@ cr ." # Winning Conditions" cr cr
     O assert-winner
 
 
-." ## O wins on col 1" cr
+." - O wins on col 1" cr
     O X X
     O _ _
     O X X
@@ -227,7 +227,7 @@ cr ." # Winning Conditions" cr cr
     O assert-winner
 
 
-." ## O wins on col 2" cr
+." - O wins on col 2" cr
     X O X
     _ O _
     X O X
@@ -235,7 +235,7 @@ cr ." # Winning Conditions" cr cr
     O assert-winner
 
 
-." ## O wins on col 3" cr
+." - O wins on col 3" cr
     X X O
     _ _ O
     X X O
@@ -243,7 +243,7 @@ cr ." # Winning Conditions" cr cr
     O assert-winner
 
 
-." ## O wins on dia 1" cr
+." - O wins on dia 1" cr
     O X _
     X O X
     _ X O
@@ -251,7 +251,7 @@ cr ." # Winning Conditions" cr cr
     O assert-winner
 
 
-." ## O wins on dia 2" cr
+." - O wins on dia 2" cr
     _ X O
     X O X
     O X _
