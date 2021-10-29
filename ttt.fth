@@ -6,7 +6,8 @@ variable grid 8 cells allot
 variable mark
 
 : switch! ( -- )
-    mark @ X = if
+    mark @ X =
+    if
         O mark !
     else
         X mark !
@@ -19,9 +20,7 @@ variable mark
 
 : grid-init! ( -- )
     EMPTY mark !
-    9 0 do
-        i grid-place!
-    loop
+    9 0 do i grid-place! loop
     X mark !
 ;
 
