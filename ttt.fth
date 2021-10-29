@@ -81,3 +81,7 @@ variable mark
         on place-mark-at
         switch-mark
     then ;
+
+: ai-choice ( )
+    mark @ X = if 2 else 5 then
+;

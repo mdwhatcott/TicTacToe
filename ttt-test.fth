@@ -1,3 +1,6 @@
+: X-to-move X mark ! ;
+: O-to-move O mark ! ;
+
 : setup-grid ( 1 2 3 4 5 6 7 8 9 -- )
     clear-grid
     9 0 do
@@ -257,5 +260,26 @@ cr ." # Winning Conditions" cr cr
     O X _
     setup-grid
     O assert-winner
+
+
+cr ." # Unbeatable AI" cr cr
+
+." - Makes the winning move for X" cr
+    X X _
+    O O _
+    _ _ _
+    setup-grid X-to-move
+    ai-choice take-turn
+    X assert-winner
+
+
+." - Makes the winning move for O" cr
+    X X _
+    O O _
+    _ _ _
+    setup-grid O-to-move
+    ai-choice take-turn
+    O assert-winner
+
 
 bye
