@@ -1,4 +1,4 @@
-: N [char] _ ; \ TODO: -
+: N [char] - ;
 : X [char] X ;
 : O [char] O ;
 : C [char] C ;

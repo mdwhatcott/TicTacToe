@@ -64,25 +64,25 @@
 
 ." - A newly created grid is empty" cr
     grid-init
-    s" _________" assert-grid
+    s" ---------" assert-grid
 
 ." - The first turn places an X" cr
     grid-init
     0 grid-turn
-    s" X________" assert-grid
+    s" X--------" assert-grid
 
 ." - The second turn places an O" cr
     grid-init
     0 grid-turn
     1 grid-turn
-    s" XO_______" assert-grid
+    s" XO-------" assert-grid
 
 ." - The third turn places another X" cr
     grid-init
     0 grid-turn
     1 grid-turn
     2 grid-turn
-    s" XOX______" assert-grid
+    s" XOX------" assert-grid
 
 ." - A drawn game is immutable" cr
     setup-drawn-grid
