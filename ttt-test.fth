@@ -1,8 +1,8 @@
 : setup-grid ( 1 2 3 4 5 6 7 8 9 -- )
-    grid-init
+    clear-grid
     9 0 do
         mark !
-        8 i - grid-place
+        8 i - place-mark-at
     loop
 ;
 
@@ -18,7 +18,7 @@
     swap
     9 0 do
         dup i +          ( seek to end of string buffer )
-        1 i grid-at fill ( single char to buffer )
+        1 i mark-at fill ( single char to buffer )
     loop
     swap
 ;
@@ -51,33 +51,35 @@
 ;
 
 : assert-winner ( expected -- )
-    grid-winner should-equal-char
+    winner should-equal-char
 ;
 
 
+cr ." # Board Placement" cr cr
+
 ." ## A newly created grid is empty" cr
-    grid-init
+    clear-grid
     s" ---------" assert-grid
 
 
 ." ## The first turn places an X" cr
-    grid-init
-    0 grid-turn
+    clear-grid
+    0 take-turn
     s" X--------" assert-grid
 
 
 ." ## The second turn places an O" cr
-    grid-init
-    0 grid-turn
-    1 grid-turn
+    clear-grid
+    0 take-turn
+    1 take-turn
     s" XO-------" assert-grid
 
 
 ." ## The third turn places another X" cr
-    grid-init
-    0 grid-turn
-    1 grid-turn
-    2 grid-turn
+    clear-grid
+    0 take-turn
+    1 take-turn
+    2 take-turn
     s" XOX------" assert-grid
 
 
@@ -86,7 +88,7 @@
     
     s" OXXXXOOOX" assert-grid
     
-    1 grid-turn ( should have no effect )
+    1 take-turn ( should have no effect )
     
     s" OXXXXOOOX" assert-grid
 
@@ -99,7 +101,7 @@
 
     s" XXX-OO-OO" assert-grid
 
-    3 grid-turn ( should have no effect )
+    3 take-turn ( should have no effect )
 
     s" XXX-OO-OO" assert-grid
 
@@ -112,13 +114,15 @@
 
     s" OOO-XX-XX" assert-grid
 
-    3 grid-turn ( should have no effect )
+    3 take-turn ( should have no effect )
 
     s" OOO-XX-XX" assert-grid
 
 
+cr ." # Winning Conditions" cr cr
+
 ." ## An empty grid has no winner" cr
-    grid-init
+    clear-grid
     _ assert-winner
 
 

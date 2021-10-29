@@ -6,7 +6,7 @@
 variable grid 8 cells allot
 variable mark
 
-: switch! ( -- )
+: switch-mark ( -- )
     mark @ X =
     if
         O mark !
@@ -14,21 +14,21 @@ variable mark
         X mark !
     then ;
 
-: grid-place ( n -- )
+: place-mark-at ( n -- )
     mark @ grid rot cells + ! ;
 
-: grid-init ( -- )
+: clear-grid ( -- )
     _ mark !
-    9 0 do i grid-place loop
+    9 0 do i place-mark-at loop
     X mark ! ;
 
-: grid-at ( n -- c )
+: mark-at ( n -- c )
     grid swap cells + @ ;
 
 : count-blanks ( -- n )
     0 ( counter on bottom of stack )
     9 0 do
-        i grid-at _ =
+        i mark-at _ =
         if
             1 + ( increment counter )
         then
@@ -42,9 +42,9 @@ variable mark
 
 : get-3 ( n n n -- c c c )
     { n1 n2 n3 }
-    n1 grid-at
-    n2 grid-at
-    n3 grid-at ;
+    n1 mark-at
+    n2 mark-at
+    n3 mark-at ;
 
 : is-row-winner? ( c -- b )
     { mark }
@@ -69,15 +69,15 @@ variable mark
     mark is-col-winner? or
     mark is-dia-winner? or ;
 
-: grid-winner ( -- c )
+: winner ( -- c )
     X is-winner?    if X else
     O is-winner?    if O else
     count-blanks 0= if C else _
     then then then ;
 
-: grid-turn ( n -- )
+: take-turn ( n -- )
     { on -- }
-    grid-winner _ = if
-        on grid-place
-        switch!
+    winner _ = if
+        on place-mark-at
+        switch-mark
     then ;
