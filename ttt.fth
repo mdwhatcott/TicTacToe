@@ -1,4 +1,5 @@
 : EMPTY [char] _ ;
+: X     [char] X ;
 
 variable board 8 cells allot
 
@@ -13,4 +14,8 @@ variable board 8 cells allot
 		board i cells + @ emit
 	loop
 	cr
+;
+
+: board-place ( n -- )
+	X board rot cells + !
 ;
