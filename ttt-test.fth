@@ -1,3 +1,11 @@
+: setup-grid ( 1 2 3 4 5 6 7 8 9 -- )
+    grid-init
+    9 0 do
+        mark !
+        i grid-place
+    loop
+;
+
 : grid-line ( -- str-addr len )
     s" 123456789"        ( string buffer: <str-addr> 9 )
     swap
@@ -43,35 +51,62 @@
     grid-line should-equal-str
 ;
 
-." - grid-init!: creates a new grid" cr
-    grid-init!
+." - A newly created grid is empty" cr
+    grid-init
     s" _________"
     assert-grid
 
-." - grid-turn!: places X first" cr
-    grid-init!
-    0 grid-turn!
+." - The first turn places an X" cr
+    grid-init
+    0 grid-turn
     s" X________"
     assert-grid
 
-." - grid-turn!: places O after X" cr
-    grid-init!
-    0 grid-turn!
-    1 grid-turn!
+." - The second turn places an O" cr
+    grid-init
+    0 grid-turn
+    1 grid-turn
     s" XO_______"
     assert-grid
 
-." - grid-turn!: places X after O" cr
-    grid-init!
-    0 grid-turn!
-    1 grid-turn!
-    2 grid-turn!
-    s" XOX______" 
+." - The third turn places another X" cr
+    grid-init
+    0 grid-turn
+    1 grid-turn
+    2 grid-turn
+    s" XOX______"
     assert-grid
 
-." - grid-win?: empty board" cr
-    grid-init!
+." - An empty grid has no winner" cr
+    grid-init
     grid-winner
     EMPTY should-equal-char
+
+." - A drawn grid has no winner" cr
+    O X X
+    X X O
+    O O X
+    setup-grid
+    grid-winner
+    EMPTY should-equal-char
+
+." - X wins on row 1 (TODO)" cr
+." - X wins on row 2 (TODO)" cr
+." - X wins on row 3 (TODO)" cr
+." - X wins on col 1 (TODO)" cr
+." - X wins on col 2 (TODO)" cr
+." - X wins on col 3 (TODO)" cr
+." - X wins on dia 1 (TODO)" cr
+." - X wins on dia 2 (TODO)" cr
+
+." - O wins on row 1 (TODO)" cr
+." - O wins on row 2 (TODO)" cr
+." - O wins on row 3 (TODO)" cr
+." - O wins on col 1 (TODO)" cr
+." - O wins on col 2 (TODO)" cr
+." - O wins on col 3 (TODO)" cr
+." - O wins on dia 1 (TODO)" cr
+." - O wins on dia 2 (TODO)" cr
+
 
 bye
