@@ -23,34 +23,24 @@
     swap
 ;
 
-: should-equal-char ( expected actual -- )
-    2dup = invert if
-        swap
+: should-equal-char { expected actual -- }
+    expected actual = invert
+    if
         ." << fail >>" cr
-        ." -expect: " emit cr
-        ." -actual: " emit cr
-    else
-        2drop
+        ." -expect: " expected emit cr
+        ." -actual: " actual emit cr
     then
 ;
 
-: should-equal-str ( str-addr len str-addr len -- )
-          ( um, there's got to )
-          ( be a better way... )
-          ( 1 2  3 4           )
-    2swap ( 3 4  1 2           )
-    2dup  ( 3 4  1 2  1 2      )
-    2rot  ( 1 2  1 2  3 4      )
-    2dup  ( 1 2  1 2  3 4  3 4 )
-    2rot  ( 1 2  3 4  3 4  1 2 )
-    2swap ( 1 2  3 4  1 2  3 4 )
-    compare if
-        2swap
+: should-equal-str { expected expected-length
+                       actual   actual-length -- }
+
+    expected expected-length actual actual-length compare
+    if
+        actual actual-length expected expected-length
         ." << fail >>" cr
         ." - expect: [" type ." ]" cr
         ." - actual: [" type ." ]" cr
-    else
-        2drop 2drop
     then
 ;
 
