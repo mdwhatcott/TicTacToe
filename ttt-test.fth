@@ -109,21 +109,109 @@
     setup-grid
     X assert-winner
 
-." - X wins on row 2 (TODO)" cr
-." - X wins on row 3 (TODO)" cr
-." - X wins on col 1 (TODO)" cr
-." - X wins on col 2 (TODO)" cr
-." - X wins on col 3 (TODO)" cr
-." - X wins on dia 1 (TODO)" cr
-." - X wins on dia 2 (TODO)" cr
+." - X wins on row 2" cr
+    O N O
+    X X X
+    O N O
+    setup-grid
+    X assert-winner
 
-." - O wins on row 1 (TODO)" cr
-." - O wins on row 2 (TODO)" cr
-." - O wins on row 3 (TODO)" cr
-." - O wins on col 1 (TODO)" cr
-." - O wins on col 2 (TODO)" cr
-." - O wins on col 3 (TODO)" cr
-." - O wins on dia 1 (TODO)" cr
-." - O wins on dia 2 (TODO)" cr
+." - X wins on row 3" cr
+    O N O
+    O N O
+    X X X
+    setup-grid
+    X assert-winner
+
+." - X wins on col 1" cr
+    X O O
+    X N N
+    X O O
+    setup-grid
+    X assert-winner
+
+." - X wins on col 2" cr
+    O X O
+    N X N
+    O X O
+    setup-grid
+    X assert-winner
+
+." - X wins on col 3" cr
+    O O X
+    N N X
+    O O X
+    setup-grid
+    X assert-winner
+
+." - X wins on dia 1" cr
+    X O N
+    O X O
+    N O X
+    setup-grid
+    X assert-winner
+
+." - X wins on dia 2" cr
+    N O X
+    O X O
+    X O N
+    setup-grid
+    X assert-winner
+
+." - O wins on row 1" cr
+    O O O
+    X N X
+    X N X
+    setup-grid
+    O assert-winner
+
+." - O wins on row 2" cr
+    X N X
+    O O O
+    X N X
+    setup-grid
+    O assert-winner
+
+." - O wins on row 3" cr
+    X N X
+    X N X
+    O O O
+    setup-grid
+    O assert-winner
+
+." - O wins on col 1" cr
+    O X X
+    O N N
+    O X X
+    setup-grid
+    O assert-winner
+
+." - O wins on col 2" cr
+    X O X
+    N O N
+    X O X
+    setup-grid
+    O assert-winner
+
+." - O wins on col 3" cr
+    X X O
+    N N O
+    X X O
+    setup-grid
+    O assert-winner
+
+." - O wins on dia 1" cr
+    O X N
+    X O X
+    N X O
+    setup-grid
+    O assert-winner
+
+." - O wins on dia 2" cr
+    N X O
+    X O X
+    O X N
+    setup-grid
+    O assert-winner
 
 bye

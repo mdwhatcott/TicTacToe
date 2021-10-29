@@ -55,17 +55,24 @@ variable mark
     n3 grid-at
 ;
 
+: is-winner? { c -- b }
+    0 1 2 get-3 c 3-in-a-row?
+    3 4 5 get-3 c 3-in-a-row? or
+    6 7 8 get-3 c 3-in-a-row? or
+    
+    0 3 6 get-3 c 3-in-a-row? or
+    1 4 7 get-3 c 3-in-a-row? or
+    2 5 8 get-3 c 3-in-a-row? or
+
+    0 4 8 get-3 c 3-in-a-row? or
+    2 4 6 get-3 c 3-in-a-row? or
+;
+
 : grid-winner ( -- c )
-    0 1 2 get-3 X 3-in-a-row? if
-        X
-    else
-        count-blanks 0=
-        if
-            C
-        else
-            N
-        then
-    then
+    X is-winner?    if X else
+    O is-winner?    if O else
+    count-blanks 0= if C else N
+    then then then
 ;
 
 : grid-turn ( n -- )
