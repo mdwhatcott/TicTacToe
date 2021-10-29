@@ -95,7 +95,7 @@
 
 ." - An empty grid has no winner" cr
     grid-init
-    N assert-winner
+    _ assert-winner
 
 
 ." - A drawn grid has no winner" cr
@@ -104,113 +104,113 @@
 
 ." - X wins on row 1" cr
     X X X
-    O N O
-    O N O
+    O _ O
+    O _ O
     setup-grid
     X assert-winner
 
 ." - X wins on row 2" cr
-    O N O
+    O _ O
     X X X
-    O N O
+    O _ O
     setup-grid
     X assert-winner
 
 ." - X wins on row 3" cr
-    O N O
-    O N O
+    O _ O
+    O _ O
     X X X
     setup-grid
     X assert-winner
 
 ." - X wins on col 1" cr
     X O O
-    X N N
+    X _ _
     X O O
     setup-grid
     X assert-winner
 
 ." - X wins on col 2" cr
     O X O
-    N X N
+    _ X _
     O X O
     setup-grid
     X assert-winner
 
 ." - X wins on col 3" cr
     O O X
-    N N X
+    _ _ X
     O O X
     setup-grid
     X assert-winner
 
 ." - X wins on dia 1" cr
-    X O N
+    X O _
     O X O
-    N O X
+    _ O X
     setup-grid
     X assert-winner
 
 ." - X wins on dia 2" cr
-    N O X
+    _ O X
     O X O
-    X O N
+    X O _
     setup-grid
     X assert-winner
 
 ." - O wins on row 1" cr
     O O O
-    X N X
-    X N X
+    X _ X
+    X _ X
     setup-grid
     O assert-winner
 
 ." - O wins on row 2" cr
-    X N X
+    X _ X
     O O O
-    X N X
+    X _ X
     setup-grid
     O assert-winner
 
 ." - O wins on row 3" cr
-    X N X
-    X N X
+    X _ X
+    X _ X
     O O O
     setup-grid
     O assert-winner
 
 ." - O wins on col 1" cr
     O X X
-    O N N
+    O _ _
     O X X
     setup-grid
     O assert-winner
 
 ." - O wins on col 2" cr
     X O X
-    N O N
+    _ O _
     X O X
     setup-grid
     O assert-winner
 
 ." - O wins on col 3" cr
     X X O
-    N N O
+    _ _ O
     X X O
     setup-grid
     O assert-winner
 
 ." - O wins on dia 1" cr
-    O X N
+    O X _
     X O X
-    N X O
+    _ X O
     setup-grid
     O assert-winner
 
 ." - O wins on dia 2" cr
-    N X O
+    _ X O
     X O X
-    O X N
+    O X _
     setup-grid
     O assert-winner
 
