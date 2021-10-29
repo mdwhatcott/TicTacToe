@@ -2,8 +2,15 @@
     grid-init
     9 0 do
         mark !
-        i grid-place
+        8 i - grid-place
     loop
+;
+
+: setup-drawn-grid ( -- )
+    O X X
+    X X O
+    O O X
+    setup-grid
 ;
 
 : grid-line ( -- str-addr len )
@@ -57,40 +64,43 @@
 
 ." - A newly created grid is empty" cr
     grid-init
-    s" _________"
-    assert-grid
+    s" _________" assert-grid
 
 ." - The first turn places an X" cr
     grid-init
     0 grid-turn
-    s" X________"
-    assert-grid
+    s" X________" assert-grid
 
 ." - The second turn places an O" cr
     grid-init
     0 grid-turn
     1 grid-turn
-    s" XO_______"
-    assert-grid
+    s" XO_______" assert-grid
 
 ." - The third turn places another X" cr
     grid-init
     0 grid-turn
     1 grid-turn
     2 grid-turn
-    s" XOX______"
-    assert-grid
+    s" XOX______" assert-grid
+
+." - A drawn game is immutable" cr
+    setup-drawn-grid
+    
+    s" OXXXXOOOX" assert-grid
+    
+    1 grid-turn ( should have no effect )
+    
+    s" OXXXXOOOX" assert-grid
 
 ." - An empty grid has no winner" cr
     grid-init
     N assert-winner
 
+
 ." - A drawn grid has no winner" cr
-    O X X
-    X X O
-    O O X
-    setup-grid
-    N assert-winner
+    setup-drawn-grid
+    C assert-winner
 
 ." - X wins on row 1 (TODO)" cr
 ." - X wins on row 2 (TODO)" cr
@@ -109,6 +119,5 @@
 ." - O wins on col 3 (TODO)" cr
 ." - O wins on dia 1 (TODO)" cr
 ." - O wins on dia 2 (TODO)" cr
-
 
 bye
