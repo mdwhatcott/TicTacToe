@@ -91,10 +91,10 @@ variable mark
 
 : ai-choice ( )
     \ TODO: clinch a win
-    \ TODO: prevent a loss 
+    \ TODO: prevent a loss
     \ TOOD: find a fork
     \ TODO: block a fork
-    \ TODO: force a block to prevent a fork 
+    \ TODO: force a block to prevent a fork
     \ TODO: play the center if available
     \ TODO: play a corner if available
     \ TODO: play a side

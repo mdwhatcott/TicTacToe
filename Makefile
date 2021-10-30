@@ -3,8 +3,8 @@
 test:
 	@echo '---------------------' \
 		&& echo && \
-		time gforth ttt-test.fth \
-		&& echo && date && echo
+		gforth ttt-test.fth \
+		&& echo && date '+%H:%M:%S' && echo
 
 # Requires 'entr' utility (http://eradman.com/entrproject/)
 auto-test:
