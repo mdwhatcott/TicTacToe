@@ -287,5 +287,26 @@ cr ." # Unbeatable AI" cr cr
     ai-choice 5 should-equal-char
 
 
+." - As X, blocks O from winning (TODO)" cr
+    O _ O \ <--
+    _ X _
+    _ _ X
+    setup-grid X-to-move
+    ai-choice drop \ 1 should-equal-char
+
+
+." - Inventory of openings" cr
+    X _ O \   1
+    X _ O \   4
+    _ _ _ \ 6 7 8
+    setup-grid
+    push-blanks
+    5 should-equal-char \ count
+    8 should-equal-char
+    7 should-equal-char
+    6 should-equal-char
+    4 should-equal-char
+    1 should-equal-char
+
 
 bye

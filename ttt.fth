@@ -25,6 +25,12 @@ variable mark
 : mark-at ( n -- c )
     grid swap cells + @ ;
 
+: push-blanks ( -- ... len )
+    depth { original-depth }
+    9 0 do i mark-at _ = if i then loop
+    depth original-depth - ( end with count )
+;
+
 : count-blanks ( -- n )
     0 ( counter on bottom of stack )
     9 0 do
@@ -84,6 +90,14 @@ variable mark
     then ;
 
 : ai-choice ( )
+    \ TODO: clinch a win
+    \ TODO: prevent a loss 
+    \ TOOD: find a fork
+    \ TODO: block a fork
+    \ TODO: force a block to prevent a fork 
+    \ TODO: play the center if available
+    \ TODO: play a corner if available
+    \ TODO: play a side
     mark @ X = if 2 else 5 then
 ;
 
