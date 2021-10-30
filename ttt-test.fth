@@ -264,22 +264,21 @@ cr ." # Winning Conditions" cr cr
 
 cr ." # Unbeatable AI" cr cr
 
-." - Makes the winning move for X" cr
-    X X _
+." - As X, makes the winning move" cr
+    X X _ \ <--
     O O _
     _ _ _
     setup-grid X-to-move
-    ai-choice take-turn
-    X assert-winner
+    ai-choice 2 should-equal-char
 
 
-." - Makes the winning move for O" cr
+." - As O, makes the winning move" cr
     X X _
-    O O _
+    O O _ \ <--
     _ _ _
     setup-grid O-to-move
-    ai-choice take-turn
-    O assert-winner
+    ai-choice 5 should-equal-char
+
 
 
 bye
