@@ -3,7 +3,7 @@
     if
         ." <<< FAIL >>>" cr
         ." -- expect: " expected . expected emit cr
-        ." -- actual: " actual . actual emit cr
+        ." -- actual: " actual   . actual   emit cr
         cr
     then
 ;
