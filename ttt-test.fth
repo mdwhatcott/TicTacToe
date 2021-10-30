@@ -1,3 +1,6 @@
+s" testing.fth" required
+s" ttt.fth" required
+
 : X-to-move X mark ! ;
 : O-to-move O mark ! ;
 
@@ -24,29 +27,6 @@
         1 i mark-at fill ( single char to buffer )
     loop
     swap
-;
-
-: should-equal-char { expected actual -- }
-    expected actual = invert
-    if
-        ." <<< FAIL >>>" cr
-        ." -- expect: " expected . expected emit cr
-        ." -- actual: " actual . actual emit cr
-        cr
-    then
-;
-
-: should-equal-str { expected expected-length
-                       actual   actual-length -- }
-
-    expected expected-length actual actual-length compare
-    if
-        actual actual-length expected expected-length
-        ." <<< FAIL >>>" cr
-        ." -- expect: [" type ." ]" cr
-        ." -- actual: [" type ." ]" cr
-        cr
-    then
 ;
 
 : assert-grid ( expected -- )

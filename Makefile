@@ -3,7 +3,7 @@
 test:
 	@echo '---------------------' \
 		&& echo && \
-		time gforth ttt.fth ttt-test.fth \
+		time gforth ttt-test.fth \
 		&& echo && date && echo
 
 # Requires 'entr' utility (http://eradman.com/entrproject/)
