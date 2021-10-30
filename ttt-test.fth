@@ -30,8 +30,8 @@
     expected actual = invert
     if
         ." <<< FAIL >>>" cr
-        ." -- expect: " expected emit cr
-        ." -- actual: " actual emit cr
+        ." -- expect: " expected . expected emit cr
+        ." -- actual: " actual . actual emit cr
         cr
     then
 ;
