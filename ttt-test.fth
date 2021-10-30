@@ -85,6 +85,13 @@ cr ." # Board Placement" cr cr
     2 take-turn
     s" XOX------" assert-grid
 
+." - Marks cannot be overwritten" cr
+    clear-grid
+    0 take-turn
+    0 take-turn \ no-op
+    1 take-turn
+    s" XO-------" assert-grid
+
 
 ." - A drawn game is immutable" cr
     setup-drawn-grid

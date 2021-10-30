@@ -77,7 +77,8 @@ variable mark
 
 : take-turn ( n -- )
     { on -- }
-    winner _ = if
+    winner _ = on mark-at _ = and
+    if
         on place-mark-at
         switch-mark
     then ;
@@ -85,3 +86,4 @@ variable mark
 : ai-choice ( )
     mark @ X = if 2 else 5 then
 ;
+
