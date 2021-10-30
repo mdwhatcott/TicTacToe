@@ -288,5 +288,13 @@ cr ." # Unbeatable AI" cr cr
     4 should-equal-char
     1 should-equal-char
 
+." - Can place mark and undo" cr
+    clear-grid
+    0 take-turn
+    0 undo-turn
+    s" ---------" assert-grid
+    0 take-turn
+    s" X--------" assert-grid
+
 
 bye

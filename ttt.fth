@@ -89,6 +89,15 @@ variable mark
         switch-mark
     then ;
 
+: undo-turn ( n -- )
+    mark @
+    { on original -- }
+    _ mark !
+    on place-mark-at
+    original mark !
+    switch-mark
+;
+
 : ai-choice ( )
     \ TODO: clinch a win
     \ TODO: prevent a loss
