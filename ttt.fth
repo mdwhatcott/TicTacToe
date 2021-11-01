@@ -119,7 +119,7 @@ variable forks 9 cells allot
     depth 0 = if _ then
 ;
 
-: prevent-loss ( n -- n )
+: block-enemy-win ( n -- n )
     dup _ = if
         drop
         switch-mark
@@ -181,7 +181,7 @@ variable forks 9 cells allot
             forks i cells + @ { wins }
             wins 2 >= if i then
         loop
-        
+
         depth 0 = if _ then
     then
 ;
@@ -194,11 +194,12 @@ variable forks 9 cells allot
 
 : ai-choice ( -- n )
         place-win
-        prevent-loss
+        block-enemy-win
         place-fork
-        \ TODO: avoid-fork-with-attack
-        \ TODO: block-fork
+        \ TODO: attack-enemy-fork
+        \ TODO: block-enemy-fork
         take-center
-        \ TODO: play a corner if available
-        \ TODO: play a side
+        \ TODO: take-opposite-corner
+        \ TODO: take-corner
+        \ TODO: take-side
 ;
