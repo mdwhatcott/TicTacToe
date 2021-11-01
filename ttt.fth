@@ -90,12 +90,11 @@ variable mark
     then ;
 
 : undo-turn ( n -- )
-    mark @
-    { on original -- }
+    dup mark-at { on original }
     _ mark !
     on place-mark-at
     original mark !
-    switch-mark
+;
 ;
 
 : ai-choice ( )
