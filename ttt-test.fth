@@ -351,9 +351,7 @@ cr ." # Unbeatable AI" cr cr
     setup-grid X-to-move
     7 assert-ai-choice
 
-\ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-." - (TODO) As O, attack Xs multiple impending forks" cr
+." - As O, attack Xs multiple impending forks" cr
     ( X has possible forks on left-middle and bottom-middle )
     X _ _
     _ X _
@@ -370,6 +368,9 @@ cr ." # Unbeatable AI" cr cr
     X _ _
     setup-grid O-to-move
     1 assert-ai-choice
+    ." EMPTY? " .s cr  ( TODO: figure out why we aren't empty here... )
+
+\ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 ." - As X, take center" cr
     O X O

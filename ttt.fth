@@ -210,10 +210,15 @@ variable forks 9 cells allot
 ;
 
 : attack-double-enemy-fork ( n -- n )
-    dup take-turn
-    _ place-fork ( for the enemy )
-    over undo-turn
-    _ = invert if
+    dup take-turn              ( proposed move )
+    _ place-fork               ( for opponent! )
+    \ dup _ = if exit then     ( TODO: what if there is no fork? )
+    dup take-turn              ( opponent fork )
+    place-win
+    dup _ = if exit then       ( TODO: what if there is no winning move? )
+    dup take-turn              ( our next move )
+    winner swap undo-turn      ( our next move )
+    swap undo-turn mark @ = if ( opponent fork )
         drop _
     then
 ;
