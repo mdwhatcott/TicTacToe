@@ -8,4 +8,4 @@ test:
 
 # Requires 'entr' utility (http://eradman.com/entrproject/)
 auto-test:
-	while sleep 1 ; do find . -name '*.fth' | entr -d make ; done
+	while sleep 0.5 ; do find . -name '*.fth' | entr -d make ; done
