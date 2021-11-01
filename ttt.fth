@@ -129,6 +129,28 @@ variable mark
     dup _ = if drop 4 then
 ;
 
+: peek-move-result ( n -- n )
+    dup
+    take-turn
+    winner
+    swap
+    undo-turn
+;
+
+: peek-win-count ( n -- n )
+    { choice }
+    choice take-turn
+    switch-mark ( back to current player )
+    mark @ { player }
+    push-blanks 0 depth 1 - 0 do
+        swap
+        peek-move-result player = if
+            1 +
+        then
+    loop
+    choice undo-turn
+;
+
 : ai-choice ( -- n )
     place-win
     prevent-loss

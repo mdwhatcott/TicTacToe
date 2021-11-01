@@ -321,4 +321,32 @@ cr ." # Unbeatable AI" cr cr
     1 assert-ai-choice
 
 
+." - Peek move result (X would win)" cr
+    _ X X
+    O O X
+    X O O
+    setup-grid X-to-move
+    0 peek-move-result
+    X swap should-equal-char
+    s" -XXOOXXOO" assert-grid
+
+
+." - Peek count wins (2 for X)" cr
+    O X O
+    _ _ _
+    _ _ X
+    setup-grid x-to-move
+    7 peek-win-count
+    2 swap should-equal-char
+
+
+
+\ ." - As X, places fork" cr
+\     O X O
+\     _ _ _
+\     _ _ X ( <-- )
+\     setup-grid X-to-move
+\     7 assert-ai-choice
+
+
 bye
