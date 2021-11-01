@@ -39,7 +39,8 @@ s" ttt.fth" required
 
 : assert-ai-choice
     { expected }
-    ai-choice expected swap should-equal-char
+    ai-choice { actual }
+    expected actual should-equal-char
 ;
 
 
