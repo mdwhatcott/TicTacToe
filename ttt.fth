@@ -125,10 +125,6 @@ variable mark
     then
 ;
 
-: take-center ( n -- n )
-    dup _ = if drop 4 then
-;
-
 : peek-move-result ( n -- n )
     dup
     take-turn
@@ -151,10 +147,16 @@ variable mark
     choice undo-turn
 ;
 
+: take-center ( n -- n )
+    dup _ = if
+        drop 4
+    then
+;
+
 : ai-choice ( -- n )
     place-win
     prevent-loss
-    \ TOOD: find a fork
+    place-fork
     \ TODO: block a fork
     \ TODO: force a block to prevent a fork
     take-center

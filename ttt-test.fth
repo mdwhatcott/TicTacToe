@@ -340,7 +340,6 @@ cr ." # Unbeatable AI" cr cr
     2 swap should-equal-char
 
 
-
 \ ." - As X, places fork" cr
 \     O X O
 \     _ _ _
