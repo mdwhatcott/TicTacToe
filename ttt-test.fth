@@ -351,5 +351,73 @@ cr ." # Unbeatable AI" cr cr
     setup-grid X-to-move
     7 assert-ai-choice
 
+." - As X, take center" cr
+    O X O
+    X _ _
+    X O X
+    setup-grid X-to-move
+    4 assert-ai-choice
+
+." - As X, take lower-right corner opposite O" cr
+    O _ _
+    _ X _
+    _ _ _
+    setup-grid X-to-move
+    8 assert-ai-choice
+
+." - As X, take upper-right corner opposite O" cr
+    _ _ _
+    _ X _
+    _ _ O
+    setup-grid X-to-move
+    0 assert-ai-choice
+
+." - As X, take upper-left corner opposite O" cr
+    _ _ _
+    _ X _
+    O _ _
+    setup-grid X-to-move
+    2 assert-ai-choice
+
+." - As X, take lower-left corner opposite O" cr
+    _ _ O
+    _ X _
+    _ _ _
+    setup-grid X-to-move
+    6 assert-ai-choice
+
+." - As X, take empty upper-left corner" cr
+    _ O _
+    _ X _
+    _ _ _
+    setup-grid X-to-move
+    0 assert-ai-choice
+
+." - As X, take empty upper-right corner" cr
+    O _ _
+    X X O
+    _ O X
+    setup-grid X-to-move
+    2 assert-ai-choice
+
+." - As X, take empty lower-left corner" cr
+    O 1 1
+    1 X 1
+    _ 1 1
+    setup-grid X-to-move
+    6 assert-ai-choice
+
+." - As X, take empty lower-right corner" cr
+    1 1 O
+    1 X 1
+    1 1 _
+    setup-grid X-to-move
+    8 assert-ai-choice
+
+." - (TODO) As X, take empty side" cr
+." - (TODO) As O, take center" cr
+." - (TODO) As O, take corner opposite X" cr
+." - (TODO) As O, take empty corner" cr
+." - (TODO) As O, take empty side" cr
 
 bye

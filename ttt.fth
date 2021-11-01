@@ -8,14 +8,13 @@ variable mark
 
 variable forks 9 cells allot
 
+: opponent ( -- n )
+    mark @ X = if O else X then
+;
 
 : switch-mark ( -- )
-    mark @ X =
-    if
-        O mark !
-    else
-        X mark !
-    then ;
+    opponent mark !
+;
 
 : place-mark-at ( n -- )
     mark @ grid rot cells + ! ;
@@ -142,7 +141,7 @@ variable forks 9 cells allot
     choice take-turn
     switch-mark ( back to current player )
     mark @ { player }
-    push-blanks 0 depth 1 - original do
+    push-blanks 0 depth 1 - original ?do
         swap
         peek-move-result player = if
             1 +
@@ -188,7 +187,35 @@ variable forks 9 cells allot
 
 : take-center ( n -- n )
     dup _ = if
-        drop 4
+        drop
+        4 mark-at _ = if 4 else _ then
+    then
+;
+
+: can-take-opposite-corner ( n n -- b )
+    { a b }
+    a mark-at opponent = b mark-at _ = and
+;
+
+: take-opposite-corner ( n -- n )
+    dup _ = if
+        drop
+        0 8 can-take-opposite-corner if 8 exit then
+        8 0 can-take-opposite-corner if 0 exit then
+        6 2 can-take-opposite-corner if 2 exit then
+        2 6 can-take-opposite-corner if 6 exit then
+        _
+    then
+;
+
+: take-corner ( n -- n )
+    dup _ = if
+        drop
+        0 mark-at _ = if 0 exit then
+        2 mark-at _ = if 2 exit then
+        6 mark-at _ = if 6 exit then
+        8 mark-at _ = if 8 exit then
+        _
     then
 ;
 
@@ -196,10 +223,10 @@ variable forks 9 cells allot
         place-win
         block-enemy-win
         place-fork
-        \ TODO: attack-enemy-fork
-        \ TODO: block-enemy-fork
+        \ TODO: attack-impending-enemy-fork
+        \ TODO: block-impending-enemy-fork
         take-center
-        \ TODO: take-opposite-corner
-        \ TODO: take-corner
+        take-opposite-corner
+        take-corner
         \ TODO: take-side
 ;
