@@ -257,7 +257,6 @@ cr ." # Unbeatable AI" cr cr
     _ _ _ \ 6 7 8
     setup-grid
     push-blanks
-    5 should-equal-char \ count
     8 should-equal-char
     7 should-equal-char
     6 should-equal-char

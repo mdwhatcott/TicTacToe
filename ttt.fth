@@ -28,7 +28,6 @@ variable mark
 : push-blanks ( -- ... len )
     depth { original-depth }
     9 0 do i mark-at _ = if i then loop
-    depth original-depth - ( end with count )
 ;
 
 : count-blanks ( -- n )
