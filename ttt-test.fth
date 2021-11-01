@@ -337,16 +337,19 @@ cr ." # Unbeatable AI" cr cr
     _ _ _
     _ _ X
     setup-grid x-to-move
+    1 2 3 ( pre-existing stack values )
     7 peek-win-count
     2 swap should-equal-char
+    depth 3 should-equal-char
+    drop drop drop
 
 
-\ ." - As X, places fork" cr
-\     O X O
-\     _ _ _
-\     _ _ X ( <-- )
-\     setup-grid X-to-move
-\     7 assert-ai-choice
+." - As X, places fork" cr
+    O X O
+    _ _ _
+    _ _ X ( <-- )
+    setup-grid X-to-move
+    7 assert-ai-choice
 
 
 bye

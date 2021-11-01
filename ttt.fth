@@ -3,8 +3,11 @@
 : O [char] O ;
 : C [char] C ;
 
-variable grid 8 cells allot
+variable grid 9 cells allot
 variable mark
+
+variable forks 9 cells allot
+
 
 : switch-mark ( -- )
     mark @ X =
@@ -135,16 +138,51 @@ variable mark
 
 : peek-win-count ( n -- n )
     { choice }
+    depth { original }
     choice take-turn
     switch-mark ( back to current player )
     mark @ { player }
-    push-blanks 0 depth 1 - 0 do
+    push-blanks 0 depth 1 - original do
         swap
         peek-move-result player = if
             1 +
         then
     loop
     choice undo-turn
+;
+
+: clear-fork-results ( -- )
+    9 0 do
+        0 forks i cells + !
+    loop
+;
+
+: .cells  ( addr n -- )
+   0 ?do  dup ?  cell+  loop  drop
+;
+
+: store-fork-result ( n -- )
+    { slot }
+    slot peek-win-count { wins }
+    wins forks slot cells + !
+;
+
+: place-fork ( n -- n )
+    dup _ = if
+        drop
+        clear-fork-results
+        depth { original }
+        push-blanks
+        depth original do
+            store-fork-result
+        loop
+
+
+        9 0 do
+            forks i cells + @ { wins }
+            wins 2 >= if i then
+        loop
+    then
 ;
 
 : take-center ( n -- n )
@@ -154,13 +192,16 @@ variable mark
 ;
 
 : ai-choice ( -- n )
-    place-win
-    prevent-loss
-    place-fork
-    \ TODO: block a fork
-    \ TODO: force a block to prevent a fork
-    take-center
-    \ TODO: play a corner if available
-    \ TODO: play a side
+    count-blanks 9 = if
+        _ take-center
+    else
+        place-win
+        prevent-loss
+        place-fork
+        \ TODO: block a fork
+        \ TODO: force a block to prevent a fork
+        \ take-center
+        \ TODO: play a corner if available
+        \ TODO: play a side
+    then
 ;
-
