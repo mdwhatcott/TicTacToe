@@ -337,7 +337,7 @@ cr ." # Unbeatable AI" cr cr
     _ _ _
     _ _ X
     setup-grid x-to-move
-    1 2 3 ( pre-existing stack values )
+    1 2 3 ( preexisting stack values )
     7 peek-win-count
     2 swap should-equal-char
     depth 3 should-equal-char
