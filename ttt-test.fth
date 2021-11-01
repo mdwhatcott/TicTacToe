@@ -305,13 +305,20 @@ cr ." # Unbeatable AI" cr cr
     8 assert-ai-choice
 
 
-\ ." - As X, blocks O from winning (TODO)" cr
-\     O _ O ( <-- )
-\     _ X _
-\     _ _ X
-\     setup-grid X-to-move
-\     ai-choice drop \ 1 should-equal-char
+." - As X, blocks O from winning" cr
+    O _ O ( <-- )
+    _ X _
+    _ _ X
+    setup-grid X-to-move
+    1 assert-ai-choice
 
+
+." - As O, blocks X from winning" cr
+    X _ X ( <-- )
+    _ O _
+    _ _ O
+    setup-grid O-to-move
+    1 assert-ai-choice
 
 
 bye

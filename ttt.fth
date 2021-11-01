@@ -116,13 +116,22 @@ variable mark
     depth 0 = if _ then
 ;
 
+: prevent-loss ( n -- n )
+    dup _ = if
+        drop
+        switch-mark
+        place-win
+        switch-mark
+    then
+;
+
 : take-center ( n -- n )
     dup _ = if drop 4 then
 ;
 
 : ai-choice ( -- n )
     place-win
-    \ TODO: prevent a loss
+    prevent-loss
     \ TOOD: find a fork
     \ TODO: block a fork
     \ TODO: force a block to prevent a fork
