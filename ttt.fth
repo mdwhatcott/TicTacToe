@@ -96,36 +96,7 @@ variable mark
     original mark !
 ;
 
-: clinch-win ( -- n )
-    push-blanks 0 do
-        mark @         \ ." mark @ " .s cr
-        over           \ ." over   " .s cr
-        take-turn      \ ." turn   " .s cr
-        winner         \ ." winner " .s cr
-        = if           \ ." WINNER "    cr
-            dup dup    \ ." dup(2) " .s cr
-            undo-turn  \ ." undo   " .s cr
-            leave
-        else           \ ." else   "    cr
-            dup        \ ." dup    " .s cr
-            undo-turn  \ ." undo   " .s cr
-            drop
-        then
-    loop
-    depth 0 > if
-        >r
-        depth 0 do
-            drop
-        loop
-    else
-        9 >r ( indicates no win )
-    then
-
-    r>
-;
-
 : ai-choice ( )
-    clinch-win
     \ TODO: clinch a win
     \ TODO: prevent a loss
     \ TOOD: find a fork
@@ -134,5 +105,6 @@ variable mark
     \ TODO: play the center if available
     \ TODO: play a corner if available
     \ TODO: play a side
+    mark @ X = if 2 else 5 then
 ;
 
