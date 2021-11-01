@@ -8,6 +8,10 @@ variable mark
 
 variable forks 9 cells allot
 
+: .cells  ( addr n -- )
+   0 ?do  dup ?  cell+  loop  drop
+;
+
 : opponent ( -- n )
     mark @ X = if O else X then
 ;
@@ -156,10 +160,6 @@ variable forks 9 cells allot
     loop
 ;
 
-: .cells  ( addr n -- )
-   0 ?do  dup ?  cell+  loop  drop
-;
-
 : store-fork-result ( n -- )
     { slot }
     slot peek-win-count { wins }
@@ -219,6 +219,16 @@ variable forks 9 cells allot
     then
 ;
 
+: take-side ( n -- n )
+    dup _ = if
+        1 mark-at _ = if 1 exit then
+        3 mark-at _ = if 3 exit then
+        5 mark-at _ = if 5 exit then
+        7 mark-at _ = if 7 exit then
+        _
+    then
+;
+
 : ai-choice ( -- n )
         place-win
         block-enemy-win
@@ -228,5 +238,5 @@ variable forks 9 cells allot
         take-center
         take-opposite-corner
         take-corner
-        \ TODO: take-side
+        take-side
 ;

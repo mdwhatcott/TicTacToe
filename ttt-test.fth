@@ -401,23 +401,45 @@ cr ." # Unbeatable AI" cr cr
     2 assert-ai-choice
 
 ." - As X, take empty lower-left corner" cr
-    O 1 1
-    1 X 1
-    _ 1 1
+    O X O
+    X X O
+    _ O X
     setup-grid X-to-move
     6 assert-ai-choice
 
 ." - As X, take empty lower-right corner" cr
-    1 1 O
-    1 X 1
-    1 1 _
+    O O X
+    X X O
+    O X _
     setup-grid X-to-move
     8 assert-ai-choice
 
-." - (TODO) As X, take empty side" cr
-." - (TODO) As O, take center" cr
-." - (TODO) As O, take corner opposite X" cr
-." - (TODO) As O, take empty corner" cr
-." - (TODO) As O, take empty side" cr
+." - As X, take empty top side" cr
+    O _ X
+    X X O
+    O O X
+    setup-grid X-to-move
+    1 assert-ai-choice
+
+." - As X, take empty right side" cr
+    O X O
+    O X _
+    X O X
+    setup-grid X-to-move
+    5 assert-ai-choice
+
+." - As X, take empty bottom side" cr
+    X O O
+    O X X
+    X _ O
+    setup-grid X-to-move
+    7 assert-ai-choice
+
+." - As X, take empty left side" cr
+    X O X
+    _ X O
+    O X O
+    setup-grid X-to-move
+    3 assert-ai-choice
 
 bye
