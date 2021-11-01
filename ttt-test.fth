@@ -37,6 +37,11 @@ s" ttt.fth" required
     winner should-equal-char
 ;
 
+: assert-ai-choice
+    { expected }
+    ai-choice expected swap should-equal-char
+;
+
 
 cr ." # Board Placement" cr cr
 
@@ -272,20 +277,32 @@ cr ." # Unbeatable AI" cr cr
     s" X--------" assert-grid
 
 
-\ ." - As X, makes the winning move" cr
-\     X X _ ( <-- )
-\     O O _
-\     _ _ _
-\     setup-grid X-to-move
-\     ai-choice 2 over should-equal-char
+." - As X, take the center on the first move" cr
+    clear-grid
+    4 assert-ai-choice
 
 
-\ ." - As O, makes the winning move" cr
-\     X X _
-\     O O _ ( <-- )
-\     _ _ _
-\     setup-grid O-to-move
-\     ai-choice 5 over should-equal-char
+." - As X, makes the winning move (slot: 0)" cr
+    _ X X ( <-- )
+    _ O O
+    _ _ _
+    setup-grid X-to-move
+    0 assert-ai-choice
+
+
+." - As O, makes the winning move (slot: middle)" cr
+    X X _
+    O O _ ( <-- )
+    _ _ _
+    setup-grid O-to-move
+    5 assert-ai-choice
+
+." - As O, makes the winning move (slot: last)" cr
+    _ _ _
+    X X _
+    O O _ ( <-- )
+    setup-grid O-to-move
+    8 assert-ai-choice
 
 
 \ ." - As X, blocks O from winning (TODO)" cr

@@ -95,15 +95,39 @@ variable mark
     original mark !
 ;
 
-: ai-choice ( )
-    \ TODO: clinch a win
+: place-win ( -- n )
+    depth 1 + { threshold }
+    push-blanks
+    depth 0 do
+        dup dup
+        take-turn
+        winner
+        swap
+        undo-turn
+        mark @
+        = if
+            depth threshold > if
+                swap drop
+            then
+        else
+            drop
+        then
+    loop
+    depth 0 = if _ then
+;
+
+: take-center ( n -- n )
+    dup _ = if drop 4 then
+;
+
+: ai-choice ( -- n )
+    place-win
     \ TODO: prevent a loss
     \ TOOD: find a fork
     \ TODO: block a fork
     \ TODO: force a block to prevent a fork
-    \ TODO: play the center if available
+    take-center
     \ TODO: play a corner if available
     \ TODO: play a side
-    mark @ X = if 2 else 5 then
 ;
 
