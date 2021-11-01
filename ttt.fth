@@ -167,6 +167,7 @@ variable forks 9 cells allot
 ;
 
 : place-fork ( n -- n )
+    count-blanks 5 > if exit then
     dup _ = if
         drop
         clear-fork-results
@@ -181,7 +182,7 @@ variable forks 9 cells allot
             wins 2 >= if i then
         loop
 
-        depth 0 = if _ then
+        depth original = if _ then
     then
 ;
 
@@ -208,19 +209,28 @@ variable forks 9 cells allot
     then
 ;
 
+: attack-double-enemy-fork ( n -- n )
+    dup take-turn
+    _ place-fork ( for the enemy )
+    over undo-turn
+    _ = invert if
+        drop _
+    then
+;
+
 : take-corner ( n -- n )
     dup _ = if
-        drop
-        0 mark-at _ = if 0 exit then
-        2 mark-at _ = if 2 exit then
-        6 mark-at _ = if 6 exit then
-        8 mark-at _ = if 8 exit then
+        drop \ TODO: loop w/ step
+        0 mark-at _ = if 0 attack-double-enemy-fork exit then
+        2 mark-at _ = if 2 attack-double-enemy-fork exit then
+        6 mark-at _ = if 6 attack-double-enemy-fork exit then
+        8 mark-at _ = if 8 attack-double-enemy-fork exit then
         _
     then
 ;
 
 : take-side ( n -- n )
-    dup _ = if
+    dup _ = if \ TODO: loop w/ step
         1 mark-at _ = if 1 exit then
         3 mark-at _ = if 3 exit then
         5 mark-at _ = if 5 exit then
@@ -233,8 +243,6 @@ variable forks 9 cells allot
         place-win
         block-enemy-win
         place-fork
-        \ TODO: attack-impending-enemy-fork
-        \ TODO: block-impending-enemy-fork
         take-center
         take-opposite-corner
         take-corner

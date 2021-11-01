@@ -351,6 +351,26 @@ cr ." # Unbeatable AI" cr cr
     setup-grid X-to-move
     7 assert-ai-choice
 
+\ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+." - (TODO) As O, attack Xs multiple impending forks" cr
+    ( X has possible forks on left-middle and bottom-middle )
+    X _ _
+    _ X _
+    _ _ O
+    setup-grid O-to-move
+    2 assert-ai-choice
+
+\ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+." - As O, attack but avoid Xs impending fork" cr
+    ( X has possible forks on upper-left and lower right )
+    _ _ X
+    _ O _
+    X _ _
+    setup-grid O-to-move
+    1 assert-ai-choice
+
 ." - As X, take center" cr
     O X O
     X _ _
