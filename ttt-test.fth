@@ -251,30 +251,6 @@ cr ." # Winning Conditions" cr cr
 
 cr ." # Unbeatable AI" cr cr
 
-." - As X, makes the winning move" cr
-    X X _ \ <--
-    O O _
-    _ _ _
-    setup-grid X-to-move
-    ai-choice 2 should-equal-char
-
-
-." - As O, makes the winning move" cr
-    X X _
-    O O _ \ <--
-    _ _ _
-    setup-grid O-to-move
-    ai-choice 5 should-equal-char
-
-
-." - As X, blocks O from winning (TODO)" cr
-    O _ O \ <--
-    _ X _
-    _ _ X
-    setup-grid X-to-move
-    ai-choice drop \ 1 should-equal-char
-
-
 ." - Inventory of openings" cr
     X _ O \   1
     X _ O \   4
@@ -288,13 +264,38 @@ cr ." # Unbeatable AI" cr cr
     4 should-equal-char
     1 should-equal-char
 
-." - Can place mark and undo" cr
+." - Undo a placed mark" cr
     clear-grid
     0 take-turn
     0 undo-turn
     s" ---------" assert-grid
     0 take-turn
     s" X--------" assert-grid
+
+
+\ ." - As X, makes the winning move" cr
+\     X X _ ( <-- )
+\     O O _
+\     _ _ _
+\     setup-grid X-to-move
+\     ai-choice 2 over should-equal-char
+
+
+\ ." - As O, makes the winning move" cr
+\     X X _
+\     O O _ ( <-- )
+\     _ _ _
+\     setup-grid O-to-move
+\     ai-choice 5 over should-equal-char
+
+
+." - As X, blocks O from winning (TODO)" cr
+    O _ O ( <-- )
+    _ X _
+    _ _ X
+    setup-grid X-to-move
+    ai-choice drop \ 1 should-equal-char
+
 
 
 bye
