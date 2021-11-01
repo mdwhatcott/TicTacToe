@@ -177,11 +177,12 @@ variable forks 9 cells allot
             store-fork-result
         loop
 
-
         9 0 do
             forks i cells + @ { wins }
             wins 2 >= if i then
         loop
+        
+        depth 0 = if _ then
     then
 ;
 
@@ -192,16 +193,12 @@ variable forks 9 cells allot
 ;
 
 : ai-choice ( -- n )
-    count-blanks 9 = if
-        _ take-center
-    else
         place-win
         prevent-loss
         place-fork
-        \ TODO: block a fork
-        \ TODO: force a block to prevent a fork
-        \ take-center
+        \ TODO: avoid-fork-with-attack
+        \ TODO: block-fork
+        take-center
         \ TODO: play a corner if available
         \ TODO: play a side
-    then
 ;
