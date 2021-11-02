@@ -226,7 +226,6 @@ attacks 9 cells erase
 ;
 
 : place-fork ( n -- n )
-    \ count-blanks 5 > if exit then \ TODO: remove
     dup _ = if
         drop
         clear-fork-results
