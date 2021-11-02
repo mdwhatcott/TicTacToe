@@ -3,8 +3,10 @@
 : O [char] o ;
 : C [char] C ;
 
-variable grid 9 cells allot
 variable mark
+
+variable grid 9 cells allot
+grid 9 cells erase
 
 variable forks 9 cells allot
 forks 9 cells erase
