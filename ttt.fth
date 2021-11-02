@@ -207,28 +207,6 @@ attacks ALL_SLOTS cells erase
         take-side
 ;
 
-48 constant ASCII_DIGIT_OFFSET
-: human-choice ( -- n )
-    ." Enter your choice: "
-    key { choice }
-    choice emit cr
-    choice ASCII_DIGIT_OFFSET -
-    1 - { slot } ( make 0-based offset )
-    
-    push-blanks
-    depth 0 do
-        slot = if
-            clearstack slot leave
-        then
-    loop
-
-    depth 1 = if exit then
-
-    ." Invalid choice! Try again..." cr
-    clearstack
-    recurse
-;
-
 : play ( -- )
     clear-grid
 
