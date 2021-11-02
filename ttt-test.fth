@@ -30,7 +30,10 @@ s" ttt.fth" required
 ;
 
 : assert-no-stack
-    depth 0 > if ." >>> LEFT OVER STACK: " .s cr then
+    depth 0 > if
+        ." >>> LEFT OVER STACK: " .s cr
+        clearstack
+    then
 ;
 
 : assert-grid ( expected -- )
