@@ -267,26 +267,6 @@ cr ." # Winning Conditions" cr cr
 
 cr ." # Unbeatable AI" cr cr
 
-." - Inventory of openings" cr
-    X _ O \   1
-    X _ O \   4
-    _ _ _ \ 6 7 8
-    setup-grid
-    push-blanks
-    8 should-equal-n
-    7 should-equal-n
-    6 should-equal-n
-    4 should-equal-n
-    1 should-equal-n
-
-." - Undo a placed mark" cr
-    clear-grid
-    0 take-turn
-    0 undo-turn
-    s" ---------" assert-grid
-    0 take-turn
-    s" x--------" assert-grid
-
 ." - As X, take the center on the first move" cr
     clear-grid
     4 assert-ai-choice
@@ -325,26 +305,6 @@ cr ." # Unbeatable AI" cr cr
     _ _ O
     setup-grid O-to-move
     1 assert-ai-choice
-
-." - Peek move result (X would win)" cr
-    _ X X
-    O O X
-    X O O
-    setup-grid X-to-move
-    0 peek-move-result
-    X swap should-equal-n
-    s" -xxooxxoo" assert-grid
-
-." - Peek count wins (2 for X)" cr
-    O X O
-    _ _ _
-    _ _ X
-    setup-grid x-to-move
-    1 2 3 ( preexisting stack values )
-    7 peek-win-count
-    2 swap should-equal-n
-    depth 3 should-equal-n
-    drop drop drop
 
 ." - As X, places fork" cr
     O X O
