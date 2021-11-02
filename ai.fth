@@ -196,12 +196,17 @@ attacks ALL_9_SLOTS cells erase
 ;
 
 : ai-choice ( -- n )
-        place-win
-        block-enemy-win
-        place-fork
-        attack-enemy-forks
-        take-center
-        take-opposite-corner
-        take-corner
-        take-side
+    (
+      https://en.wikipedia.org/wiki/Tic-tac-toe#Strategy
+      References page 9 of this paper:
+      https://onlinelibrary.wiley.com/doi/pdf/10.1207/s15516709cog1704_3
+    )
+    place-win
+    block-enemy-win
+    place-fork
+    attack-enemy-forks
+    take-center
+    take-opposite-corner
+    take-corner
+    take-side
 ;
