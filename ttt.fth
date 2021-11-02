@@ -225,7 +225,7 @@ variable forks 9 cells allot
 
 : take-corner ( n -- n )
     dup _ = if
-        drop \ TODO: loop w/ step
+        drop
         0 mark-at _ = if 0 attack-double-enemy-fork exit then
         2 mark-at _ = if 2 attack-double-enemy-fork exit then
         6 mark-at _ = if 6 attack-double-enemy-fork exit then
@@ -235,7 +235,7 @@ variable forks 9 cells allot
 ;
 
 : take-side ( n -- n )
-    dup _ = if \ TODO: loop w/ step
+    dup _ = if
         1 mark-at _ = if drop 1 exit then
         3 mark-at _ = if drop 3 exit then
         5 mark-at _ = if drop 5 exit then
