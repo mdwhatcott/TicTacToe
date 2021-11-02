@@ -5,7 +5,7 @@ s" ai.fth" required
 : play ( -- )
     clear-grid
 
-    ALL_SLOTS 0 do
+    ALL_9_SLOTS 0 do
         print-grid
         mark @ X = if
             human-choice

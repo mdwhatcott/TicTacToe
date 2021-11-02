@@ -3,13 +3,13 @@
 : O [char] o ;
 : C [char] C ;
 
-9 constant ALL_SLOTS
+9 constant ALL_9_SLOTS
 3 constant WIDTH
 
 variable mark
 
-variable grid ALL_SLOTS cells allot
-grid ALL_SLOTS cells erase
+variable grid ALL_9_SLOTS cells allot
+grid ALL_9_SLOTS cells erase
 
 : opponent ( -- n )
     mark @ X = if O else X then
@@ -24,7 +24,7 @@ grid ALL_SLOTS cells erase
 
 : clear-grid ( -- )
     _ mark !
-    ALL_SLOTS 0 do i place-mark-at loop
+    ALL_9_SLOTS 0 do i place-mark-at loop
     X mark ! ;
 
 : mark-at ( n -- c )
@@ -32,12 +32,12 @@ grid ALL_SLOTS cells erase
 
 : push-blanks ( -- ... len )
     depth { original-depth }
-    ALL_SLOTS 0 do i mark-at _ = if i then loop
+    ALL_9_SLOTS 0 do i mark-at _ = if i then loop
 ;
 
 : count-blanks ( -- n )
     0 ( counter on bottom of stack )
-    ALL_SLOTS 0 do
+    ALL_9_SLOTS 0 do
         i mark-at _ =
         if
             1 + ( increment counter )

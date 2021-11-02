@@ -1,10 +1,10 @@
 s" grid.fth" required
 
-variable forks ALL_SLOTS cells allot
-forks ALL_SLOTS cells erase
+variable forks ALL_9_SLOTS cells allot
+forks ALL_9_SLOTS cells erase
 
-variable attacks ALL_SLOTS cells allot
-attacks ALL_SLOTS cells erase
+variable attacks ALL_9_SLOTS cells allot
+attacks ALL_9_SLOTS cells erase
 
 : .cells  ( addr n -- )
    0 ?do  dup ?  cell+  loop  drop
@@ -66,13 +66,13 @@ attacks ALL_SLOTS cells erase
 ;
 
 : clear-fork-results ( -- )
-    ALL_SLOTS 0 do
+    ALL_9_SLOTS 0 do
         0 forks i cells + !
     loop
 ;
 
 : clear-attack-results ( -- )
-    ALL_SLOTS 0 do
+    ALL_9_SLOTS 0 do
         0 attacks i cells + !
     loop
 ;
@@ -93,7 +93,7 @@ attacks ALL_SLOTS cells erase
             store-fork-result
         loop
 
-        ALL_SLOTS 0 do
+        ALL_9_SLOTS 0 do
             forks i cells + @ { wins }
             wins 2 >= if i leave then
         loop
@@ -133,7 +133,7 @@ attacks ALL_SLOTS cells erase
         clearstack
         switch-mark  ( back to us )
         store-attacks
-        ALL_SLOTS 0 do
+        ALL_9_SLOTS 0 do
             attacks i cells + @
             0 = invert if
                 i dup
