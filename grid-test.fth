@@ -1,4 +1,4 @@
-s" testing.fth" required
+s" should-test.fth" required
 s" grid.fth" required
 s" ui.fth" required
 s" ai.fth" required
@@ -48,7 +48,7 @@ s" ai.fth" required
     assert-no-stack
 ;
 
-: assert-ai-choice
+: assert-ai-choice ( expected -- )
     { expected }
     ai-choice { actual }
     expected actual should-equal-n
