@@ -42,14 +42,14 @@ s" ttt.fth" required
 ;
 
 : assert-winner ( expected -- )
-    winner should-equal-char
+    winner should-equal-n
     assert-no-stack
 ;
 
 : assert-ai-choice
     { expected }
     ai-choice { actual }
-    expected actual should-equal-char
+    expected actual should-equal-n
     assert-no-stack
 ;
 
@@ -271,11 +271,11 @@ cr ." # Unbeatable AI" cr cr
     _ _ _ \ 6 7 8
     setup-grid
     push-blanks
-    8 should-equal-char
-    7 should-equal-char
-    6 should-equal-char
-    4 should-equal-char
-    1 should-equal-char
+    8 should-equal-n
+    7 should-equal-n
+    6 should-equal-n
+    4 should-equal-n
+    1 should-equal-n
 
 ." - Undo a placed mark" cr
     clear-grid
@@ -330,7 +330,7 @@ cr ." # Unbeatable AI" cr cr
     X O O
     setup-grid X-to-move
     0 peek-move-result
-    X swap should-equal-char
+    X swap should-equal-n
     s" -xxooxxoo" assert-grid
 
 ." - Peek count wins (2 for X)" cr
@@ -340,8 +340,8 @@ cr ." # Unbeatable AI" cr cr
     setup-grid x-to-move
     1 2 3 ( preexisting stack values )
     7 peek-win-count
-    2 swap should-equal-char
-    depth 3 should-equal-char
+    2 swap should-equal-n
+    depth 3 should-equal-n
     drop drop drop
 
 ." - As X, places fork" cr

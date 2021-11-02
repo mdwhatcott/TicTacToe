@@ -1,4 +1,4 @@
-: should-equal-char { expected actual -- }
+: should-equal-n { expected actual -- }
     expected actual = invert
     if
         ." <<< FAIL >>>" cr
