@@ -3,7 +3,7 @@
 test:
 	@echo '---------------------' \
 		&& echo && \
-		gforth grid-test.fth \
+		gforth test-runner.fth \
 		&& echo && date '+%H:%M:%S' && echo
 
 # Requires 'entr' utility (http://eradman.com/entrproject/)
