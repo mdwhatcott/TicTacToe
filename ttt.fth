@@ -253,3 +253,51 @@ variable forks 9 cells allot
         take-corner
         take-side
 ;
+
+: print-hint-row ( row -- )
+    { row }
+    row 3 * { offset }
+
+    winner _ = invert if exit then
+    
+    2 spaces
+    ." |"
+
+    3 0 do
+        i offset + mark-at { mark }
+        mark _ = if
+            i offset + 48 + 1 + emit
+        else
+            space
+        then
+    ." |"
+    loop
+;
+
+: print-row ( row -- )
+    ." |"
+    { row }
+    row 3 * { offset }
+    3 0 do
+        i offset + mark-at { mark }
+        mark _ = if
+            space
+        else
+            mark emit
+        then
+        ." |"
+    loop
+    row print-hint-row
+;
+
+: print-grid ( -- )
+    ." -------"
+    winner _ = if ."   -------" then
+    cr
+    3 0 do
+        i print-row cr
+        ." -------"
+        winner _ = if ."   -------" then
+        cr
+    loop
+;
