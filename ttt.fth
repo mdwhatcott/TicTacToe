@@ -224,7 +224,7 @@ attacks 9 cells erase
 ;
 
 : place-fork ( n -- n )
-    \ count-blanks 5 > if exit then
+    \ count-blanks 5 > if exit then \ TODO: remove
     dup _ = if
         drop
         clear-fork-results
@@ -236,7 +236,7 @@ attacks 9 cells erase
 
         9 0 do
             forks i cells + @ { wins }
-            wins 2 >= if i then
+            wins 2 >= if i leave then
         loop
 
         depth original = if _ then
@@ -271,14 +271,12 @@ attacks 9 cells erase
         _ = if
             exit
         then
-        drop         ( the stale _ )
+        clearstack
         switch-mark  ( back to us )
         store-attacks
         9 0 do
             attacks i cells + @
-            0 = if
-                drop
-            else
+            0 = invert if
                 i dup
                 take-turn         ( try our attack )
                 _ block-enemy-win ( for the opponent )

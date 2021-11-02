@@ -406,6 +406,13 @@ cr ." # Unbeatable AI" cr cr
     setup-grid O-to-move
     2 assert-ai-choice
 
+." - As O, attack in corner to avoid Xs impending fork (part 3)" cr
+    O _ _
+    _ X _
+    _ _ X
+    setup-grid O-to-move
+    2 assert-ai-choice
+
 ." - As X, take center" cr
     O X O
     X _ _
