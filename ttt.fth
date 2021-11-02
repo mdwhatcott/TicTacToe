@@ -308,8 +308,8 @@ variable forks 9 cells allot
     clear-grid
 
     9 0 do
-        print-grid
         mark @ X = if
+            print-grid
             human-turn
         else
             ai-choice
