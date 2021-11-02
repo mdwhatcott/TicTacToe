@@ -101,6 +101,51 @@ variable forks 9 cells allot
     original mark !
 ;
 
+: print-hint-row ( row -- )
+    { row }
+    row 3 * { offset }
+
+    winner _ = invert if exit then
+    
+    2 spaces
+    3 0 do
+        i offset + mark-at { mark }
+        mark _ = if
+            i offset + 48 + 1 + emit
+        else
+            space
+        then
+    i 3 mod 2 = invert if ." |" then
+    loop
+;
+
+: print-row ( row -- )
+    { row }
+    row 3 * { offset }
+    3 0 do
+        i offset + mark-at { mark }
+        mark _ = if
+            space
+        else
+            mark emit
+        then
+        i 3 mod 2 = invert if ." |" then
+    loop
+    row print-hint-row
+;
+
+: print-grid ( -- )
+    cr
+    3 0 do
+        i print-row cr
+        i 3 mod 2 = invert if
+            ." -----"
+            winner _ = if ."   -----" then
+        then
+        cr
+    loop
+;
+
 : place-win ( -- n )
     depth 1 + { threshold }
     push-blanks
@@ -238,51 +283,6 @@ variable forks 9 cells allot
         take-opposite-corner
         take-corner
         take-side
-;
-
-: print-hint-row ( row -- )
-    { row }
-    row 3 * { offset }
-
-    winner _ = invert if exit then
-    
-    2 spaces
-    3 0 do
-        i offset + mark-at { mark }
-        mark _ = if
-            i offset + 48 + 1 + emit
-        else
-            space
-        then
-    i 3 mod 2 = invert if ." |" then
-    loop
-;
-
-: print-row ( row -- )
-    { row }
-    row 3 * { offset }
-    3 0 do
-        i offset + mark-at { mark }
-        mark _ = if
-            space
-        else
-            mark emit
-        then
-        i 3 mod 2 = invert if ." |" then
-    loop
-    row print-hint-row
-;
-
-: print-grid ( -- )
-    cr
-    3 0 do
-        i print-row cr
-        i 3 mod 2 = invert if
-            ." -----"
-            winner _ = if ."   -----" then
-        then
-        cr
-    loop
 ;
 
 : human-turn ( -- n )
