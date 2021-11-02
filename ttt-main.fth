@@ -1,4 +1,4 @@
-s" ttt.fth" required
+s" game.fth" required
 
 cr cr ." ## Welcome to Tic-Tac-Toe! ##"
 cr cr ." You will play as 'x' against...the machine!"

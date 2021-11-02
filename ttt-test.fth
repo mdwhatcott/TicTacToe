@@ -1,5 +1,7 @@
 s" testing.fth" required
-s" ttt.fth" required
+s" grid.fth" required
+s" ui.fth" required
+s" ai.fth" required
 
 : X-to-move X mark ! ;
 : O-to-move O mark ! ;

@@ -1,5 +1,4 @@
 s" grid.fth" required
-s" ui.fth" required
 
 variable forks ALL_SLOTS cells allot
 forks ALL_SLOTS cells erase
@@ -205,25 +204,4 @@ attacks ALL_SLOTS cells erase
         take-opposite-corner
         take-corner
         take-side
-;
-
-: play ( -- )
-    clear-grid
-
-    ALL_SLOTS 0 do
-        print-grid
-        mark @ X = if
-            human-choice
-        else
-            ai-choice
-        then
-
-        take-turn
-        
-        winner dup _ = invert if
-            print-grid leave
-        else
-            drop
-        then
-    loop
 ;
