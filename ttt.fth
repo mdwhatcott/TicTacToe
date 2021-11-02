@@ -209,27 +209,13 @@ variable forks 9 cells allot
     then
 ;
 
-: attack-double-enemy-fork ( n -- n )
-    dup take-turn              ( proposed move )
-    _ place-fork               ( for opponent! )
-    dup _ = if drop exit then
-    dup take-turn              ( opponent fork )
-    place-win
-    dup _ = if exit then
-    dup take-turn              ( our next move )
-    winner swap undo-turn      ( our next move )
-    swap undo-turn mark @ = if ( opponent fork )
-        drop _
-    then
-;
-
 : take-corner ( n -- n )
     dup _ = if
         drop
-        0 mark-at _ = if 0 attack-double-enemy-fork exit then
-        2 mark-at _ = if 2 attack-double-enemy-fork exit then
-        6 mark-at _ = if 6 attack-double-enemy-fork exit then
-        8 mark-at _ = if 8 attack-double-enemy-fork exit then
+        0 mark-at _ = if 0 exit then
+        2 mark-at _ = if 2 exit then
+        6 mark-at _ = if 6 exit then
+        8 mark-at _ = if 8 exit then
         _
     then
 ;
