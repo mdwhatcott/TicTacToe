@@ -3,16 +3,19 @@
 : O [char] o ;
 : C [char] C ;
 
+9 constant ALL_SLOTS
+3 constant WIDTH
+
 variable mark
 
-variable grid 9 cells allot
-grid 9 cells erase
+variable grid ALL_SLOTS cells allot
+grid ALL_SLOTS cells erase
 
-variable forks 9 cells allot
-forks 9 cells erase
+variable forks ALL_SLOTS cells allot
+forks ALL_SLOTS cells erase
 
-variable attacks 9 cells allot
-attacks 9 cells erase
+variable attacks ALL_SLOTS cells allot
+attacks ALL_SLOTS cells erase
 
 : .cells  ( addr n -- )
    0 ?do  dup ?  cell+  loop  drop
@@ -31,7 +34,7 @@ attacks 9 cells erase
 
 : clear-grid ( -- )
     _ mark !
-    9 0 do i place-mark-at loop
+    ALL_SLOTS 0 do i place-mark-at loop
     X mark ! ;
 
 : mark-at ( n -- c )
@@ -39,12 +42,12 @@ attacks 9 cells erase
 
 : push-blanks ( -- ... len )
     depth { original-depth }
-    9 0 do i mark-at _ = if i then loop
+    ALL_SLOTS 0 do i mark-at _ = if i then loop
 ;
 
 : count-blanks ( -- n )
     0 ( counter on bottom of stack )
-    9 0 do
+    ALL_SLOTS 0 do
         i mark-at _ =
         if
             1 + ( increment counter )
@@ -109,42 +112,42 @@ attacks 9 cells erase
 
 : print-hint-row ( row -- )
     { row }
-    row 3 * { offset }
+    row WIDTH * { offset }
 
     winner _ = invert if exit then
     
     2 spaces
-    3 0 do
+    WIDTH 0 do
         i offset + mark-at { mark }
         mark _ = if
             i offset + 48 + 1 + emit
         else
             space
         then
-    i 3 mod 2 = invert if ." |" then
+    i WIDTH mod 2 = invert if ." |" then
     loop
 ;
 
 : print-row ( row -- )
     { row }
-    row 3 * { offset }
-    3 0 do
+    row WIDTH * { offset }
+    WIDTH 0 do
         i offset + mark-at { mark }
         mark _ = if
             space
         else
             mark emit
         then
-        i 3 mod 2 = invert if ." |" then
+        i WIDTH mod 2 = invert if ." |" then
     loop
     row print-hint-row
 ;
 
 : print-grid ( -- )
     cr
-    3 0 do
+    WIDTH 0 do
         i print-row cr
-        i 3 mod 2 = invert if
+        i WIDTH mod 2 = invert if
             ." -----"
             winner _ = if ."   -----" then
         then
@@ -208,13 +211,13 @@ attacks 9 cells erase
 ;
 
 : clear-fork-results ( -- )
-    9 0 do
+    ALL_SLOTS 0 do
         0 forks i cells + !
     loop
 ;
 
 : clear-attack-results ( -- )
-    9 0 do
+    ALL_SLOTS 0 do
         0 attacks i cells + !
     loop
 ;
@@ -235,7 +238,7 @@ attacks 9 cells erase
             store-fork-result
         loop
 
-        9 0 do
+        ALL_SLOTS 0 do
             forks i cells + @ { wins }
             wins 2 >= if i leave then
         loop
@@ -275,7 +278,7 @@ attacks 9 cells erase
         clearstack
         switch-mark  ( back to us )
         store-attacks
-        9 0 do
+        ALL_SLOTS 0 do
             attacks i cells + @
             0 = invert if
                 i dup
@@ -348,12 +351,13 @@ attacks 9 cells erase
         take-side
 ;
 
+48 constant ASCII_DIGIT_OFFSET
 : human-turn ( -- n )
     ." Enter your choice: "
     key { choice }
     choice emit cr
-    choice 48 -  ( ASCII offset )
-    1 - { slot } ( grid offset )
+    choice ASCII_DIGIT_OFFSET -
+    1 - { slot } ( make 0-based offset )
     
     push-blanks
     depth 0 do
@@ -372,7 +376,7 @@ attacks 9 cells erase
 : play ( -- )
     clear-grid
 
-    9 0 do
+    ALL_SLOTS 0 do
         print-grid
         mark @ X = if
             human-turn
