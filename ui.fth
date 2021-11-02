@@ -1,6 +1,5 @@
-s" grid.fth" required
-
 48 constant ASCII_DIGIT_OFFSET
+
 : human-choice ( -- n )
     ." Enter your choice: "
     key { choice }
