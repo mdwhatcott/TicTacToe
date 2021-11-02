@@ -11,4 +11,4 @@ auto-test:
 	while sleep 1; do find . -name '*.fth' | entr -d make; done
 
 play:
-	gforth ttt-main.fth
+	gforth main.fth
