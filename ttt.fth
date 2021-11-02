@@ -9,6 +9,9 @@ variable mark
 variable forks 9 cells allot
 forks 9 cells erase
 
+variable attacks 9 cells allot
+attacks 9 cells erase
+
 : .cells  ( addr n -- )
    0 ?do  dup ?  cell+  loop  drop
 ;
@@ -148,9 +151,11 @@ forks 9 cells erase
 ;
 
 : place-win ( -- n )
-    depth 1 + { threshold }
+    depth { original }
     push-blanks
-    depth 0 do
+    depth { with-blanks }
+    with-blanks original - { blank-count }
+    blank-count 0 do
         dup dup
         take-turn
         winner
@@ -158,14 +163,14 @@ forks 9 cells erase
         undo-turn
         mark @
         = if
-            depth threshold > if
+            depth original 1 + > if
                 swap drop
             then
         else
             drop
         then
     loop
-    depth 0 = if _ then
+    depth original = if _ then
 ;
 
 : block-enemy-win ( n -- n )
@@ -206,6 +211,12 @@ forks 9 cells erase
     loop
 ;
 
+: clear-attack-results ( -- )
+    9 0 do
+        0 attacks i cells + !
+    loop
+;
+
 : store-fork-result ( n -- )
     { slot }
     slot peek-win-count { wins }
@@ -213,7 +224,7 @@ forks 9 cells erase
 ;
 
 : place-fork ( n -- n )
-    count-blanks 5 > if exit then
+    \ count-blanks 5 > if exit then
     dup _ = if
         drop
         clear-fork-results
@@ -229,6 +240,57 @@ forks 9 cells erase
         loop
 
         depth original = if _ then
+    then
+;
+
+: store-attacks ( -- )
+    clear-attack-results
+
+    depth { original }
+    push-blanks
+    depth { with-blanks }
+    with-blanks original - { blank-count }
+    blank-count 0 do
+        dup take-turn
+        _ block-enemy-win ( see if opponent has to block )
+        swap dup undo-turn swap
+        _ = if
+            drop
+        else
+            { attack }
+            1 attacks attack cells + !
+        then
+    loop
+;
+
+: attack-enemy-forks ( n -- n )
+    count-blanks 6 > if exit then
+    dup _ = if
+        switch-mark  ( to opponent )
+        _ place-fork ( for the opponent )
+        _ = if
+            exit
+        then
+        drop         ( the stale _ )
+        switch-mark  ( back to us )
+        store-attacks
+        9 0 do
+            attacks i cells + @
+            0 = if
+                drop
+            else
+                i dup
+                take-turn         ( try our attack )
+                _ block-enemy-win ( for the opponent )
+                _ place-fork      ( for the opponent )
+                rot dup undo-turn rot rot
+                = invert if
+                    clearstack i
+                    ( if the block and the fork differ, use that attack! )
+                    leave
+                then
+            then
+        loop
     then
 ;
 
@@ -280,6 +342,7 @@ forks 9 cells erase
         place-win
         block-enemy-win
         place-fork
+        attack-enemy-forks
         take-center
         take-opposite-corner
         take-corner

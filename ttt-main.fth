@@ -7,6 +7,6 @@ cr cr
 
 play
 
-." The winner is: " emit
+." The winner is: " emit cr cr
 
 bye
