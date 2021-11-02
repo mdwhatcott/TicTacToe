@@ -1,6 +1,6 @@
 : _ [char] - ;
-: X [char] X ;
-: O [char] O ;
+: X [char] x ;
+: O [char] o ;
 : C [char] C ;
 
 variable grid 9 cells allot
@@ -261,8 +261,6 @@ variable forks 9 cells allot
     winner _ = invert if exit then
     
     2 spaces
-    ." |"
-
     3 0 do
         i offset + mark-at { mark }
         mark _ = if
@@ -270,12 +268,11 @@ variable forks 9 cells allot
         else
             space
         then
-    ." |"
+    i 3 mod 2 = invert if ." |" then
     loop
 ;
 
 : print-row ( row -- )
-    ." |"
     { row }
     row 3 * { offset }
     3 0 do
@@ -285,19 +282,19 @@ variable forks 9 cells allot
         else
             mark emit
         then
-        ." |"
+        i 3 mod 2 = invert if ." |" then
     loop
     row print-hint-row
 ;
 
 : print-grid ( -- )
-    ." -------"
-    winner _ = if ."   -------" then
     cr
     3 0 do
         i print-row cr
-        ." -------"
-        winner _ = if ."   -------" then
+        i 3 mod 2 = invert if
+            ." -----"
+            winner _ = if ."   -----" then
+        then
         cr
     loop
 ;

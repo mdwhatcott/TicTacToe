@@ -51,6 +51,28 @@ s" ttt.fth" required
 ;
 
 
+cr ." # Terminal UI" cr cr
+
+." - Print empty grid" cr
+    clear-grid
+    print-grid cr cr
+
+." - Print more filled-in grid" cr cr
+    X O X
+    _ X _
+    O X O
+    setup-grid
+    print-grid cr
+
+." - Print winning grid (no hints)" cr cr
+    X X X
+    _ _ _
+    O _ O
+    setup-grid
+    print-grid cr
+
+
+
 cr ." # Board Placement" cr cr
 
 ." - A newly created grid is empty" cr
@@ -61,14 +83,14 @@ cr ." # Board Placement" cr cr
 ." - The first turn places an X" cr
     clear-grid
     0 take-turn
-    s" X--------" assert-grid
+    s" x--------" assert-grid
 
 
 ." - The second turn places an O" cr
     clear-grid
     0 take-turn
     1 take-turn
-    s" XO-------" assert-grid
+    s" xo-------" assert-grid
 
 
 ." - The third turn places another X" cr
@@ -76,24 +98,24 @@ cr ." # Board Placement" cr cr
     0 take-turn
     1 take-turn
     2 take-turn
-    s" XOX------" assert-grid
+    s" xox------" assert-grid
 
 ." - Marks cannot be overwritten" cr
     clear-grid
     0 take-turn
     0 take-turn \ no-op
     1 take-turn
-    s" XO-------" assert-grid
+    s" xo-------" assert-grid
 
 
 ." - A drawn game is immutable" cr
     setup-drawn-grid
     
-    s" OXXXXOOOX" assert-grid
+    s" oxxxxooox" assert-grid
     
     1 take-turn ( should have no effect )
     
-    s" OXXXXOOOX" assert-grid
+    s" oxxxxooox" assert-grid
 
 
 ." - A game won by X is immutable" cr
@@ -102,11 +124,11 @@ cr ." # Board Placement" cr cr
     _ O O
     setup-grid
 
-    s" XXX-OO-OO" assert-grid
+    s" xxx-oo-oo" assert-grid
 
     3 take-turn ( should have no effect )
 
-    s" XXX-OO-OO" assert-grid
+    s" xxx-oo-oo" assert-grid
 
 
 ." - A game won by O is immutable" cr
@@ -115,11 +137,11 @@ cr ." # Board Placement" cr cr
     _ X X
     setup-grid
 
-    s" OOO-XX-XX" assert-grid
+    s" ooo-xx-xx" assert-grid
 
     3 take-turn ( should have no effect )
 
-    s" OOO-XX-XX" assert-grid
+    s" ooo-xx-xx" assert-grid
 
 
 cr ." # Winning Conditions" cr cr
@@ -282,7 +304,7 @@ cr ." # Unbeatable AI" cr cr
     0 undo-turn
     s" ---------" assert-grid
     0 take-turn
-    s" X--------" assert-grid
+    s" x--------" assert-grid
 
 
 ." - As X, take the center on the first move" cr
@@ -336,7 +358,7 @@ cr ." # Unbeatable AI" cr cr
     setup-grid X-to-move
     0 peek-move-result
     X swap should-equal-char
-    s" -XXOOXXOO" assert-grid
+    s" -xxooxxoo" assert-grid
 
 
 ." - Peek count wins (2 for X)" cr
@@ -468,27 +490,5 @@ cr ." # Unbeatable AI" cr cr
     O X O
     setup-grid X-to-move
     3 assert-ai-choice
-
-
-cr ." # Terminal UI" cr cr
-
-." - Print empty grid" cr
-    clear-grid
-    print-grid cr cr
-
-." - Print more filled-in grid" cr cr
-    X O X
-    _ X _
-    O X O
-    setup-grid
-    print-grid cr
-
-." - Print winning grid (no hints)" cr cr
-    X X X
-    _ _ _
-    O _ O
-    setup-grid
-    print-grid cr
-
 
 bye
