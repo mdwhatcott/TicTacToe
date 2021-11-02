@@ -29,18 +29,25 @@ s" ttt.fth" required
     swap
 ;
 
+: assert-no-stack
+    depth 0 > if ." >>> LEFT OVER STACK: " .s cr then
+;
+
 : assert-grid ( expected -- )
     grid-line should-equal-str
+    assert-no-stack
 ;
 
 : assert-winner ( expected -- )
     winner should-equal-char
+    assert-no-stack
 ;
 
 : assert-ai-choice
     { expected }
     ai-choice { actual }
     expected actual should-equal-char
+    assert-no-stack
 ;
 
 
@@ -368,7 +375,6 @@ cr ." # Unbeatable AI" cr cr
     X _ _
     setup-grid O-to-move
     1 assert-ai-choice
-    ." EMPTY? " .s cr  ( TODO: figure out why we aren't empty here... )
 
 \ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
