@@ -208,7 +208,7 @@ attacks ALL_SLOTS cells erase
 ;
 
 48 constant ASCII_DIGIT_OFFSET
-: human-turn ( -- n )
+: human-choice ( -- n )
     ." Enter your choice: "
     key { choice }
     choice emit cr
@@ -235,7 +235,7 @@ attacks ALL_SLOTS cells erase
     ALL_SLOTS 0 do
         print-grid
         mark @ X = if
-            human-turn
+            human-choice
         else
             ai-choice
         then
