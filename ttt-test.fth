@@ -75,26 +75,22 @@ cr ." # Terminal UI" cr cr
     print-grid cr
 
 
-
 cr ." # Board Placement" cr cr
 
 ." - A newly created grid is empty" cr
     clear-grid
     s" ---------" assert-grid
 
-
 ." - The first turn places an X" cr
     clear-grid
     0 take-turn
     s" x--------" assert-grid
-
 
 ." - The second turn places an O" cr
     clear-grid
     0 take-turn
     1 take-turn
     s" xo-------" assert-grid
-
 
 ." - The third turn places another X" cr
     clear-grid
@@ -110,7 +106,6 @@ cr ." # Board Placement" cr cr
     1 take-turn
     s" xo-------" assert-grid
 
-
 ." - A drawn game is immutable" cr
     setup-drawn-grid
     
@@ -119,7 +114,6 @@ cr ." # Board Placement" cr cr
     1 take-turn ( should have no effect )
     
     s" oxxxxooox" assert-grid
-
 
 ." - A game won by X is immutable" cr
     X X X
@@ -132,7 +126,6 @@ cr ." # Board Placement" cr cr
     3 take-turn ( should have no effect )
 
     s" xxx-oo-oo" assert-grid
-
 
 ." - A game won by O is immutable" cr
     O O O
@@ -153,11 +146,9 @@ cr ." # Winning Conditions" cr cr
     clear-grid
     _ assert-winner
 
-
 ." - A drawn grid has no winner" cr
     setup-drawn-grid
     C assert-winner
-
 
 ." - X wins on row 1" cr
     X X X
@@ -166,14 +157,12 @@ cr ." # Winning Conditions" cr cr
     setup-grid
     X assert-winner
 
-
 ." - X wins on row 2" cr
     O _ O
     X X X
     O _ O
     setup-grid
     X assert-winner
-
 
 ." - X wins on row 3" cr
     O _ O
@@ -182,14 +171,12 @@ cr ." # Winning Conditions" cr cr
     setup-grid
     X assert-winner
 
-
 ." - X wins on col 1" cr
     X O O
     X _ _
     X O O
     setup-grid
     X assert-winner
-
 
 ." - X wins on col 2" cr
     O X O
@@ -198,14 +185,12 @@ cr ." # Winning Conditions" cr cr
     setup-grid
     X assert-winner
 
-
 ." - X wins on col 3" cr
     O O X
     _ _ X
     O O X
     setup-grid
     X assert-winner
-
 
 ." - X wins on dia 1" cr
     X O _
@@ -214,14 +199,12 @@ cr ." # Winning Conditions" cr cr
     setup-grid
     X assert-winner
 
-
 ." - X wins on dia 2" cr
     _ O X
     O X O
     X O _
     setup-grid
     X assert-winner
-
 
 ." - O wins on row 1" cr
     O O O
@@ -230,14 +213,12 @@ cr ." # Winning Conditions" cr cr
     setup-grid
     O assert-winner
 
-
 ." - O wins on row 2" cr
     X _ X
     O O O
     X _ X
     setup-grid
     O assert-winner
-
 
 ." - O wins on row 3" cr
     X _ X
@@ -246,14 +227,12 @@ cr ." # Winning Conditions" cr cr
     setup-grid
     O assert-winner
 
-
 ." - O wins on col 1" cr
     O X X
     O _ _
     O X X
     setup-grid
     O assert-winner
-
 
 ." - O wins on col 2" cr
     X O X
@@ -262,7 +241,6 @@ cr ." # Winning Conditions" cr cr
     setup-grid
     O assert-winner
 
-
 ." - O wins on col 3" cr
     X X O
     _ _ O
@@ -270,14 +248,12 @@ cr ." # Winning Conditions" cr cr
     setup-grid
     O assert-winner
 
-
 ." - O wins on dia 1" cr
     O X _
     X O X
     _ X O
     setup-grid
     O assert-winner
-
 
 ." - O wins on dia 2" cr
     _ X O
@@ -309,11 +285,9 @@ cr ." # Unbeatable AI" cr cr
     0 take-turn
     s" x--------" assert-grid
 
-
 ." - As X, take the center on the first move" cr
     clear-grid
     4 assert-ai-choice
-
 
 ." - As X, makes the winning move (slot: 0)" cr
     _ X X ( <-- )
@@ -321,7 +295,6 @@ cr ." # Unbeatable AI" cr cr
     _ _ _
     setup-grid X-to-move
     0 assert-ai-choice
-
 
 ." - As O, makes the winning move (slot: middle)" cr
     X X _
@@ -337,7 +310,6 @@ cr ." # Unbeatable AI" cr cr
     setup-grid O-to-move
     8 assert-ai-choice
 
-
 ." - As X, blocks O from winning" cr
     O _ O ( <-- )
     _ X _
@@ -345,14 +317,12 @@ cr ." # Unbeatable AI" cr cr
     setup-grid X-to-move
     1 assert-ai-choice
 
-
 ." - As O, blocks X from winning" cr
     X _ X ( <-- )
     _ O _
     _ _ O
     setup-grid O-to-move
     1 assert-ai-choice
-
 
 ." - Peek move result (X would win)" cr
     _ X X
@@ -362,7 +332,6 @@ cr ." # Unbeatable AI" cr cr
     0 peek-move-result
     X swap should-equal-char
     s" -xxooxxoo" assert-grid
-
 
 ." - Peek count wins (2 for X)" cr
     O X O
@@ -374,7 +343,6 @@ cr ." # Unbeatable AI" cr cr
     2 swap should-equal-char
     depth 3 should-equal-char
     drop drop drop
-
 
 ." - As X, places fork" cr
     O X O
@@ -503,5 +471,6 @@ cr ." # Unbeatable AI" cr cr
     O X O
     setup-grid X-to-move
     3 assert-ai-choice
+
 
 bye
