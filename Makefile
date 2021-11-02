@@ -9,3 +9,6 @@ test:
 # Requires 'entr' utility (http://eradman.com/entrproject/)
 auto-test:
 	while sleep 1; do find . -name '*.fth' | entr -d make; done
+
+play:
+	gforth ttt-main.fth

@@ -298,3 +298,29 @@ variable forks 9 cells allot
         cr
     loop
 ;
+
+: human-turn ( -- n )
+    ( TODO: input validation )
+    ." Enter your choice: " key 48 - 1 - cr
+;
+
+: play ( -- )
+    clear-grid
+
+    9 0 do
+        print-grid
+        mark @ X = if
+            human-turn
+        else
+            ai-choice
+        then
+
+        take-turn
+        
+        winner dup _ = invert if
+            print-grid leave
+        else
+            drop
+        then
+    loop
+;
