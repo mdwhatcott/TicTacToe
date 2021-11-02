@@ -349,7 +349,11 @@ attacks 9 cells erase
 
 : human-turn ( -- n )
     ( TODO: input validation )
-    ." Enter your choice: " key 48 - 1 - cr
+    ." Enter your choice: "
+    key { choice }
+    choice emit cr
+    choice 48 - ( ascii offset )
+    1 -         ( grid offset )
 ;
 
 : play ( -- )
