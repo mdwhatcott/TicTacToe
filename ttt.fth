@@ -349,12 +349,24 @@ attacks 9 cells erase
 ;
 
 : human-turn ( -- n )
-    ( TODO: input validation )
     ." Enter your choice: "
     key { choice }
     choice emit cr
-    choice 48 - ( ascii offset )
-    1 -         ( grid offset )
+    choice 48 -  ( ASCII offset )
+    1 - { slot } ( grid offset )
+    
+    push-blanks
+    depth 0 do
+        slot = if
+            clearstack slot leave
+        then
+    loop
+
+    depth 1 = if exit then
+
+    ." Invalid choice! Try again..." cr
+    clearstack
+    recurse
 ;
 
 : play ( -- )
