@@ -7,6 +7,7 @@ variable grid 9 cells allot
 variable mark
 
 variable forks 9 cells allot
+forks 9 cells erase
 
 : .cells  ( addr n -- )
    0 ?do  dup ?  cell+  loop  drop
