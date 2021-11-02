@@ -356,8 +356,8 @@ attacks 9 cells erase
     clear-grid
 
     9 0 do
+        print-grid
         mark @ X = if
-            print-grid
             human-turn
         else
             ai-choice
