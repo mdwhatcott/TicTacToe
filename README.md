@@ -6,3 +6,17 @@ The classic game of [Tic Tac Toe], implemented in a few different languages:
 - [clojure](https://github.com/mdwhatcott/tictactoe/tree/clojure)
 - [forth](https://github.com/mdwhatcott/tictactoe/tree/forth)
 - [racket](https://github.com/mdwhatcott/tictactoe/tree/racket)
+
+## Forth
+
+### Prerequisites
+
+- Install [gforth](https://gforth.org/) (Mac: `brew install gforth`)
+- Install [entr](http://eradman.com/entrproject/) (`brew install entr`)
+
+
+### Execution
+
+- Tests: `make test`
+- Test runner: `make auto-test`
+- Play the game: `make play`
