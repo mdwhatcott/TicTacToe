@@ -11,7 +11,7 @@ The classic game of [Tic Tac Toe], implemented in a few different languages:
 
 ### Prerequisites
 
-- Install [gforth](https://gforth.org/) (Mac: `brew install gforth`)
+- Install [gforth](https://gforth.org/) (`brew install gforth`)
 - Install [entr](http://eradman.com/entrproject/) (`brew install entr`)
 
 
